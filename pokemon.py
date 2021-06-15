@@ -1,5 +1,6 @@
 #hay un estado inicial, se muestra la pantalla d
 import gamelib
+from classpokemon import *
 ANCHO_VENTANA = 1000
 ALTO_VENTANA = 700
 VACIO = 0
