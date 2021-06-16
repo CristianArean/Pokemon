@@ -11,7 +11,7 @@ def main():
         # Todas las instrucciones que dibujen algo en la pantalla deben ir
         # entre `draw_begin()` y `draw_end()`:
         gamelib.draw_begin()
-        mostrar_pokedex()
+        menu_principal()
         gamelib.draw_end()
 
         # Terminamos de dibujar la ventana, ahora procesamos los eventos (si el
