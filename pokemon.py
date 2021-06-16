@@ -39,7 +39,7 @@ def pokemones_o_equipos(x, y, juego):
         gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
         gamelib.draw_text(selector['pokequipos'], ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
         gamelib.draw_end()
-        return 'menu ' + + selector['pokequipos']
+        return 'menu ' + selector['pokequipos']
 
     if juego == 'menu_principal' and x > MRG_HORZ_BOTONES and x < ANCHO_VENTANA // 2 -  ESP_ENTRE_BOTON \
        and y > BTN_Y1 and y < BTN_Y2:
