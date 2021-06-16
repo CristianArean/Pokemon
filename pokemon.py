@@ -12,7 +12,7 @@ ESP_ENTRE_BOTON = 30
 BTN_Y1 = ALTO_VENTANA // 2 - ALTO_BOTONES
 BTN_Y2 = ALTO_VENTANA // 2
 
-#puedo borrar mostrar_pokedex? ################################
+#puedo borrar mostrar_pokedex? ################################ HOLAAAAAAAA
 def mostrar_pokedex():
     gamelib.draw_rectangle(50,50,900,650, fill='red')
     gamelib.draw_oval(80, 70, 130, 120, outline='black', fill='#15E8E8')
