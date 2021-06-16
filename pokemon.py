@@ -47,7 +47,7 @@ def pokemones_o_equipos(x, y, juego):
         
     elif juego == 'menu_principal' and x > ANCHO_VENTANA // 2 + ESP_ENTRE_BOTON and x < ANCHO_VENTANA - MRG_HORZ_BOTONES \
        and y > BTN_Y1 and y < BTN_Y2:
-        selector['pokemones'] = 'equipos'   
+        selector['pokemones'] = 'equipos'
         menu_pokemones()
 
 '''
