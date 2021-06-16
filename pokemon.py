@@ -15,7 +15,7 @@ BTN_Y2 = ALTO_VENTANA // 2
 
 
 def crear_juego():
-    return 1 #no creo que valga la pena una funcion entera crear juego para esto #########################
+    return 'menu principal' #no creo que valga la pena una funcion entera crear juego para esto #########################
 
 def juego_actualizar(juego):
     pass
@@ -30,12 +30,12 @@ def menu_principal():
     gamelib.draw_text('EQUIPOS', ANCHO_VENTANA // 2 +  ESP_ENTRE_BOTON, ALTO_VENTANA // 2 - ALTO_BOTONES, fill='black', size=25, anchor='nw') #Texto de botón der.
     gamelib.draw_end()
     
-def pokemones_o_equipos(x, y):
-    if x > MRG_HORZ_BOTONES and x < ANCHO_VENTANA // 2 -  ESP_ENTRE_BOTON \
+def pokemones_o_equipos(x, y, juego):
+    if juego == 'menu_principal' and x > MRG_HORZ_BOTONES and x < ANCHO_VENTANA // 2 -  ESP_ENTRE_BOTON \
        and y > BTN_Y1 and y < BTN_Y2:
         menu_pokemones()
         
-    elif x > ANCHO_VENTANA // 2 + ESP_ENTRE_BOTON and x < ANCHO_VENTANA - MRG_HORZ_BOTONES \
+    elif juego == 'menu_principal' and x > ANCHO_VENTANA // 2 + ESP_ENTRE_BOTON and x < ANCHO_VENTANA - MRG_HORZ_BOTONES \
        and y > BTN_Y1 and y < BTN_Y2:
         menu_equipos()
  selector = {}       
@@ -48,7 +48,7 @@ def menu_pokemones():
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
     gamelib.draw_text('POKEMONES', ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
     gamelib.draw_end()
-    return 2
+    return 'menu pokemones'
     
 def menu_equipos():
     print ('Menu equipos')
@@ -56,4 +56,4 @@ def menu_equipos():
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
     gamelib.draw_text('EQUIPOS', ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
     gamelib.draw_end()
-    return 3
+    return 'menu pokemones'

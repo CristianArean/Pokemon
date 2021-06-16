@@ -34,7 +34,7 @@ def main():
             x, y = ev.x, ev.y # averiguamos la posición donde se hizo click
             print (f'x {x}, y {y}') #debug
             #juego = juego_actualizar(juego, x, y)
-            juego = pokemones_o_equipos(x, y)
+            juego = pokemones_o_equipos(x, y, juego)
 
 gamelib.init(main)
 
