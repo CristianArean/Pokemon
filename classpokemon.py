@@ -4,14 +4,14 @@ class pokemon:
         self.tipos = tipos
         self.hp = hp
         self.atk = atk
-        self.def = def
+        self.defe = def
         self.spa = spa
         self.spd = spd
         self.spe = spe
     
 
     def mostrar_atributos(self):
-        return (f"pokemon de {self.tipos}\n salud: {self.hp}\n Ataque: {self.atk}\n Defensa: {self.def}\n Sparring: {self.spa}\n Velocidad: {self.spd}\n Spe: {self.spe}\n")
+        return (f"pokemon de {self.tipos}\n salud: {self.hp}\n Ataque: {self.atk}\n Defensa: {self.defe}\n Sparring: {self.spa}\n Velocidad: {self.spd}\n Spe: {self.spe}\n")
 
     def mostrar_nombre(self):
         return f"{self.nombre}\n"
@@ -39,13 +39,13 @@ class pokemon:
             return f"tienen el misma ataque\n"
 
         #comparacion defensa
-        if self.def > otro.def:
+        if self.defe > otro.defe:
             return f"{self.nombre} tiene mayor defensa\n"
 
-        elif self.def < otro.def:
+        elif self.defe < otro.defe:
             return f"{otro.nombre} tiene mayor defensa\n"
         
-        elif self.def == otro.def:
+        elif self.defe == otro.defe:
             return f"tienen la misma defensa\n"  
 
         #comparacion de sparring
