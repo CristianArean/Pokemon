@@ -38,7 +38,10 @@ def pokemones_o_equipos(x, y):
     elif x > ANCHO_VENTANA // 2 + ESP_ENTRE_BOTON and x < ANCHO_VENTANA - MRG_HORZ_BOTONES \
        and y > BTN_Y1 and y < BTN_Y2:
         menu_equipos()
-        
+ selector = {}       
+selector['pokequipos'] = "pokemones"
+ 
+       
 def menu_pokemones():
     print ('Menu pokemones')
     gamelib.draw_begin()

@@ -32,7 +32,7 @@ def main():
         if ev.type == gamelib.EventType.ButtonPress:
             # El usuario presionó un botón del mouse
             x, y = ev.x, ev.y # averiguamos la posición donde se hizo click
-            print (f'x {x}, y {y}')
+            print (f'x {x}, y {y}') #debug
             #juego = juego_actualizar(juego, x, y)
             juego = pokemones_o_equipos(x, y)
 
