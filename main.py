@@ -11,8 +11,9 @@ def main():
         # Todas las instrucciones que dibujen algo en la pantalla deben ir
         # entre `draw_begin()` y `draw_end()`:
         #gamelib.draw_begin()
-        if juego == 1:
+        if juego == 'menu_principal':
             menu_principal()
+            
         #gamelib.draw_end() # CREO QUE EL DIBUJO VA EN CADA FUNCION. LO COMENTO PARA NO BORRARLO ##########################
 
         # Terminamos de dibujar la ventana, ahora procesamos los eventos (si el
@@ -37,4 +38,3 @@ def main():
             juego = pokemones_o_equipos(x, y, juego)
 
 gamelib.init(main)
-
