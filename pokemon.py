@@ -49,6 +49,7 @@ def pokemones_o_equipos(x, y, juego):
        and y > BTN_Y1 and y < BTN_Y2:
         selector['pokemones'] = 'equipos'   
         menu_pokemones()
+
 '''
 selector = {}       
 selector['pokequipos'] = "pokemones"
