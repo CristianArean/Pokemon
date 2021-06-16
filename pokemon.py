@@ -1,8 +1,8 @@
 #hay un estado inicial, se muestra la pantalla d
 import gamelib
 from classpokemon import *
-ANCHO_VENTANA = 1000
-ALTO_VENTANA = 700
+ANCHO_VENTANA = 900
+ALTO_VENTANA = 600
 VACIO = 0
 def mostrar_pokedex():
     gamelib.draw_rectangle(50,50,900,650, fill='red')
