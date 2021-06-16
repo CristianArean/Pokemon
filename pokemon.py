@@ -30,7 +30,7 @@ def menu_principal():
     gamelib.draw_text('EQUIPOS', ANCHO_VENTANA // 2 +  ESP_ENTRE_BOTON, ALTO_VENTANA // 2 - ALTO_BOTONES, fill='black', size=25, anchor='nw') #Texto de botón der.
     gamelib.draw_end()
     
-def pokemones_o_equipos(x, y, juego):
+def pokemones_o_equipos(x, y, juego): #implementado con diccionarios
     selector = {}       
     selector['pokequipos'] = "pokemones"
     def menu_pokemones():
