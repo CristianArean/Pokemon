@@ -1,10 +1,10 @@
 class pokemon:
-    def __init__(self, nombre = '', tipos = '', hp = 0, atk = 0, def = 0, spa = 0, spd = 0, spe = 0):
+    def __init__(self, nombre = '', tipos = '', hp = 0, atk = 0, defe = 0, spa = 0, spd = 0, spe = 0):
         self.nombre = nombre
         self.tipos = tipos
         self.hp = hp
         self.atk = atk
-        self.defe = def
+        self.defe = defe #cambié esto por "defe" en vez de "def"
         self.spa = spa
         self.spd = spd
         self.spe = spe
