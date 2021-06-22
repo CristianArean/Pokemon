@@ -1,5 +1,6 @@
 #hay un estado inicial, se muestra la pantalla d
 import gamelib
+import classpokemon
 #from classpokemon import *
 ANCHO_VENTANA = 900
 ALTO_VENTANA = 600
@@ -104,10 +105,9 @@ def un_equipo(nro_equipo):
 def navegacion(x, y, juego): #implementado con diccionarios
     selector = {}       
     selector['pokequipos'] = "Pokemones"
-    selector['equipos'] = "Equipos"
 
-    def menu_pokemones():
-        print ('menu ' + selector['pokequipos'])
+    def menu_pokemones(): #lo que hice fué, como las funciones eran identicas pero cambiaba una palabra, que vaya cambiando solo el string, en vez de otra funcion solo por un string
+        print ('menu ' + selector['pokequipos'])    
         gamelib.draw_begin()
         gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
         gamelib.draw_text(selector['pokequipos'], ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
@@ -115,16 +115,7 @@ def navegacion(x, y, juego): #implementado con diccionarios
         gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
         gamelib.draw_end()
         return 'menu ' + selector['pokequipos']
-
-    def menu_equipos(): #para mi pongamos las funciones menu equipos y menu pokemones fuera de la funcion navegación. Que te parece? Así queda más limpia
-        print ('menu ' + selector['equipos'])
-        gamelib.draw_begin()
-        gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-        gamelib.draw_text(selector['equipos'], ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
-        cuadritos_equipos()
-        gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
-        gamelib.draw_end()
-        return 'menu ' + selector['equipos']
+ 
     """
     if juego == 'menu principal' and x > MRG_HORZ_BOTONES and x < ANCHO_VENTANA // 2 -  ESP_ENTRE_BOTON \
        and y > BTN_Y1 and y < BTN_Y2:
@@ -133,10 +124,11 @@ def navegacion(x, y, juego): #implementado con diccionarios
     if juego == 'menu principal':
         if x > ANCHO_VENTANA // 2 + ESP_ENTRE_BOTON and x < ANCHO_VENTANA - MRG_HORZ_BOTONES \
         and y > BTN_Y1 and y < BTN_Y2: #podriamos poner todos los juego == menu principal en un mismo if
-            selector['pokemones'] = 'equipos'
-            return menu_equipos()
+            selector['pokequipos'] = 'Equipos'
+            return menu_pokemones() 
         elif x > MRG_HORZ_BOTONES and x < ANCHO_VENTANA // 2 -  ESP_ENTRE_BOTON \
         and y > BTN_Y1 and y < BTN_Y2:
+            selector['pokequipos'] = "Pokemones"
             return menu_pokemones()
 
     elif juego == 'menu Pokemones':
@@ -175,31 +167,3 @@ def navegacion(x, y, juego): #implementado con diccionarios
 
 
 
-
-
-
-
-
-
-
-'''
-selector = {}       
-selector['pokequipos'] = "pokemones"
- 
-       
-def menu_pokemones():
-    print ('Menu pokemones')
-    gamelib.draw_begin()
-    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-    gamelib.draw_text('POKEMONES', ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
-    gamelib.draw_end()
-    return 'menu pokemones'
-    
-def menu_equipos():
-    print ('Menu equipos')
-    gamelib.draw_begin()
-    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-    gamelib.draw_text('EQUIPOS', ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
-    gamelib.draw_end()
-    return 'menu pokemones'
-'''

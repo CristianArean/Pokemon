@@ -26,7 +26,7 @@ class pokemon:
             return f"{otro.nombre} tiene mayor salud\n"
         
         elif self.hp == otro.hp:
-            return f"tienen la misma salud\n"
+            return "tienen la misma salud\n"
         
         #comparacion ataque
         if self.atk > otro.atk:
@@ -36,7 +36,7 @@ class pokemon:
             return f"{otro.nombre} tiene mayor ataque\n"
         
         elif self.atk == otro.atk:
-            return f"tienen el misma ataque\n"
+            return "tienen el misma ataque\n"
 
         #comparacion defensa
         if self.defe > otro.defe:
@@ -46,7 +46,7 @@ class pokemon:
             return f"{otro.nombre} tiene mayor defensa\n"
         
         elif self.defe == otro.defe:
-            return f"tienen la misma defensa\n"  
+            return "tienen la misma defensa\n"  
 
         #comparacion de sparring
         if self.spa > otro.spa:
@@ -56,7 +56,7 @@ class pokemon:
             return f"{otro.nombre} tiene mayor sparring\n"
         
         elif self.spa == otro.spa:
-            return f"tienen el mismo sparring\n"
+            return "tienen el mismo sparring\n"
 
         #comparacion velocidad
         if self.spd > otro.spd:
@@ -66,7 +66,7 @@ class pokemon:
             return f"{otro.nombre} tiene mayor velocidad\n"
         
         elif self.spd == otro.spd:
-            return f"tienen la misma velocidad\n"    
+            return "tienen la misma velocidad\n"    
 
         #comparacion spe
         if self.spe > otro.spe:
@@ -76,4 +76,4 @@ class pokemon:
             return f"{otro.nombre} tiene mayor spe\n"
         
         elif self.spe == otro.spe:
-            return f"tienen la misma spe\n"
+            return "tienen la misma spe\n"
