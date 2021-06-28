@@ -111,7 +111,10 @@ def navegacion(x, y, juego): #implementado con diccionarios
         gamelib.draw_begin()
         gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
         gamelib.draw_text(selector['pokequipos'], ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
-        cuadritos_pokemones()
+        if selector['pokequipos'] == "Pokemones":
+            cuadritos_pokemones()
+        elif selector['pokequipos'] == "Equipos":
+            cuadritos_equipos()
         gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
         gamelib.draw_end()
         return 'menu ' + selector['pokequipos']
@@ -161,7 +164,6 @@ def navegacion(x, y, juego): #implementado con diccionarios
         and y > BOTON_RETROCESO and y < BOTON_RETROCESO*2:
             return menu_equipos()
 
-    return juego
 
 
 
