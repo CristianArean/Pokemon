@@ -1,12 +1,13 @@
-#hay un estado inicial, se muestra la pantalla d
 import gamelib
 import classpokemon
+from tda import Pila 
+from tda import Cola
 #from classpokemon import *
 ANCHO_VENTANA = 900
 ALTO_VENTANA = 600
 VACIO = 0
 
-TITLE_Y = 70 #######sacar de variables globales y mover a las funciones correspondientes? 
+TITLE_Y = 70 
 MRG_HORZ_BOTONES = 70
 ALTO_BOTONES = 50
 ESP_ENTRE_BOTON = 30
@@ -19,6 +20,9 @@ ESP_ENTRE_CUADROS = 10
 BOTON_RETROCESO = 30
 
 def crear_juego():
+    menu_memorizado = 'menu principal'
+    with open('equipos.csv', 'w'):
+        pass
     return 'menu principal'
 
 def juego_actualizar(juego):
@@ -33,31 +37,58 @@ def menu_principal():
     gamelib.draw_text('POKEMONES', MRG_HORZ_BOTONES, ALTO_VENTANA // 2 - ALTO_BOTONES, fill='black', size=25, anchor='nw') #Texto de botón izq.
     gamelib.draw_text('EQUIPOS', ANCHO_VENTANA // 2 +  ESP_ENTRE_BOTON, ALTO_VENTANA // 2 - ALTO_BOTONES, fill='black', size=25, anchor='nw') #Texto de botón der.
     gamelib.draw_end()
+    menu_memorizado = 'menu principal'
     return 'menu principal'
 
-def cuadritos_pokemones(): 
-    nro_pok_nombre = {0: VACIO, 1:'pikachu', 2:'bulbasur', 3:'charmander', 4:'hello', 5:'pikachu', 6:'bulbasur', 7:'charmander', 8:'hello', 9:'pikachu', 10:'bulbasur', 11:'charmander', 12:'hello', 13:'pikachu', 14:'bulbasur', 15:'charmander', 16:'hello', 17:'pikachu', 18:'bulbasur', 19:'charmander', 20:'hello', 21:'pikachu', 22:'bulbasur', 23:'charmander', 24:'hello', 25:'pikachu', 26:'bulbasur', 27:'charmander', 28:'hello', 29:'pikachu', 30:'bulbasur', 31:'pikachu', 32:'bulbasur', 33:'charmander', 34:'hello', 35:'pikachu', 36:'bulbasur', 37:'charmander', 38:'hello', 39:'pikachu', 40:'bulbasur', 41:'charmander', 42:'hello', }
-    nro_pag_pok = 0
+def lector_nombres(nros, nombre_archivo):
+    """
+    Entrega toda la info de las lineas que solicites (tomando la primera linea como cero, para ignorarla). Retorna un diccionario
+    Puede usarse para el archivo de pokemones y de equipos, ya sea para menús o para mostrar la info de un pokemon o equipo en particular.
+    """
+    lineas_solicitadas = Cola()
+    minimo = min(nros)
+    maximo = max(nros)
+    contador = -1
+    rta = {}
+    with open(nombre_archivo) as archivo:
+        for _ in range (maximo+1):
+            linea = archivo.readline().rstrip('\n')
+            lineas_solicitadas.encolar(linea)
+            contador += 1
+            #print (contador, linea)
+            if contador == (maximo - minimo +1):
+                #print ('hola')
+                lineas_solicitadas.desencolar()
+                contador -= 1
+    while not lineas_solicitadas.esta_vacia():
+        lista_atributos = (lineas_solicitadas.desencolar()).split(';')
+        rta[lista_atributos[0]] = lista_atributos
+    return rta
+
+def cuadritos_pokemones(nro_pag_pok): 
+    nro_pok_nombre = lector_nombres([nro_pag_pok*4*7 +1, nro_pag_pok*4*7 +1+28], 'pokemons.csv')
+    print (nro_pok_nombre)
     for i in range (4): #arreglar numeros mágicos
         for j in range (7): #puede que estos cuadros sean remplazados por una imagen de photoshop
             gamelib.draw_rectangle(MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j + XY_CUADRITO, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i + XY_CUADRITO)
             if i == VACIO and j == VACIO:
                 continue
             else: #hay que administrar el keyerror cuando no existe un pokemon con esa llave
-                gamelib.draw_text(nro_pok_nombre[nro_pag_pok*(4*7) + i*7 + j], MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=8, anchor='nw')
+                elegido_en_ciclo = str(nro_pag_pok*(4*7) + i*7 + j)
+                gamelib.draw_text(nro_pok_nombre[elegido_en_ciclo][2], MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=8, anchor='nw')
     gamelib.draw_text('<-', MRG_CUADRITOS_IZQ, MRG_CUADRITOS_SUP, fill='black', size=30, anchor='nw')
     gamelib.draw_text('->', MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (7) + XY_CUADRITO * 7, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (4) + XY_CUADRITO * 4, fill='black', size=30, anchor='se')
 
-def cuadritos_equipos(): ################## cuadritos equipos y cuadritos pokemones son practicamente identicos. Ahorrar lineas de codigo (por ejemplo con el metodo bibliotecas diseñado por Cris)
-    nro_equ_nombre = {0: VACIO, 1:'Rocket', 2:'Empire', 3:'charmander', 4:'hello', 5:'Rocket', 6:'Empire', 7:'charmander', 8:'hello', 9:'Rocket', 10:'Empire', 11:'charmander', 12:'hello', 13:'Rocket', 14:'Empire', 15:'charmander', 16:'hello', 17:'Rocket', 18:'Empire', 19:'charmander', 20:'hello', 21:'Rocket', 22:'Empire', 23:'charmander', 24:'hello', 25:'Rocket', 26:'Empire', 27:'charmander', 28:'hello', 29:'Rocket', 30:'Empire', 31:'Rocket', 32:'Empire', 33:'charmander', 34:'hello', 35:'Rocket', 36:'Empire', 37:'charmander', 38:'hello', 39:'Rocket', 40:'Empire', 41:'charmander', 42:'hello', }
-    nro_pag_equ = 0
+def cuadritos_equipos(nro_pag_equ): 
+    nro_equ_nombre = lector_nombres([nro_pag_equ*4*7 +1, nro_pag_equ*4*7 +1+28], 'pokemons.csv') 
     for i in range (4): #arreglar numeros mágicos
         for j in range (7):
             gamelib.draw_rectangle(MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j + XY_CUADRITO, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i + XY_CUADRITO)
             if i == VACIO and j == VACIO:
                 continue
             else: #hay que administrar el keyerror cuando no existe un pokemon con esa llave #arreglar bug superposición flecha proxima página y ultimo pokemon
-                gamelib.draw_text(nro_equ_nombre[nro_pag_equ*(4*7) + i*7 + j], MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=8, anchor='nw')
+                elegido_en_ciclo = str(nro_pag_equ*(4*7) + i*7 + j)
+                gamelib.draw_text(nro_equ_nombre[elegido_en_ciclo][2], MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=8, anchor='nw')
     gamelib.draw_text('<-', MRG_CUADRITOS_IZQ, MRG_CUADRITOS_SUP, fill='black', size=30, anchor='nw')
     gamelib.draw_text('->', MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (7) + XY_CUADRITO * 7, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (4) + XY_CUADRITO * 4, fill='black', size=30, anchor='se')
 
@@ -82,6 +113,7 @@ def un_pokemon(nro_pokemon):
     gamelib.draw_image(imagen, VACIO, ALTO_VENTANA // 4)
     gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
     gamelib.draw_end()
+    menu_memorizado = 'Individual Pokemon'
     return 'Individual Pokemon'
 
 def un_equipo(nro_equipo):
@@ -97,9 +129,11 @@ def un_equipo(nro_equipo):
     gamelib.draw_text(@6, 4* ANCHO_VENTANA // 5, 7 * ALTO_VENTANA // 7, fill='black', size=30,)
     """
     gamelib.draw_begin()
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
     gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
     gamelib.draw_end()
     imagen = 'imgs/1.gif'
+    menu_memorizado = 'Individual Equipo'
     return 'Individual Equipo'
 
 def navegacion(x, y, juego): #implementado con diccionarios
@@ -112,11 +146,12 @@ def navegacion(x, y, juego): #implementado con diccionarios
         gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
         gamelib.draw_text(selector['pokequipos'], ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
         if selector['pokequipos'] == "Pokemones":
-            cuadritos_pokemones()
+            cuadritos_pokemones(0)
         elif selector['pokequipos'] == "Equipos":
-            cuadritos_equipos()
+            cuadritos_equipos(0)
         gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
         gamelib.draw_end()
+        menu_memorizado = 'menu ' + selector['pokequipos']
         return 'menu ' + selector['pokequipos']
  
     """
@@ -162,9 +197,11 @@ def navegacion(x, y, juego): #implementado con diccionarios
     elif juego == 'Individual Equipo':
         if x > BOTON_RETROCESO and x < BOTON_RETROCESO*2 \
         and y > BOTON_RETROCESO and y < BOTON_RETROCESO*2:
-            return menu_equipos()
+            selector['pokequipos'] = "Equipos"
+            return menu_pokemones()
 
-
+    return 'menu principal' #####Esto arregla en parte el bug donde los clicks dejan de hacer efecto. Sucede que
+    # el estado de juego se vuelve none (en la linea 27 de main. Arreglar con menu_memorizado) MIENTRAS TANTO CADA VEZ QUE FALLA SIMPLEMENTE NOS LLEVA AL MENU PRINCIPAL, así no se rompe.
 
 
 
