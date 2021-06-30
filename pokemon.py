@@ -179,13 +179,15 @@ def creador_equipo():
     #agregar cómo se escribe al equipos
 
 def menu_creador(pag_pok, pag_equ):
-    #dibujar
-    #llamar a creador_equipo()
-    pass
+    gamelib.draw_begin()
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
+    gamelib.draw_text('CREACIÓN DE UN EQUIPO NUEVO', ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
+    gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
+    gamelib.draw_end()
+    #creador_equipo()
+    return 'Individual Equipo', pag_pok, pag_equ
 
 def navegacion(x, y, juego):
-
-    #print (juego)
     if juego[0] == 'menu principal':
         p_pok = juego [1]
         p_equ = juego [2]
