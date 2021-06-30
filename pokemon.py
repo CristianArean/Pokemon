@@ -20,6 +20,11 @@ BOTON_RETROCESO = 30
 
 def crear_juego():
     menu_memorizado = 'menu principal'
+    try:
+        with open('equipos.csv', 'x') as archivo:
+            pass
+    except:
+        return 'menu principal', 0, 0
     with open('equipos.csv', 'w') as archivo:
         for _ in range (1):
             archivo.writelines('equipo_nombre;integrante1;movimientos1;integrante2;movimientos2;integrante3;movimientos3;integrante4;movimientos4;integrante5;movimientos5;integrante6;movimientos6')
@@ -94,6 +99,7 @@ def menu_equipos(pag_pok, pag_equ):
 
 def cuadritos_pokemones(pag_pok, pag_equ): 
     nro_pok_nombre = lector([pag_pok*4*7 -10, pag_pok*4*7 +28], 'pokemons.csv') #ajustar numeros mágicos
+    print (nro_pok_nombre)
     for i in range (4): #arreglar numeros mágicos
         for j in range (7): 
             gamelib.draw_rectangle(MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j + XY_CUADRITO, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i + XY_CUADRITO)
@@ -104,20 +110,32 @@ def cuadritos_pokemones(pag_pok, pag_equ):
             else: #hay que administrar el keyerror cuando no existe un pokemon con esa llave
                 elegido_en_ciclo = str(pag_pok*(4*7) + i*7 + j - 2*pag_pok)
                 #print(i, j, elegido_en_ciclo)
-                gamelib.draw_text(nro_pok_nombre[elegido_en_ciclo][2], MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=8, anchor='nw')
+                try:
+                    nombre = nro_pok_nombre[elegido_en_ciclo][2]
+                except KeyError:
+                    nombre = ''
+                gamelib.draw_text(nombre, MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=8, anchor='nw')
     gamelib.draw_text('<-', MRG_CUADRITOS_IZQ, MRG_CUADRITOS_SUP, fill='black', size=30, anchor='nw')
     gamelib.draw_text('->', MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (7) + XY_CUADRITO * 7, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (4) + XY_CUADRITO * 4, fill='black', size=30, anchor='se')
 
 def cuadritos_equipos(pag_pok, pag_equ): 
-    nro_equ_nombre = lector([pag_equ*4*7 +1, pag_equ*4*7 +1+28], 'pokemons.csv') 
+    nro_pok_nombre = lector([pag_equ*4*7 -10, pag_equ*4*7 +28], 'equipos.csv') #ajustar numeros mágicos
+    print (nro_pok_nombre)
     for i in range (4): #arreglar numeros mágicos
-        for j in range (7):
+        for j in range (7): 
             gamelib.draw_rectangle(MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j + XY_CUADRITO, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i + XY_CUADRITO)
             if i == VACIO and j == VACIO:
                 continue
-            else: #hay que administrar el keyerror cuando no existe un pokemon con esa llave 
-                elegido_en_ciclo = str(pag_equ*(4*7) + i*7 + j + 2*pag_equ)
-                gamelib.draw_text(nro_equ_nombre[elegido_en_ciclo][2], MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=8, anchor='nw')
+            elif i == 3 and j == 6:
+                continue
+            else: #hay que administrar el keyerror cuando no existe un pokemon con esa llave
+                elegido_en_ciclo = str(pag_equ*(4*7) + i*7 + j - 2*pag_equ)
+                #print(i, j, elegido_en_ciclo)
+                try:
+                    nombre = nro_pok_nombre[elegido_en_ciclo][2]
+                except KeyError:
+                    nombre = ''
+                gamelib.draw_text(nombre, MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=8, anchor='nw')
     gamelib.draw_text('<-', MRG_CUADRITOS_IZQ, MRG_CUADRITOS_SUP, fill='black', size=30, anchor='nw')
     gamelib.draw_text('->', MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (7) + XY_CUADRITO * 7, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (4) + XY_CUADRITO * 4, fill='black', size=30, anchor='se')
 
@@ -151,9 +169,11 @@ def un_equipo(nro_equipo, pag_pok, pag_equ):
 
 def creador_equipo():
     pokemones_elegidos = []
+    poderes_elegidos = [] 
     nombre_equipo = simpledialog.askstring("nombre de equipo", "Elija un nombre para su equipo").upper()
     desea_seguir_pokemones = "SI"
-    while len(pokemones_elegidos) >= 5 and desea_seguir_pokemones == "SI":
+    desea_seguir_poderes = "SI"
+    while len(pokemones_elegidos) <= 5 and desea_seguir_pokemones == "SI":
         elegido = simpledialog.askstring("pokemones", "que pokemon desea elegir?")
         while elegido is not elegido.isdigit():
             elegido = simpledialog.askstring("pokemones", "Ingreso un carater no numerico. Que pokemon desea elegir?")
@@ -177,6 +197,28 @@ def creador_equipo():
         info = lector_movimientos(monstruo, 'movimientos.csv')
         lista_movimientos = info[1].split(',')
     #agregar cómo se escribe al equipos
+        while len(pokemones_elegidos) >= 1 or len(poderes_elegidos) <=5  and desea_seguir_poderes == "SI":
+            elegido_poderes = simpledialog.askstring("poderes", "que pokemon desea elegir?")
+        while elegido_poderes is not elegido_poderes.isdigit():
+            elegido_poderes = simpledialog.askstring("poderes", "Ingreso un carater no numerico. Que pokemon desea elegir?")
+        poderes_elegidos.append(int(elegido_poderes)) #se agrega el poder
+        if len(poderes_elegidos) != 0: #si la lista tiene algun elemento te pregunta si queres borrar
+            desea_eliminar_poderes = simpledialog.askstring("poderes", "Desea borrar algun poder?[SI/NO]").upper()
+            while desea_eliminar_poderes not in["SI", "NO"]:
+                desea_eliminar_poderes = simpledialog.askstring("poderes", "Ingreso una respuesta incorrecta. Desea borrar algun pokemon?[SI/NO]")
+            if desea_eliminar_poderes == "SI": #pregunta que poderes queremos eliminar
+                poder_a_eliminar = simpledialog.askstring("poderes", "Ingrese el numero de pokemon que desea borrar")
+                while not poder_a_eliminar is poder_a_eliminar.isdigit() and poder_a_eliminar not in poderes_elegidos:
+                    poder_a_eliminar = simpledialog.askstring("poderes", "El caracter es invalido o no posee ese poder. Ingrese el numero de pokemon que desea borrar")
+                pokemones_elegidos.remove(int(poder_a_eliminar))
+            elif desea_eliminar_poderes == "NO":
+                continue #acá habia dudas
+        #te pregunta si queres agregar poderes
+        desea_seguir_poderes = simpledialog.askstring("poderes", "desea seguir agregando poderes?[SI/NO]").upper()
+        while desea_seguir_poderes not in["SI", "NO"]:
+            desea_seguir_poderes = simpledialog.askstring("poderes", "No eligio una respusta valida. Desea seguir agregando poderes[SI/NO]").upper()
+
+    return nombre_equipo, pokemones_elegidos, poderes_elegidos
 
 def menu_creador(pag_pok, pag_equ):
     gamelib.draw_begin()
@@ -250,7 +292,7 @@ def navegacion(x, y, juego):
         pag_equ = juego[2]
         if x > BOTON_RETROCESO and x < BOTON_RETROCESO*2 \
         and y > BOTON_RETROCESO and y < BOTON_RETROCESO*2:
-            return menu_pokemones(pag_pok, pag_equ) #BOTON ROJO
+            return menu_equipos(pag_pok, pag_equ) #BOTON ROJO
 
     return 'menu principal', 0, 0 #####Esto arregla en parte el bug donde los clicks dejan de hacer efecto. Sucede que
     # el estado de juego se vuelve none (en la linea 27 de main. Arreglar con menu_memorizado) MIENTRAS TANTO CADA VEZ QUE FALLA SIMPLEMENTE NOS LLEVA AL MENU
