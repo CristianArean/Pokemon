@@ -1,9 +1,7 @@
-from gamelib import *
+import gamelib
 from tda import Pila 
 from tda import Cola
-import tkinter as tk
-#from classpokemon import *
-
+from tkinter import simpledialog
 ANCHO_VENTANA = 900
 ALTO_VENTANA = 600
 VACIO = 0
@@ -19,7 +17,8 @@ MRG_CUADRITOS_SUP = 90
 MRG_CUADRITOS_IZQ = 70
 ESP_ENTRE_CUADROS = 10
 BOTON_RETROCESO = 30
-root = tk()
+
+
 
 def crear_juego():
     menu_memorizado = 'menu principal'
