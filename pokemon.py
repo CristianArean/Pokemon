@@ -2,6 +2,11 @@ import gamelib
 from tda import Pila 
 from tda import Cola
 from tkinter import simpledialog
+
+equipos = 'equipos.csv'
+movimientos = 'movimientos.csv'
+pokemons = 'pokemons.csv'
+
 ANCHO_VENTANA = 900
 ALTO_VENTANA = 600
 
@@ -30,12 +35,12 @@ def crear_juego():
     menu_memorizado = 'menu principal'
 
     try:
-        with open('equipos.csv', 'x') as archivo:
+        with open(equipos, 'x') as archivo:
             pass
     except:
         return 'menu principal', 0, 0
 
-    with open('equipos.csv', 'w') as archivo:
+    with open(equipos, 'w') as archivo:
         for _ in range (1):
             archivo.writelines('equipo_nombre;integrante1;movimientos1;integrante2;movimientos2;integrante3;movimientos3;integrante4;movimientos4;integrante5;movimientos5;integrante6;movimientos6')
     return 'menu principal', 0, 0
@@ -88,7 +93,6 @@ def buscador_particular(pag_pok, pag_equ):
         try:
             numero = int(numero)
         finally:
-            print ('Numero: ', numero)
             return un_pokemon(numero, pag_pok, pag_equ)
 
 def menu_principal():
@@ -142,8 +146,7 @@ def cuadritos_pokemones(pag_pok, pag_equ):
     """
     Dibuja la visualización general de pokemones tomando información de 'pokemons.csv'.
     """
-    nro_pok_nombre = lector([pag_pok*NRO_FILAS*NRO_COLUMNAS -10, pag_pok*NRO_FILAS*NRO_COLUMNAS +28], 'pokemons.csv') 
-    print (nro_pok_nombre)
+    nro_pok_nombre = lector([pag_pok*NRO_FILAS*NRO_COLUMNAS -10, pag_pok*NRO_FILAS*NRO_COLUMNAS +28], pokemons) 
 
     for i in range (NRO_FILAS): 
         for j in range (NRO_COLUMNAS): 
@@ -169,7 +172,7 @@ def cuadritos_equipos(pag_pok, pag_equ):
     """
     Dibuja la visualización general de equipos tomando información de 'equipos.csv'.
     """
-    nro_pok_nombre = lector([pag_equ*NRO_FILAS*NRO_COLUMNAS -10, pag_equ*NRO_FILAS*NRO_COLUMNAS +28], 'equipos.csv') 
+    nro_pok_nombre = lector([pag_equ*NRO_FILAS*NRO_COLUMNAS -10, pag_equ*NRO_FILAS*NRO_COLUMNAS +28], equipos) 
 
     for i in range (NRO_FILAS): 
         for j in range (NRO_COLUMNAS): 
@@ -198,7 +201,7 @@ def un_pokemon(nro_pokemon, pag_pok, pag_equ):
     Dibuja toda la información del pokemon que recibe por parámetro.
     """
     try:
-        info = lector([nro_pokemon, nro_pokemon], 'pokemons.csv')
+        info = lector([nro_pokemon, nro_pokemon], pokemons)
         contenido = info[str(nro_pokemon)]
         gamelib.draw_begin()
         gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
@@ -223,7 +226,7 @@ def un_equipo(nro_equipo, pag_pok, pag_equ):
     Dibuja toda la información del equipo que recibe por parámetro.
     """
     try:
-        info = lector([nro_equipo, nro_equipo], 'equipos.csv')
+        info = lector([nro_equipo, nro_equipo], equipos)
         contenido = info[str(nro_equipo)]
         gamelib.draw_begin()
         gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
@@ -279,7 +282,7 @@ def creador_equipo():
         while desea_seguir_pokemones not in["SI", "NO"]:
             desea_seguir_pokemones = simpledialog.askstring("pokemones", "No eligio una respusta valida. Desea seguir agregando pokemones[SI/NO]").upper()
     for monstruo in pokemones_elegidos:
-        info = lector_movimientos(monstruo, 'movimientos.csv')
+        info = lector_movimientos(monstruo, movimientos)
         lista_movimientos = info[1].split(',')
         #poderes_elegidos.append([])    
     #agregar cómo se escribe al equipos
@@ -322,7 +325,7 @@ def menu_creador(pag_pok, pag_equ):
     #nombre_equipo, pokemones, poderes = 'hola', ['pikachu', 'charmander'], [["impaktrueno", "rayito"], ["fueguito", "llamaradita"]] 
 
     largo_equipos = 0
-    with open('equipos.csv') as archivo:
+    with open(equipos) as archivo:
         for linea in archivo:
             if linea != '\n':
                 largo_equipos += 1
@@ -334,7 +337,7 @@ def menu_creador(pag_pok, pag_equ):
         poder = ','.join(poderes[i])
         nombre_equipo += pokemones[i] + ';' + poder + ';'
 
-    with open('equipos.csv', 'a') as archivo:
+    with open(equipos, 'a') as archivo:
         archivo.write('\n' + largo_equipos + nombre_equipo)
 
     return menu_equipos(pag_pok, pag_equ)
@@ -388,16 +391,15 @@ def navegacion(x, y, juego):
         xcuadro = (x - MRG_CUADRITOS_IZQ) // (XY_CUADRITO + ESP_ENTRE_CUADROS)
         ycuadro = (y - MRG_CUADRITOS_SUP) // (XY_CUADRITO + ESP_ENTRE_CUADROS)
         nro_equipo = ycuadro * NRO_COLUMNAS + xcuadro + pag_equ*26
-        print (nro_equipo, pag_equ)
         if (nro_equipo - pag_equ*26) == 0:
-            if pag_pok > 0: return menu_pokemones(pag_pok, pag_equ-1)
+            if pag_equ > 0: return menu_equipos(pag_pok, pag_equ-1)
             return menu_equipos(pag_pok, pag_equ)
         if (nro_equipo - pag_equ*26) == 27:
             return menu_equipos(pag_pok, pag_equ+1)
         if nro_equipo == 1:
             return menu_creador(pag_pok, pag_equ)
         if nro_equipo > 1:
-            return un_equipo(nro_equipo, pag_pok, pag_equ) #equipos
+            return un_equipo(nro_equipo, pag_pok, pag_equ)
 
     elif juego[0] == 'Individual Pokemon':
         pag_pok = juego[1]
