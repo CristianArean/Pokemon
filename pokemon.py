@@ -43,6 +43,28 @@ def menu_principal():
     menu_memorizado = 'menu principal'
     return 'menu principal'
 
+def menu_pokemones(): 
+    print ('menu Pokemones')    
+    gamelib.draw_begin()
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
+    gamelib.draw_text('Pokemones', ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
+    cuadritos_equipos(0)
+    gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
+    gamelib.draw_end()
+    menu_memorizado = 'menu Pokemones'
+    return 'menu Pokemones'
+
+def menu_equipos(): 
+    print ('menu Equipos')    
+    gamelib.draw_begin()
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
+    gamelib.draw_text('Equipos', ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
+    cuadritos_equipos(0)
+    gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
+    gamelib.draw_end()
+    menu_memorizado = 'menu Equipos'
+    return 'menu Equipos'
+
 def lector_nombres(nros, nombre_archivo): #cambiar el nombre por "lector"
     """
     Entrega toda la info de las lineas que solicites (tomando la primera linea como cero, para ignorarla). Retorna un diccionario
@@ -150,28 +172,6 @@ def navegacion(x, y, juego): #implementado con diccionarios
     selector['pokequipos'] = "Pokemones"
     nro_pag_pok = 0
     nro_pag_equ = 0 
-
-    def menu_pokemones(): 
-        print ('menu Pokemones')    
-        gamelib.draw_begin()
-        gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-        gamelib.draw_text('Pokemones', ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
-        cuadritos_equipos(0)
-        gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
-        gamelib.draw_end()
-        menu_memorizado = 'menu Pokemones'
-        return 'menu Pokemones'
-
-    def menu_equipos(): 
-        print ('menu Equipos')    
-        gamelib.draw_begin()
-        gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-        gamelib.draw_text('Equipos', ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
-        cuadritos_equipos(0)
-        gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
-        gamelib.draw_end()
-        menu_memorizado = 'menu Equipos'
-        return 'menu Equipos'
      
     if juego == 'menu principal':
         if x > ANCHO_VENTANA // 2 + ESP_ENTRE_BOTON and x < ANCHO_VENTANA - MRG_HORZ_BOTONES \
@@ -188,13 +188,7 @@ def navegacion(x, y, juego): #implementado con diccionarios
         xcuadro = (x - MRG_CUADRITOS_IZQ) // (XY_CUADRITO + ESP_ENTRE_CUADROS)
         ycuadro = (y - MRG_CUADRITOS_SUP) // (XY_CUADRITO + ESP_ENTRE_CUADROS)
         print ('cuadro: ', xcuadro, ycuadro)
-        alpha = nro_pag_pok #para evitar error de llamarlo before assignement
-        nro_pokemon = ycuadro * 7 + xcuadro + alpha*26
-        if nro_pokemon == 0 and alpha != 0:
-            alpha -= 1
-        if nro_pokemon == 28:
-            alpha += 1
-        print ('alpha', alpha)
+        nro_pokemon = ycuadro * 7 + xcuadro + nro_pag_pok*26
         return un_pokemon(nro_pokemon)
 
     elif juego == 'menu Equipos':
