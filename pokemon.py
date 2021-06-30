@@ -19,6 +19,9 @@ MRG_CUADRITOS_IZQ = 70
 ESP_ENTRE_CUADROS = 10
 BOTON_RETROCESO = 30
 
+nro_pag_pok = 0
+nro_pag_equ = 0 #error de poner esto como variables globales?
+
 def crear_juego():
     menu_memorizado = 'menu principal'
     with open('equipos.csv', 'w'):
@@ -40,7 +43,7 @@ def menu_principal():
     menu_memorizado = 'menu principal'
     return 'menu principal'
 
-def lector_nombres(nros, nombre_archivo):
+def lector_nombres(nros, nombre_archivo): #cambiar el nombre por "lector"
     """
     Entrega toda la info de las lineas que solicites (tomando la primera linea como cero, para ignorarla). Retorna un diccionario
     Puede usarse para el archivo de pokemones y de equipos, ya sea para menús o para mostrar la info de un pokemon o equipo en particular.
@@ -67,7 +70,7 @@ def lector_nombres(nros, nombre_archivo):
 
 def cuadritos_pokemones(nro_pag_pok): 
     nro_pok_nombre = lector_nombres([nro_pag_pok*4*7 +1, nro_pag_pok*4*7 +1+28], 'pokemons.csv')
-    print (nro_pok_nombre)
+    #print (nro_pok_nombre)
     for i in range (4): #arreglar numeros mágicos
         for j in range (7): #puede que estos cuadros sean remplazados por una imagen de photoshop
             gamelib.draw_rectangle(MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j + XY_CUADRITO, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i + XY_CUADRITO)
@@ -93,23 +96,29 @@ def cuadritos_equipos(nro_pag_equ):
     gamelib.draw_text('->', MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (7) + XY_CUADRITO * 7, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (4) + XY_CUADRITO * 4, fill='black', size=30, anchor='se')
 
 def un_pokemon(nro_pokemon):
-    nombre = 'Pikachu' #Acá implementación del nombre del pokemon
-    tipo = 'Agua' #Acá implementación del tipo del pokemon
-    ataque = '40' #Acá implementación del ataque del pokemon
-    defensa = '20' #Acá implementación del defensa del pokemon
-    sparring = '69' #Acá implementación del saparring del pokemon 
-    velocidad = '50' #Acá implementación del velocidad del pokemon
-    spee = '13' #Acá implementación del spee del pokemon    (¿qué es spee?)
-    imagen = 'imgs/1.gif'
+    info = lector_nombres([nro_pokemon, nro_pokemon], 'pokemons.csv')
+    print(info)
+    contenido = info[str(nro_pokemon)]
+    print (contenido)
+    nombre = contenido[2]
+    tipo = contenido[3]
+    salud = contenido[4]
+    ataque = contenido[5]
+    defensa = contenido[6]
+    specialA = contenido[7]
+    specialD = contenido[8]
+    velocidad = contenido[9]
+    imagen = contenido[1]
     gamelib.draw_begin()
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
     gamelib.draw_text(nombre   , ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
-    gamelib.draw_text(tipo     , 4* ANCHO_VENTANA // 5, 2 * ALTO_VENTANA // 7, fill='black', size=30,)
-    gamelib.draw_text(ataque   , 4* ANCHO_VENTANA // 5, 3 * ALTO_VENTANA // 7, fill='black', size=30,)
-    gamelib.draw_text(defensa  , 4* ANCHO_VENTANA // 5, 4 * ALTO_VENTANA // 7, fill='black', size=30,)
-    gamelib.draw_text(sparring , 4* ANCHO_VENTANA // 5, 5 * ALTO_VENTANA // 7, fill='black', size=30,)
-    gamelib.draw_text(velocidad, 4* ANCHO_VENTANA // 5, 6 * ALTO_VENTANA // 7, fill='black', size=30,)
-    gamelib.draw_text(spee     , 4* ANCHO_VENTANA // 5, 7 * ALTO_VENTANA // 7, fill='black', size=30,) # se podrían ahorrar lineas con un for
+    gamelib.draw_text(tipo     , 4* ANCHO_VENTANA // 5, 1 * ALTO_VENTANA // 8, fill='black', size=30,)
+    gamelib.draw_text(salud    , 4* ANCHO_VENTANA // 5, 2 * ALTO_VENTANA // 8, fill='black', size=30,) # ajustar alturas puse // 6 evitar superposiciosion
+    gamelib.draw_text(ataque   , 4* ANCHO_VENTANA // 5, 3 * ALTO_VENTANA // 8, fill='black', size=30,)
+    gamelib.draw_text(defensa  , 4* ANCHO_VENTANA // 5, 4 * ALTO_VENTANA // 8, fill='black', size=30,)
+    gamelib.draw_text(specialA , 4* ANCHO_VENTANA // 5, 5 * ALTO_VENTANA // 8, fill='black', size=30,)
+    gamelib.draw_text(specialD , 4* ANCHO_VENTANA // 5, 6 * ALTO_VENTANA // 8, fill='black', size=30,)
+    gamelib.draw_text(velocidad, 4* ANCHO_VENTANA // 5, 7 * ALTO_VENTANA // 8, fill='black', size=30,) # se podrían ahorrar lineas con un for
     gamelib.draw_image(imagen, VACIO, ALTO_VENTANA // 4)
     gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
     gamelib.draw_end()
@@ -175,8 +184,8 @@ def navegacion(x, y, juego): #implementado con diccionarios
             return menu_principal()
         xcuadro = (x - MRG_CUADRITOS_IZQ) // (XY_CUADRITO + ESP_ENTRE_CUADROS)
         ycuadro = (y - MRG_CUADRITOS_SUP) // (XY_CUADRITO + ESP_ENTRE_CUADROS)
-        #print ('cuadro: ', xcuadro, ycuadro)
-        nro_pokemon = 1 #nro_pokemon = ycuadro * 7 + xcuadro + nro_pag_pok ####Implementar, elige el pokemon que el usuario clickeó
+        print ('cuadro: ', xcuadro, ycuadro)
+        nro_pokemon = ycuadro * 7 + xcuadro + nro_pag_pok ####Implementar, elige el pokemon que el usuario clickeó
         return un_pokemon(nro_pokemon)
 
     elif juego == 'menu Equipos':
@@ -202,7 +211,3 @@ def navegacion(x, y, juego): #implementado con diccionarios
 
     return 'menu principal' #####Esto arregla en parte el bug donde los clicks dejan de hacer efecto. Sucede que
     # el estado de juego se vuelve none (en la linea 27 de main. Arreglar con menu_memorizado) MIENTRAS TANTO CADA VEZ QUE FALLA SIMPLEMENTE NOS LLEVA AL MENU PRINCIPAL, así no se rompe.
-
-
-
-
