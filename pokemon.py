@@ -126,13 +126,15 @@ def cuadritos_equipos(pag_pok, pag_equ):
             gamelib.draw_rectangle(MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j + XY_CUADRITO, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i + XY_CUADRITO)
             if i == VACIO and j == VACIO:
                 continue
+            if i == VACIO and j == 1:
+                gamelib.draw_text('+', MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=12, anchor='nw')
             elif i == 3 and j == 6:
                 continue
             else: #hay que administrar el keyerror cuando no existe un pokemon con esa llave
                 elegido_en_ciclo = str(pag_equ*(4*7) + i*7 + j - 2*pag_equ)
                 #print(i, j, elegido_en_ciclo)
                 try:
-                    nombre = nro_pok_nombre[elegido_en_ciclo][2]
+                    nombre = nro_pok_nombre[elegido_en_ciclo][1]
                 except KeyError:
                     nombre = ''
                 gamelib.draw_text(nombre, MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=8, anchor='nw')
@@ -145,13 +147,13 @@ def un_pokemon(nro_pokemon, pag_pok, pag_equ):
     gamelib.draw_begin()
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
     gamelib.draw_text((contenido[2]+', '+contenido[0]), ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
-    gamelib.draw_text(contenido[3], 4* ANCHO_VENTANA // 5, 1 * ALTO_VENTANA // 8, fill='black', size=30,)
-    gamelib.draw_text(contenido[4], 4* ANCHO_VENTANA // 5, 2 * ALTO_VENTANA // 8, fill='black', size=30,) # ajustar alturas puse // 6 evitar superposiciosion
-    gamelib.draw_text(contenido[5], 4* ANCHO_VENTANA // 5, 3 * ALTO_VENTANA // 8, fill='black', size=30,)
-    gamelib.draw_text(contenido[6], 4* ANCHO_VENTANA // 5, 4 * ALTO_VENTANA // 8, fill='black', size=30,)
-    gamelib.draw_text(contenido[7], 4* ANCHO_VENTANA // 5, 5 * ALTO_VENTANA // 8, fill='black', size=30,)
-    gamelib.draw_text(contenido[8], 4* ANCHO_VENTANA // 5, 6 * ALTO_VENTANA // 8, fill='black', size=30,)
-    gamelib.draw_text(contenido[9], 4* ANCHO_VENTANA // 5, 7 * ALTO_VENTANA // 8, fill='black', size=30,) # se podrían ahorrar lineas con un for
+    gamelib.draw_text('Tipos: '+contenido[3], 4* ANCHO_VENTANA // 5, 1 * ALTO_VENTANA // 8, fill='black', size=30,)
+    gamelib.draw_text('HP: '+contenido[4], 4* ANCHO_VENTANA // 5, 2 * ALTO_VENTANA // 8, fill='black', size=30,) # ajustar alturas puse // 6 evitar superposiciosion
+    gamelib.draw_text('ATK: '+contenido[5], 4* ANCHO_VENTANA // 5, 3 * ALTO_VENTANA // 8, fill='black', size=30,)
+    gamelib.draw_text('DEF: '+contenido[6], 4* ANCHO_VENTANA // 5, 4 * ALTO_VENTANA // 8, fill='black', size=30,)
+    gamelib.draw_text('Spe-At: '+contenido[7], 4* ANCHO_VENTANA // 5, 5 * ALTO_VENTANA // 8, fill='black', size=30,)
+    gamelib.draw_text('Spe-De: '+contenido[8], 4* ANCHO_VENTANA // 5, 6 * ALTO_VENTANA // 8, fill='black', size=30,)
+    gamelib.draw_text('SPD: '+contenido[9], 4* ANCHO_VENTANA // 5, 7 * ALTO_VENTANA // 8, fill='black', size=30,) # se podrían ahorrar lineas con un for
     gamelib.draw_image(contenido[1], VACIO, ALTO_VENTANA // 4)
     gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
     gamelib.draw_end()
@@ -159,11 +161,25 @@ def un_pokemon(nro_pokemon, pag_pok, pag_equ):
     return 'Individual Pokemon', pag_pok, pag_equ
 
 def un_equipo(nro_equipo, pag_pok, pag_equ):
+    info = lector([nro_equipo, nro_equipo], 'equipos.csv')
+    contenido = info[str(nro_equipo)]
     gamelib.draw_begin()
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
+    gamelib.draw_text((contenido[1]+', '+contenido[0]), ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
+    gamelib.draw_text(contenido[2], 1* ANCHO_VENTANA // 9, 2 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
+    gamelib.draw_text(contenido[3], 8* ANCHO_VENTANA // 9, 2 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
+    gamelib.draw_text(contenido[4], 1* ANCHO_VENTANA // 9, 3 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w') # ajustar alturas puse // 6 evitar superposiciosion
+    gamelib.draw_text(contenido[5], 8* ANCHO_VENTANA // 9, 3 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
+    gamelib.draw_text(contenido[6], 1* ANCHO_VENTANA // 9, 4 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
+    gamelib.draw_text(contenido[7], 8* ANCHO_VENTANA // 9, 4 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
+    gamelib.draw_text(contenido[8], 1* ANCHO_VENTANA // 9, 5 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
+    gamelib.draw_text(contenido[9], 8* ANCHO_VENTANA // 9, 5 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e') # se podrían ahorrar lineas con un for
+    gamelib.draw_text(contenido[10], 1* ANCHO_VENTANA // 9, 6 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
+    gamelib.draw_text(contenido[11], 8* ANCHO_VENTANA // 9, 6 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
+    gamelib.draw_text(contenido[12], 1* ANCHO_VENTANA // 9, 7 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
+    gamelib.draw_text(contenido[13], 8* ANCHO_VENTANA // 9, 7 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
     gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
     gamelib.draw_end()
-    imagen = 'imgs/1.gif'
     menu_memorizado = 'Individual Equipo', pag_pok, pag_equ
     return 'Individual Equipo', pag_pok, pag_equ
 
@@ -228,7 +244,7 @@ def menu_creador(pag_pok, pag_equ):
     gamelib.draw_text('CREACIÓN DE UN EQUIPO NUEVO', ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
     gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
     gamelib.draw_end()
-    #creador_equipo()
+    nombre_equipo, pokemones, poderes = creador_equipo()
     return 'Individual Equipo', pag_pok, pag_equ
 
 def navegacion(x, y, juego):
