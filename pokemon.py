@@ -149,23 +149,23 @@ def creador_equipo(juego):
     while len(pokemones_elegidos) >= 5:
         ataques_elegidos = 0
         #proceso para agregar pokemones
-        desea_seguir_pokemones = simpledialog.askstring("pokemones", "desea seguir agregando pokemones?[Si/No]").title()
+        desea_seguir_pokemones = simpledialog.askstring("pokemones", "desea seguir agregando pokemones?[SI/NO]").upper()
         while desea_seguir_pokemones not in["Si", "No"]:
-            desea_seguir_pokemones = simpledialog.askstring("pokemones", "No eligio una respusta valida. Desea seguir agregando pokemones[Si/No]").title()
-        if desea_seguir_pokemones == "Si":
+            desea_seguir_pokemones = simpledialog.askstring("pokemones", "No eligio una respusta valida. Desea seguir agregando pokemones[SI/NO]").upper()
+        if desea_seguir_pokemones == "SI":
             pass
         
-        elif desea_seguir_pokemones == "No":
+        elif desea_seguir_pokemones == "NO":
             break
 
         if len(pokemones_elegidos) == 5:
-            terminaste = clicker_pokemones()
-            while terminaste not in["Si", "No"]:
-                terminaste = clicker_pokemones()
-            if terminaste ==  "No":
-                nro_pokemon_seleccionado = simpledialog.askstring("pokemones", "Ingrese el numero de pokemon que desea borrar").title()
+            terminaste = 
+            while terminaste not in["SI", "NO"]:
+                terminaste = 
+            if terminaste ==  "NO":
+                nro_pokemon_seleccionado = simpledialog.askstring("pokemones", "Ingrese el numero de pokemon que desea borrar").upper()
                 while nro_pokemon_seleccionado not in pokemones_elegidos:
-                    nro_pokemon_seleccionado = simpledialog.askstring("pokemones", "Ese no es un pokemon que eligio. Ingrese el numero de pokemon que quiere borrar:").title()
+                    nro_pokemon_seleccionado = simpledialog.askstring("pokemones", "Ese no es un pokemon que eligio. Ingrese el numero de pokemon que quiere borrar:").upper()
                 pokemones_elegidos.remove(nro_pokemon_seleccionado)
 
     pass
