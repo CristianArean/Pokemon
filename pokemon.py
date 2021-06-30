@@ -196,8 +196,10 @@ def creador_equipo():
     for monstruo in pokemones_elegidos:
         info = lector_movimientos(monstruo, 'movimientos.csv')
         lista_movimientos = info[1].split(',')
+        #poderes_elegidos.append([])
+        
     #agregar cómo se escribe al equipos
-        while len(pokemones_elegidos) >= 1 or len(poderes_elegidos) <=5  and desea_seguir_poderes == "SI":
+        while len(pokemones_elegidos) >= 1 or len(poderes_elegidos) <5  and desea_seguir_poderes == "SI":
             elegido_poderes = simpledialog.askstring("poderes", "que pokemon desea elegir?")
             while elegido_poderes is not elegido_poderes.isdigit():
                 elegido_poderes = simpledialog.askstring("poderes", "Ingreso un carater no numerico. Que pokemon desea elegir?")
