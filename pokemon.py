@@ -69,7 +69,7 @@ def lector_nombres(nros, nombre_archivo): #cambiar el nombre por "lector"
     return rta
 
 def cuadritos_pokemones(nro_pag_pok): 
-    nro_pok_nombre = lector_nombres([nro_pag_pok*4*7 +1, nro_pag_pok*4*7 +1+28], 'pokemons.csv')
+    nro_pok_nombre = lector_nombres([nro_pag_pok*4*7 +1, nro_pag_pok*4*7 +1+26], 'pokemons.csv')
     #print (nro_pok_nombre)
     for i in range (4): #arreglar numeros mágicos
         for j in range (7): #puede que estos cuadros sean remplazados por una imagen de photoshop
@@ -148,34 +148,37 @@ def un_equipo(nro_equipo):
 def navegacion(x, y, juego): #implementado con diccionarios
     selector = {}       
     selector['pokequipos'] = "Pokemones"
+    nro_pag_pok = 0
+    nro_pag_equ = 0 
 
-    def menu_pokemones(): #lo que hice fué, como las funciones eran identicas pero cambiaba una palabra, que vaya cambiando solo el string, en vez de otra funcion solo por un string
-        print ('menu ' + selector['pokequipos'])    
+    def menu_pokemones(): 
+        print ('menu Pokemones')    
         gamelib.draw_begin()
         gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-        gamelib.draw_text(selector['pokequipos'], ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
-        if selector['pokequipos'] == "Pokemones":
-            cuadritos_pokemones(0)
-        elif selector['pokequipos'] == "Equipos":
-            cuadritos_equipos(0)
+        gamelib.draw_text('Pokemones', ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
+        cuadritos_equipos(0)
         gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
         gamelib.draw_end()
-        menu_memorizado = 'menu ' + selector['pokequipos']
-        return 'menu ' + selector['pokequipos']
- 
-    """
-    if juego == 'menu principal' and x > MRG_HORZ_BOTONES and x < ANCHO_VENTANA // 2 -  ESP_ENTRE_BOTON \
-       and y > BTN_Y1 and y < BTN_Y2:
-        return menu_pokemones()
-    """     
+        menu_memorizado = 'menu Pokemones'
+        return 'menu Pokemones'
+
+    def menu_equipos(): 
+        print ('menu Equipos')    
+        gamelib.draw_begin()
+        gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
+        gamelib.draw_text('Equipos', ANCHO_VENTANA // 2, TITLE_Y, fill='black', size=30, anchor='s')
+        cuadritos_equipos(0)
+        gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
+        gamelib.draw_end()
+        menu_memorizado = 'menu Equipos'
+        return 'menu Equipos'
+     
     if juego == 'menu principal':
         if x > ANCHO_VENTANA // 2 + ESP_ENTRE_BOTON and x < ANCHO_VENTANA - MRG_HORZ_BOTONES \
         and y > BTN_Y1 and y < BTN_Y2: #podriamos poner todos los juego == menu principal en un mismo if
-            selector['pokequipos'] = 'Equipos'
-            return menu_pokemones() 
+            return menu_equipos() 
         elif x > MRG_HORZ_BOTONES and x < ANCHO_VENTANA // 2 -  ESP_ENTRE_BOTON \
         and y > BTN_Y1 and y < BTN_Y2:
-            selector['pokequipos'] = "Pokemones"
             return menu_pokemones()
 
     elif juego == 'menu Pokemones':
@@ -185,7 +188,13 @@ def navegacion(x, y, juego): #implementado con diccionarios
         xcuadro = (x - MRG_CUADRITOS_IZQ) // (XY_CUADRITO + ESP_ENTRE_CUADROS)
         ycuadro = (y - MRG_CUADRITOS_SUP) // (XY_CUADRITO + ESP_ENTRE_CUADROS)
         print ('cuadro: ', xcuadro, ycuadro)
-        nro_pokemon = ycuadro * 7 + xcuadro + nro_pag_pok ####Implementar, elige el pokemon que el usuario clickeó
+        alpha = nro_pag_pok #para evitar error de llamarlo before assignement
+        nro_pokemon = ycuadro * 7 + xcuadro + alpha*26
+        if nro_pokemon == 0 and alpha != 0:
+            alpha -= 1
+        if nro_pokemon == 28:
+            alpha += 1
+        print ('alpha', alpha)
         return un_pokemon(nro_pokemon)
 
     elif juego == 'menu Equipos':
@@ -211,3 +220,4 @@ def navegacion(x, y, juego): #implementado con diccionarios
 
     return 'menu principal' #####Esto arregla en parte el bug donde los clicks dejan de hacer efecto. Sucede que
     # el estado de juego se vuelve none (en la linea 27 de main. Arreglar con menu_memorizado) MIENTRAS TANTO CADA VEZ QUE FALLA SIMPLEMENTE NOS LLEVA AL MENU PRINCIPAL, así no se rompe.
+
