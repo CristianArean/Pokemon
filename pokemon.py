@@ -25,8 +25,7 @@ def crear_juego():
         pass
     return 'menu principal'
 
-def juego_actualizar(juego):
-    pass
+juego = crear_juego()
 
 def menu_principal(): 
     gamelib.draw_begin()
@@ -116,6 +115,34 @@ def un_pokemon(nro_pokemon):
     menu_memorizado = 'Individual Pokemon'
     return 'Individual Pokemon'
 
+def creador_equipo(juego):
+    pokemones_elegidos = []
+    nombre_equipo = input("Ingrese el nombre del equipo")
+    while len(pokemones_elegidos) >= 5:
+        ataques_elegidos = 0
+        #proceso para agregar pokemones
+        desea_seguir_pokemones = input("Desea seguir agregando pokemones[Si/No]: ").title
+        while desea_seguir_pokemones not in["Si", "No"]:
+            desea_seguir_pokemones = input("No elegio una respusta valida. Desea seguir agregando pokemones[Si/No]:  ").title
+        if desea_seguir_pokemones == "Si":
+            pass
+        
+        elif desea_seguir_pokemones == "No":
+            break
+
+        if len(pokemones_elegidos) == 5:
+            terminaste = input("Desea borrar alguno?[Si/No]: ").title
+            while terminaste not in["Si", "No"]:
+                terminaste = input("No elegio una respusta valida. Desea seguir agregando pokemones[Si/No]:  ").title
+            if terminaste ==  "No":
+                nro_pokemon_seleccionado = input("Ingrese el numero de pokemon que quiere borrar: ")
+                while nro_pokemon_seleccionado not in pokemones_elegidos:
+                    nro_pokemon_seleccionado = input("Ese no es un pokemon que eligio. Ingrese el numero de pokemon que quiere borrar: ")
+                pokemones_elegidos.remove(nro_pokemon_seleccionado)
+
+    return juego
+    
+    
 def un_equipo(nro_equipo):
     """
     nombre = 'Omega' #Acá implementación del nombre del pokemon
