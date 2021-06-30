@@ -295,6 +295,7 @@ def creador_equipo():
 def menu_creador(pag_pok, pag_equ):
     """
     Dibuja el menú creador y llama a creador_equipo().
+    Escribe los resultados de creador_equipo() en 'equipos.csv'
     """
     gamelib.draw_begin()
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
@@ -303,7 +304,16 @@ def menu_creador(pag_pok, pag_equ):
     gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
     gamelib.draw_end()
     nombre_equipo, pokemones, poderes = creador_equipo()
-    return 'Individual Equipo', pag_pok, pag_equ
+    #nombre_equipo, pokemones, poderes = 'hola', ['pikachu', 'charmander'], ['relampago', 'trueno']
+    nombre_equipo += ';'
+
+    for i in range (len(pokemones)):
+        nombre_equipo += pokemones[i] + ';' + poderes[i] + ';'
+
+    with open('equipos.csv', 'a') as archivo:
+        archivo.write('\n'+nombre_equipo)
+
+    return menu_equipos(pag_pok, pag_equ)
 
 def navegacion(x, y, juego):
     """
