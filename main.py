@@ -7,7 +7,7 @@ def main():
 
     while gamelib.is_alive():
 
-        if juego == 'menu principal':
+        if juego[0] == 'menu principal':
             #print ('funca')
             menu_principal()
 
@@ -21,10 +21,10 @@ def main():
 
         if ev.type == gamelib.EventType.ButtonPress:
             x, y = ev.x, ev.y 
-            print (f'x {x}, y {y}') #debug
+            #print (f'x {x}, y {y}') #debug
             #juego = juego_actualizar(juego, x, y)
             #print (juego)
             juego = navegacion(x, y, juego) #le cambié el nombre a la funcion
-            print ('Juego', juego)
+            #print ('Juego', juego)
 
 gamelib.init(main)
