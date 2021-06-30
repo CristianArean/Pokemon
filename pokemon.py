@@ -93,8 +93,8 @@ def menu_principal():
     gamelib.draw_text('De Ditto, Arean y Langer', ANCHO_VENTANA // 2, ALTO_VENTANA - 2*TITLE_Y//3, fill='white', size=10, anchor='n')
     gamelib.draw_rectangle(MRG_HORZ_BOTONES, BTN_Y1, ANCHO_VENTANA // 2 -  ESP_ENTRE_BOTON, BTN_Y2) #Rectangulo de botón izq.
     gamelib.draw_rectangle(ANCHO_VENTANA // 2 + ESP_ENTRE_BOTON, BTN_Y1, ANCHO_VENTANA - MRG_HORZ_BOTONES, BTN_Y2) #Rectangulo de botón der.
-    gamelib.draw_text('POKEMONES', MRG_HORZ_BOTONES, ALTO_VENTANA // 2 - ALTO_BOTONES, fill='black', size=25, anchor='nw') #Texto de botón izq.
-    gamelib.draw_text('EQUIPOS', ANCHO_VENTANA // 2 +  ESP_ENTRE_BOTON, ALTO_VENTANA // 2 - ALTO_BOTONES, fill='black', size=25, anchor='nw') #Texto de botón der.
+    gamelib.draw_text('POKEMONES', MRG_HORZ_BOTONES*2, ALTO_VENTANA // 2 - 5*ALTO_BOTONES//6, fill='black', size=25, anchor='nw') #Texto de botón izq.
+    gamelib.draw_text('EQUIPOS', ANCHO_VENTANA // 2 +  2*ESP_ENTRE_BOTON + MRG_HORZ_BOTONES, ALTO_VENTANA // 2 - 5*ALTO_BOTONES//6, fill='black', size=25, anchor='nw') #Texto de botón der.
     gamelib.draw_end()
     menu_memorizado = 'menu principal'
     return 'menu principal', 0, 0
@@ -150,9 +150,9 @@ def cuadritos_pokemones(pag_pok, pag_equ):
                 except KeyError:
                     nombre = ''
 
-                gamelib.draw_text(nombre, MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=8, anchor='nw')
-    gamelib.draw_text('<-', MRG_CUADRITOS_IZQ, MRG_CUADRITOS_SUP, fill='black', size=30, anchor='nw')
-    gamelib.draw_text('->', MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (NRO_COLUMNAS) + XY_CUADRITO * NRO_COLUMNAS, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (NRO_FILAS) + XY_CUADRITO * NRO_FILAS, fill='black', size=30, anchor='se')
+                gamelib.draw_text(nombre, ESP_ENTRE_CUADROS + MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=11, anchor='nw')
+    gamelib.draw_text('<-', BOTON_RETROCESO + MRG_CUADRITOS_IZQ, BOTON_RETROCESO + MRG_CUADRITOS_SUP, fill='black', size=30, anchor='nw')
+    gamelib.draw_text('->', MRG_CUADRITOS_IZQ - BOTON_RETROCESO + ESP_ENTRE_CUADROS * (NRO_COLUMNAS) + XY_CUADRITO * NRO_COLUMNAS, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (NRO_FILAS) + XY_CUADRITO * NRO_FILAS - BOTON_RETROCESO, fill='black', size=30, anchor='se')
 
 def cuadritos_equipos(pag_pok, pag_equ): 
     """
@@ -168,7 +168,7 @@ def cuadritos_equipos(pag_pok, pag_equ):
             if i == VACIO and j == VACIO:
                 continue
             if i == VACIO and j == 1:
-                gamelib.draw_text('+', MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=12, anchor='nw')
+                gamelib.draw_text('+', ESP_ENTRE_CUADROS*3.5 + MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, BOTON_RETROCESO + MRG_CUADRITOS_SUP*1.1, fill='black', size=28, anchor='nw')
             elif i == 3 and j == 6:
                 continue
             else: 
@@ -179,9 +179,9 @@ def cuadritos_equipos(pag_pok, pag_equ):
                 except KeyError:
                     nombre = ''
 
-                gamelib.draw_text(nombre, MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=8, anchor='nw')
-    gamelib.draw_text('<-', MRG_CUADRITOS_IZQ, MRG_CUADRITOS_SUP, fill='black', size=30, anchor='nw')
-    gamelib.draw_text('->', MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (NRO_COLUMNAS) + XY_CUADRITO * NRO_COLUMNAS, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (NRO_FILAS) + XY_CUADRITO * NRO_FILAS, fill='black', size=30, anchor='se')
+                gamelib.draw_text(nombre, ESP_ENTRE_CUADROS + MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=11, anchor='nw')
+    gamelib.draw_text('<-', BOTON_RETROCESO + MRG_CUADRITOS_IZQ, BOTON_RETROCESO + MRG_CUADRITOS_SUP, fill='black', size=30, anchor='nw')
+    gamelib.draw_text('->', MRG_CUADRITOS_IZQ - BOTON_RETROCESO + ESP_ENTRE_CUADROS * (NRO_COLUMNAS) + XY_CUADRITO * NRO_COLUMNAS, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (NRO_FILAS) + XY_CUADRITO * NRO_FILAS - BOTON_RETROCESO, fill='black', size=30, anchor='se')
 
 def un_pokemon(nro_pokemon, pag_pok, pag_equ):
     """
@@ -267,8 +267,7 @@ def creador_equipo():
     for monstruo in pokemones_elegidos:
         info = lector_movimientos(monstruo, 'movimientos.csv')
         lista_movimientos = info[1].split(',')
-        #poderes_elegidos.append([])
-        
+        #poderes_elegidos.append([])    
     #agregar cómo se escribe al equipos
         while len(pokemones_elegidos) >= 1 or len(poderes_elegidos) <5  and desea_seguir_poderes == "SI":
             elegido_poderes = simpledialog.askstring("poderes", "que pokemon desea elegir?")
