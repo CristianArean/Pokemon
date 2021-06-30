@@ -1,7 +1,7 @@
-import gamelib
-import classpokemon
+from gamelib import *
 from tda import Pila 
 from tda import Cola
+import tkinter as tk
 #from classpokemon import *
 
 ANCHO_VENTANA = 900
@@ -19,6 +19,7 @@ MRG_CUADRITOS_SUP = 90
 MRG_CUADRITOS_IZQ = 70
 ESP_ENTRE_CUADROS = 10
 BOTON_RETROCESO = 30
+root = tk()
 
 def crear_juego():
     menu_memorizado = 'menu principal'
@@ -143,6 +144,32 @@ def un_equipo(nro_equipo, pag_pok, pag_equ):
     menu_memorizado = 'Individual Equipo', pag_pok, pag_equ
     return 'Individual Equipo', pag_pok, pag_equ
 
+def creador_equipo(juego):
+    pokemones_elegidos = []
+    nombre_equipo = input("Ingrese el nombre del equipo")
+    while len(pokemones_elegidos) >= 5:
+        ataques_elegidos = 0
+        #proceso para agregar pokemones
+        desea_seguir_pokemones = simpledialog.askstring("pokemones", "desea seguir agregando pokemones?[Si/No]").title()
+        while desea_seguir_pokemones not in["Si", "No"]:
+            desea_seguir_pokemones = simpledialog.askstring("pokemones", "No eligio una respusta valida. Desea seguir agregando pokemones[Si/No]").title()
+        if desea_seguir_pokemones == "Si":
+            pass
+        
+        elif desea_seguir_pokemones == "No":
+            break
+
+        if len(pokemones_elegidos) == 5:
+            terminaste = clicker_pokemones()
+            while terminaste not in["Si", "No"]:
+                terminaste = clicker_pokemones()
+            if terminaste ==  "No":
+                nro_pokemon_seleccionado = simpledialog.askstring("pokemones", "Ingrese el numero de pokemon que desea borrar").title()
+                while nro_pokemon_seleccionado not in pokemones_elegidos:
+                    nro_pokemon_seleccionado = simpledialog.askstring("pokemones", "Ese no es un pokemon que eligio. Ingrese el numero de pokemon que quiere borrar:").title()
+                pokemones_elegidos.remove(nro_pokemon_seleccionado)
+
+    pass
 def navegacion(x, y, juego):
 
     print (juego)
