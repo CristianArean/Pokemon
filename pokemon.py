@@ -199,24 +199,24 @@ def creador_equipo():
     #agregar cómo se escribe al equipos
         while len(pokemones_elegidos) >= 1 or len(poderes_elegidos) <=5  and desea_seguir_poderes == "SI":
             elegido_poderes = simpledialog.askstring("poderes", "que pokemon desea elegir?")
-        while elegido_poderes is not elegido_poderes.isdigit():
-            elegido_poderes = simpledialog.askstring("poderes", "Ingreso un carater no numerico. Que pokemon desea elegir?")
-        poderes_elegidos.append(int(elegido_poderes)) #se agrega el poder
-        if len(poderes_elegidos) != 0: #si la lista tiene algun elemento te pregunta si queres borrar
-            desea_eliminar_poderes = simpledialog.askstring("poderes", "Desea borrar algun poder?[SI/NO]").upper()
-            while desea_eliminar_poderes not in["SI", "NO"]:
-                desea_eliminar_poderes = simpledialog.askstring("poderes", "Ingreso una respuesta incorrecta. Desea borrar algun pokemon?[SI/NO]")
-            if desea_eliminar_poderes == "SI": #pregunta que poderes queremos eliminar
-                poder_a_eliminar = simpledialog.askstring("poderes", "Ingrese el numero de pokemon que desea borrar")
-                while not poder_a_eliminar is poder_a_eliminar.isdigit() and poder_a_eliminar not in poderes_elegidos:
-                    poder_a_eliminar = simpledialog.askstring("poderes", "El caracter es invalido o no posee ese poder. Ingrese el numero de pokemon que desea borrar")
-                pokemones_elegidos.remove(int(poder_a_eliminar))
-            elif desea_eliminar_poderes == "NO":
-                continue #acá habia dudas
+            while elegido_poderes is not elegido_poderes.isdigit():
+                elegido_poderes = simpledialog.askstring("poderes", "Ingreso un carater no numerico. Que pokemon desea elegir?")
+            poderes_elegidos.append(int(elegido_poderes)) #se agrega el poder
+            if len(poderes_elegidos) != 0: #si la lista tiene algun elemento te pregunta si queres borrar
+                desea_eliminar_poderes = simpledialog.askstring("poderes", "Desea borrar algun poder?[SI/NO]").upper()
+                while desea_eliminar_poderes not in["SI", "NO"]:
+                    desea_eliminar_poderes = simpledialog.askstring("poderes", "Ingreso una respuesta incorrecta. Desea borrar algun pokemon?[SI/NO]")
+                if desea_eliminar_poderes == "SI": #pregunta que poderes queremos eliminar
+                    poder_a_eliminar = simpledialog.askstring("poderes", "Ingrese el numero de pokemon que desea borrar")
+                    while not poder_a_eliminar is poder_a_eliminar.isdigit() and poder_a_eliminar not in poderes_elegidos:
+                        poder_a_eliminar = simpledialog.askstring("poderes", "El caracter es invalido o no posee ese poder. Ingrese el numero de pokemon que desea borrar")
+                    pokemones_elegidos.remove(int(poder_a_eliminar))
+                elif desea_eliminar_poderes == "NO":
+                    continue #acá habia dudas
         #te pregunta si queres agregar poderes
-        desea_seguir_poderes = simpledialog.askstring("poderes", "desea seguir agregando poderes?[SI/NO]").upper()
-        while desea_seguir_poderes not in["SI", "NO"]:
-            desea_seguir_poderes = simpledialog.askstring("poderes", "No eligio una respusta valida. Desea seguir agregando poderes[SI/NO]").upper()
+            desea_seguir_poderes = simpledialog.askstring("poderes", "desea seguir agregando poderes?[SI/NO]").upper()
+            while desea_seguir_poderes not in["SI", "NO"]:
+                desea_seguir_poderes = simpledialog.askstring("poderes", "No eligio una respusta valida. Desea seguir agregando poderes[SI/NO]").upper()
 
     return nombre_equipo, pokemones_elegidos, poderes_elegidos
 
