@@ -15,15 +15,15 @@ NRO_COLUMNAS = 7
 NRO_FILAS = 4
 
 TITLE_Y = 70 
-MRG_HORZ_BOTONES = 70
+MARGEN_ENTRE_BOTONES = 70
 ALTO_BOTONES = 50
-ESP_ENTRE_BOTON = 30
-BTN_Y1 = ALTO_VENTANA // 2 - ALTO_BOTONES
-BTN_Y2 = ALTO_VENTANA // 2
+ESPACIO_ENTRE_BOTONES = 30
+BOTON_Y1 = ALTO_VENTANA // 2 - ALTO_BOTONES
+BOTON_Y2 = ALTO_VENTANA // 2
 XY_CUADRITO = 100
-MRG_CUADRITOS_SUP = 90
-MRG_CUADRITOS_IZQ = 70
-ESP_ENTRE_CUADROS = 10
+MARGEN_CUADRITOS_SUPERIOR = 90
+MARGEN_CUADRITOS_IZQUIERDO = 70
+ESPACIO_ENTRE_CUADROS = 10
 BOTON_RETROCESO = 30
 FRANJA_AZUL_Y = 88
 
@@ -105,10 +105,10 @@ def menu_principal():
     gamelib.draw_rectangle(VACIO, ALTO_VENTANA - FRANJA_AZUL_Y, ANCHO_VENTANA, ALTO_VENTANA, fill = '#0d1364')
     gamelib.draw_text('POKEDEX', ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
     gamelib.draw_text('De Ditto, Arean y Langer', ANCHO_VENTANA // 2, ALTO_VENTANA - 2*TITLE_Y//3, fill='white', size=10, anchor='n')
-    gamelib.draw_rectangle(MRG_HORZ_BOTONES, BTN_Y1, ANCHO_VENTANA // 2 -  ESP_ENTRE_BOTON, BTN_Y2) #Rectangulo de botón izq.
-    gamelib.draw_rectangle(ANCHO_VENTANA // 2 + ESP_ENTRE_BOTON, BTN_Y1, ANCHO_VENTANA - MRG_HORZ_BOTONES, BTN_Y2) #Rectangulo de botón der.
-    gamelib.draw_text('POKEMONES', MRG_HORZ_BOTONES*2, ALTO_VENTANA // 2 - 5*ALTO_BOTONES//6, fill='black', size=25, anchor='nw') #Texto de botón izq.
-    gamelib.draw_text('EQUIPOS', ANCHO_VENTANA // 2 +  2*ESP_ENTRE_BOTON + MRG_HORZ_BOTONES, ALTO_VENTANA // 2 - 5*ALTO_BOTONES//6, fill='black', size=25, anchor='nw') #Texto de botón der.
+    gamelib.draw_rectangle(MARGEN_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA // 2 -  ESPACIO_ENTRE_BOTONES, BOTON_Y2) #Rectangulo de botón izq.
+    gamelib.draw_rectangle(ANCHO_VENTANA // 2 + ESPACIO_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA - MARGEN_ENTRE_BOTONES, BOTON_Y2) #Rectangulo de botón der.
+    gamelib.draw_text('POKEMONES', MARGEN_ENTRE_BOTONES*2, ALTO_VENTANA // 2 - 5*ALTO_BOTONES//6, fill='black', size=25, anchor='nw') #Texto de botón izq.
+    gamelib.draw_text('EQUIPOS', ANCHO_VENTANA // 2 +  2*ESPACIO_ENTRE_BOTONES + MARGEN_ENTRE_BOTONES, ALTO_VENTANA // 2 - 5*ALTO_BOTONES//6, fill='black', size=25, anchor='nw') #Texto de botón der.
     gamelib.draw_end()
     menu_memorizado = 'menu principal'
     return 'menu principal', 0, 0
@@ -150,7 +150,7 @@ def cuadritos_pokemones(pag_pok, pag_equ):
 
     for i in range (NRO_FILAS): 
         for j in range (NRO_COLUMNAS): 
-            gamelib.draw_rectangle(MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j + XY_CUADRITO, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i + XY_CUADRITO, fill='#f1f8ff')
+            gamelib.draw_rectangle(MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j + XY_CUADRITO, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i + XY_CUADRITO, fill='#f1f8ff')
             
             if i == VACIO and j == VACIO:
                 continue
@@ -164,9 +164,9 @@ def cuadritos_pokemones(pag_pok, pag_equ):
                 except KeyError:
                     nombre = ''
 
-                gamelib.draw_text(nombre, ESP_ENTRE_CUADROS + MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=11, anchor='nw')
-    gamelib.draw_text('<-', BOTON_RETROCESO + MRG_CUADRITOS_IZQ, BOTON_RETROCESO + MRG_CUADRITOS_SUP, fill='black', size=30, anchor='nw')
-    gamelib.draw_text('->', MRG_CUADRITOS_IZQ - BOTON_RETROCESO + ESP_ENTRE_CUADROS * (NRO_COLUMNAS) + XY_CUADRITO * NRO_COLUMNAS, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (NRO_FILAS) + XY_CUADRITO * NRO_FILAS - BOTON_RETROCESO, fill='black', size=30, anchor='se')
+                gamelib.draw_text(nombre, ESPACIO_ENTRE_CUADROS + MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=11, anchor='nw')
+    gamelib.draw_text('<-', BOTON_RETROCESO + MARGEN_CUADRITOS_IZQUIERDO, BOTON_RETROCESO + MARGEN_CUADRITOS_SUPERIOR, fill='black', size=30, anchor='nw')
+    gamelib.draw_text('->', MARGEN_CUADRITOS_IZQUIERDO - BOTON_RETROCESO + ESPACIO_ENTRE_CUADROS * (NRO_COLUMNAS) + XY_CUADRITO * NRO_COLUMNAS, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (NRO_FILAS) + XY_CUADRITO * NRO_FILAS - BOTON_RETROCESO, fill='black', size=30, anchor='se')
 
 def cuadritos_equipos(pag_pok, pag_equ): 
     """
@@ -176,12 +176,12 @@ def cuadritos_equipos(pag_pok, pag_equ):
 
     for i in range (NRO_FILAS): 
         for j in range (NRO_COLUMNAS): 
-            gamelib.draw_rectangle(MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j + XY_CUADRITO, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i + XY_CUADRITO, fill='#f1f8ff')
+            gamelib.draw_rectangle(MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j + XY_CUADRITO, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i + XY_CUADRITO, fill='#f1f8ff')
             
             if i == VACIO and j == VACIO:
                 continue
             if i == VACIO and j == 1:
-                gamelib.draw_text('+', ESP_ENTRE_CUADROS*3.5 + MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, BOTON_RETROCESO + MRG_CUADRITOS_SUP*1.1, fill='black', size=28, anchor='nw')
+                gamelib.draw_text('+', ESPACIO_ENTRE_CUADROS*3.5 + MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, BOTON_RETROCESO + MARGEN_CUADRITOS_SUPERIOR*1.1, fill='black', size=28, anchor='nw')
             elif i == 3 and j == 6:
                 continue
             else: 
@@ -192,9 +192,9 @@ def cuadritos_equipos(pag_pok, pag_equ):
                 except KeyError:
                     nombre = ''
 
-                gamelib.draw_text(nombre, ESP_ENTRE_CUADROS + MRG_CUADRITOS_IZQ + ESP_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=11, anchor='nw')
-    gamelib.draw_text('<-', BOTON_RETROCESO + MRG_CUADRITOS_IZQ, BOTON_RETROCESO + MRG_CUADRITOS_SUP, fill='black', size=30, anchor='nw')
-    gamelib.draw_text('->', MRG_CUADRITOS_IZQ - BOTON_RETROCESO + ESP_ENTRE_CUADROS * (NRO_COLUMNAS) + XY_CUADRITO * NRO_COLUMNAS, MRG_CUADRITOS_SUP + ESP_ENTRE_CUADROS * (NRO_FILAS) + XY_CUADRITO * NRO_FILAS - BOTON_RETROCESO, fill='black', size=30, anchor='se')
+                gamelib.draw_text(nombre, ESPACIO_ENTRE_CUADROS + MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=11, anchor='nw')
+    gamelib.draw_text('<-', BOTON_RETROCESO + MARGEN_CUADRITOS_IZQUIERDO, BOTON_RETROCESO + MARGEN_CUADRITOS_SUPERIOR, fill='black', size=30, anchor='nw')
+    gamelib.draw_text('->', MARGEN_CUADRITOS_IZQUIERDO - BOTON_RETROCESO + ESPACIO_ENTRE_CUADROS * (NRO_COLUMNAS) + XY_CUADRITO * NRO_COLUMNAS, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (NRO_FILAS) + XY_CUADRITO * NRO_FILAS - BOTON_RETROCESO, fill='black', size=30, anchor='se')
 
 def un_pokemon(nro_pokemon, pag_pok, pag_equ):
     """
@@ -351,11 +351,11 @@ def navegacion(x, y, juego):
         p_pok = juego [1]
         p_equ = juego [2]
 
-        if x > ANCHO_VENTANA // 2 + ESP_ENTRE_BOTON and x < ANCHO_VENTANA - MRG_HORZ_BOTONES \
-        and y > BTN_Y1 and y < BTN_Y2: 
+        if x > ANCHO_VENTANA // 2 + ESPACIO_ENTRE_BOTONES and x < ANCHO_VENTANA - MARGEN_ENTRE_BOTONES \
+        and y > BOTON_Y1 and y < BOTON_Y2: 
             return menu_equipos(p_pok, p_equ) 
-        elif x > MRG_HORZ_BOTONES and x < ANCHO_VENTANA // 2 -  ESP_ENTRE_BOTON \
-        and y > BTN_Y1 and y < BTN_Y2:
+        elif x > MARGEN_ENTRE_BOTONES and x < ANCHO_VENTANA // 2 -  ESPACIO_ENTRE_BOTONES \
+        and y > BOTON_Y1 and y < BOTON_Y2:
             return menu_pokemones(p_pok, p_equ)
 
     elif juego[0] == 'menu Pokemones':
@@ -369,8 +369,8 @@ def navegacion(x, y, juego):
         if x > ANCHO_VENTANA - BOTON_RETROCESO*2 and y > BOTON_RETROCESO and x < ANCHO_VENTANA - BOTON_RETROCESO and y < BOTON_RETROCESO*2:
             return buscador_particular(pag_pok, pag_equ) #BOTON NARANJA
 
-        xcuadro = (x - MRG_CUADRITOS_IZQ) // (XY_CUADRITO + ESP_ENTRE_CUADROS)
-        ycuadro = (y - MRG_CUADRITOS_SUP) // (XY_CUADRITO + ESP_ENTRE_CUADROS)
+        xcuadro = (x - MARGEN_CUADRITOS_IZQUIERDO) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
+        ycuadro = (y - MARGEN_CUADRITOS_SUPERIOR) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
         nro_pokemon = ycuadro * NRO_COLUMNAS + xcuadro + pag_pok*26
 
         if (nro_pokemon - pag_pok*26) == 0:
@@ -388,8 +388,8 @@ def navegacion(x, y, juego):
         and y > BOTON_RETROCESO and y < BOTON_RETROCESO*2:
             return menu_principal() #BOTON ROJO
             
-        xcuadro = (x - MRG_CUADRITOS_IZQ) // (XY_CUADRITO + ESP_ENTRE_CUADROS)
-        ycuadro = (y - MRG_CUADRITOS_SUP) // (XY_CUADRITO + ESP_ENTRE_CUADROS)
+        xcuadro = (x - MARGEN_CUADRITOS_IZQUIERDO) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
+        ycuadro = (y - MARGEN_CUADRITOS_SUPERIOR) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
         nro_equipo = ycuadro * NRO_COLUMNAS + xcuadro + pag_equ*26
         if (nro_equipo - pag_equ*26) == 0:
             if pag_equ > 0: return menu_equipos(pag_pok, pag_equ-1)
