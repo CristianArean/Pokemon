@@ -26,6 +26,7 @@ MARGEN_CUADRITOS_IZQUIERDO = 70
 ESPACIO_ENTRE_CUADROS = 10
 BOTON_RETROCESO = 30
 FRANJA_AZUL_Y = 88
+BOTON_ROJO = BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2
 
 def crear_juego():
     """
@@ -122,7 +123,7 @@ def menu_pokemones(pag_pok, pag_equ):
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill = '#0d1364')
     gamelib.draw_text('POKEMONES', ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
     cuadritos_pokemones(pag_pok, pag_equ)
-    gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red') # BOTON ROJO
+    gamelib.draw_rectangle(BOTON_ROJO, fill = 'red') # BOTON ROJO
     gamelib.draw_rectangle(ANCHO_VENTANA - BOTON_RETROCESO*2, BOTON_RETROCESO, ANCHO_VENTANA - BOTON_RETROCESO, BOTON_RETROCESO*2, fill = 'orange') #BOTON NARANJA
     gamelib.draw_end()
     menu_memorizado = 'menu Pokemones', pag_pok, pag_equ
