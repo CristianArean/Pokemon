@@ -1,4 +1,5 @@
 import gamelib
+import lectores
 from tda import Pila 
 from tda import Cola
 from tkinter import simpledialog
@@ -45,47 +46,6 @@ def crear_juego():
         for _ in range (1):
             archivo.writelines('equipo_nombre;integrante1;movimientos1;integrante2;movimientos2;integrante3;movimientos3;integrante4;movimientos4;integrante5;movimientos5;integrante6;movimientos6')
     return 'menu principal', 0, 0
-
-def lector(nros, nombre_archivo): 
-    """
-    Lee el archivo ingresado por parametro, ignora la primera linea y retorna un diccionario con el numero de linea como llave
-    El diccionario contiene toda la info del rango de lineas solicitado (en forma de lista). Si es necesaria la información de solo una linea, 
-    debe ingresarse una lista con esa unica linea repetida.
-    """
-    lineas_solicitadas = Cola()
-    minimo = min(nros)
-    maximo = max(nros)
-    contador = -1
-    rta = {}
-
-    with open(nombre_archivo) as archivo:
-        for _ in range (maximo+1):
-            linea = archivo.readline().rstrip('\n')
-            lineas_solicitadas.encolar(linea)
-            contador += 1
-            if contador == (maximo - minimo +1):
-                lineas_solicitadas.desencolar()
-                contador -= 1
-
-    while not lineas_solicitadas.esta_vacia():
-        lista_atributos = (lineas_solicitadas.desencolar()).split(';')
-        rta[lista_atributos[0]] = lista_atributos
-    return rta
-
-def lector_movimientos(nro, nombre_archivo):
-    """
-    Lee el archivo ingresado por parametro, ignora la primera linea y retorna un diccionario con el numero de linea como llave.
-    El diccionario contiene todos los movimientos del pokemon solicitado.
-    Retorna la información de solo un pokemon.
-    """
-    contador = 1
-
-    with open(nombre_archivo) as archivo:
-        for linea in archivo:
-            leido = linea.readline()
-            contador += 1
-            if contador == nro:
-                return leido.split(';')
 
 def buscador_particular(pag_pok, pag_equ):
     numero = 'not numero bro'
@@ -147,7 +107,7 @@ def cuadritos_pokemones(pag_pok, pag_equ):
     """
     Dibuja la visualización general de pokemones tomando información de 'pokemons.csv'.
     """
-    nro_pok_nombre = lector([pag_pok*NRO_FILAS*NRO_COLUMNAS -10, pag_pok*NRO_FILAS*NRO_COLUMNAS +28], pokemons) 
+    nro_pok_nombre = lectores.lector([pag_pok*NRO_FILAS*NRO_COLUMNAS -10, pag_pok*NRO_FILAS*NRO_COLUMNAS +28], pokemons) 
 
     for i in range (NRO_FILAS): 
         for j in range (NRO_COLUMNAS): 
@@ -173,7 +133,7 @@ def cuadritos_equipos(pag_pok, pag_equ):
     """
     Dibuja la visualización general de equipos tomando información de 'equipos.csv'.
     """
-    nro_pok_nombre = lector([pag_equ*NRO_FILAS*NRO_COLUMNAS -10, pag_equ*NRO_FILAS*NRO_COLUMNAS +28], equipos) 
+    nro_pok_nombre = lectores.lector([pag_equ*NRO_FILAS*NRO_COLUMNAS -10, pag_equ*NRO_FILAS*NRO_COLUMNAS +28], equipos) 
 
     for i in range (NRO_FILAS): 
         for j in range (NRO_COLUMNAS): 
@@ -202,7 +162,7 @@ def un_pokemon(nro_pokemon, pag_pok, pag_equ):
     Dibuja toda la información del pokemon que recibe por parámetro.
     """
     try:
-        info = lector([nro_pokemon, nro_pokemon], pokemons)
+        info = lectores.lector([nro_pokemon, nro_pokemon], pokemons)
         contenido = info[str(nro_pokemon)]
         gamelib.draw_begin()
         gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
@@ -227,7 +187,7 @@ def un_equipo(nro_equipo, pag_pok, pag_equ):
     Dibuja toda la información del equipo que recibe por parámetro.
     """
     try:
-        info = lector([nro_equipo, nro_equipo], equipos)
+        info = lectores.lector([nro_equipo, nro_equipo], equipos)
         contenido = info[str(nro_equipo)]
         gamelib.draw_begin()
         gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
@@ -283,7 +243,7 @@ def creador_equipo():
         while desea_seguir_pokemones not in["SI", "NO"]:
             desea_seguir_pokemones = simpledialog.askstring("pokemones", "No eligio una respusta valida. Desea seguir agregando pokemones[SI/NO]").upper()
     for monstruo in pokemones_elegidos:
-        info = lector_movimientos(monstruo, movimientos)
+        info = lectores.lector_movimientos(monstruo, movimientos)
         lista_movimientos = info[1].split(',')
         #poderes_elegidos.append([])    
     #agregar cómo se escribe al equipos
