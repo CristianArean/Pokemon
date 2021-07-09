@@ -1,12 +1,16 @@
-from pokemon import * 
+import pokemon
+from pokemon import gamelib
+
+ANCHO_VENTANA = 900
+ALTO_VENTANA = 600
 
 def main():
-    juego = crear_juego()
+    juego = pokemon.crear_juego()
     gamelib.resize(ANCHO_VENTANA, ALTO_VENTANA)
 
     while gamelib.is_alive():
         if juego[0] == 'menu principal':
-            menu_principal()
+            pokemon.menu_principal()
 
         ev = gamelib.wait()
 
@@ -18,6 +22,6 @@ def main():
 
         if ev.type == gamelib.EventType.ButtonPress:
             x, y = ev.x, ev.y 
-            juego = navegacion(x, y, juego)
+            juego = pokemon.navegacion(x, y, juego)
 
 gamelib.init(main)
