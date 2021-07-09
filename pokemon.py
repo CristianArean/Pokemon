@@ -25,7 +25,9 @@ MARGEN_CUADRITOS_IZQUIERDO = 70
 ESPACIO_ENTRE_CUADROS = 10
 BOTON_RETROCESO = 30
 FRANJA_AZUL_Y = 88
-BOTON_ROJO = BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2
+
+BOTON_ROJO = BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO * 2, BOTON_RETROCESO * 2
+BOTON_NARANJA = ANCHO_VENTANA - BOTON_RETROCESO * 2, BOTON_RETROCESO, ANCHO_VENTANA - BOTON_RETROCESO, BOTON_RETROCESO * 2
 
 def crear_juego():
     """
@@ -58,46 +60,60 @@ def menu_principal():
     """
     Dibuja el menú principal.
     """
+    CREDITOS_X, CREDITOS_Y = ANCHO_VENTANA // 2, ALTO_VENTANA - 2 * TITLE_Y // 3 #POSICIÓN CREDITOS
+    BOTON_IZQ_X1, BOTON_IZQ_Y1, BOTON_IZQ_X2, BOTON_IZQ_Y2 = MARGEN_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA // 2 -  ESPACIO_ENTRE_BOTONES, BOTON_Y2
+    BOTON_DER_X1, BOTON_DER_Y1, BOTON_DER_X2, BOTON_DER_Y2 = ANCHO_VENTANA // 2 + ESPACIO_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA - MARGEN_ENTRE_BOTONES, BOTON_Y2
+    TEXTO_IZQ_X, TEXTO_IZQ_Y = MARGEN_ENTRE_BOTONES * 2, ALTO_VENTANA // 2 - 5 * ALTO_BOTONES // 6
+    TEXTO_DER_X, TEXTO_DER_Y = ANCHO_VENTANA // 2 +  2 * ESPACIO_ENTRE_BOTONES + MARGEN_ENTRE_BOTONES, ALTO_VENTANA // 2 - 5*ALTO_BOTONES//6
+    
     gamelib.draw_begin()
-    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill = '#0d1364')
-    gamelib.draw_rectangle(VACIO, ALTO_VENTANA - FRANJA_AZUL_Y, ANCHO_VENTANA, ALTO_VENTANA, fill = '#0d1364')
-    gamelib.draw_text('POKEDEX', ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
-    gamelib.draw_text('De Ditto, Arean y Langer', ANCHO_VENTANA // 2, ALTO_VENTANA - 2*TITLE_Y//3, fill='white', size=10, anchor='n')
-    gamelib.draw_rectangle(MARGEN_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA // 2 -  ESPACIO_ENTRE_BOTONES, BOTON_Y2) #Rectangulo de botón izq.
-    gamelib.draw_rectangle(ANCHO_VENTANA // 2 + ESPACIO_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA - MARGEN_ENTRE_BOTONES, BOTON_Y2) #Rectangulo de botón der.
-    gamelib.draw_text('POKEMONES', MARGEN_ENTRE_BOTONES*2, ALTO_VENTANA // 2 - 5*ALTO_BOTONES//6, fill='black', size=25, anchor='nw') #Texto de botón izq.
-    gamelib.draw_text('EQUIPOS', ANCHO_VENTANA // 2 +  2*ESPACIO_ENTRE_BOTONES + MARGEN_ENTRE_BOTONES, ALTO_VENTANA // 2 - 5*ALTO_BOTONES//6, fill='black', size=25, anchor='nw') #Texto de botón der.
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA) #FONDO BLANCO
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill = '#0d1364') #FRANJA SUPERIOR AZUL
+    gamelib.draw_rectangle(VACIO, ALTO_VENTANA - FRANJA_AZUL_Y, ANCHO_VENTANA, ALTO_VENTANA, fill = '#0d1364') #FRANJA INFERIOR AZUL
+    gamelib.draw_rectangle(BOTON_IZQ_X1, BOTON_IZQ_Y1, BOTON_IZQ_X2, BOTON_IZQ_Y2) #BOTÓN TITULO "POKEMONES"
+    gamelib.draw_rectangle(BOTON_DER_X1, BOTON_DER_Y1, BOTON_DER_X2, BOTON_DER_Y2) #BOTÓN TITULO "EQUIPOS"
+    gamelib.draw_text('POKEDEX', ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s') #TITULO
+    gamelib.draw_text('De Ditto, Arean y Langer', CREDITOS_X, CREDITOS_Y, fill='white', size=10, anchor='n') #CREDITOS
+    gamelib.draw_text('POKEMONES', TEXTO_IZQ_X, TEXTO_IZQ_Y, fill='black', size=25, anchor='nw') #TEXTO "POKEMONES"
+    gamelib.draw_text('EQUIPOS', TEXTO_DER_X, TEXTO_DER_Y, fill='black', size=25, anchor='nw') #TEXTO "EQUIPOS"
     gamelib.draw_end()
-    menu_memorizado = 'menu principal'
-    return 'menu principal', 0, 0
+    
+    menu_memorizado = 'menu principal', 0, 0
+    return menu_memorizado
 
 def menu_pokemones(pag_pok, pag_equ): 
     """
     Dibuja el menú de pokemones.
-    """  
+    """
+    RX1, RY1, RX2, RY2 = BOTON_ROJO #RETROCEDE AL MENÚ ANTERIOR
+    NX1, NY1, NX2, NY2 = BOTON_NARANJA #ABRE UN MENSAJE PARA BUSCAR UN POKEMON PARTICULAR
+    
     gamelib.draw_begin()
-    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill = '#0d1364')
-    gamelib.draw_text('POKEMONES', ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA) #FONDO BLANCO
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill = '#0d1364') #FRANJA SUPERIOR AZUL
+    gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill = 'red') #BOTON ROJO
+    gamelib.draw_rectangle(NX1, NY1, NX2, NY2, fill = 'orange') #BOTON NARANJA
+    gamelib.draw_text('POKEMONES', ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s') #TEXTO "POKEMONES"
     cuadritos_pokemones(pag_pok, pag_equ)
-    gamelib.draw_rectangle(BOTON_ROJO, fill = 'red') # BOTON ROJO
-    gamelib.draw_rectangle(ANCHO_VENTANA - BOTON_RETROCESO*2, BOTON_RETROCESO, ANCHO_VENTANA - BOTON_RETROCESO, BOTON_RETROCESO*2, fill = 'orange') #BOTON NARANJA
     gamelib.draw_end()
+    
     menu_memorizado = 'menu Pokemones', pag_pok, pag_equ
-    return 'menu Pokemones', pag_pok, pag_equ
+    return menu_memorizado
 
 def menu_equipos(pag_pok, pag_equ): 
     """
     Dibuja el menú de equipos.
-    """ 
+    """
+    RX1, RY1, RX2, RY2 = BOTON_ROJO #RETROCEDE AL MENÚ ANTERIOR
+    
     gamelib.draw_begin()
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill = '#0d1364')
     gamelib.draw_text('EQUIPOS', ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
     cuadritos_equipos(pag_pok, pag_equ)
-    gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
+    gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill = 'red') #BOTON ROJO
     gamelib.draw_end()
+    
     menu_memorizado = 'menu Equipos', pag_pok, pag_equ
     return 'menu Equipos', pag_pok, pag_equ
 
@@ -159,6 +175,8 @@ def un_pokemon(nro_pokemon, pag_pok, pag_equ):
     """
     Dibuja toda la información del pokemon que recibe por parámetro.
     """
+    RX1, RY1, RX2, RY2 = BOTON_ROJO #RETROCEDE AL MENÚ ANTERIOR
+    
     try:
         info = lectores.lector([nro_pokemon, nro_pokemon], pokemons)
         contenido = info[str(nro_pokemon)]
@@ -175,7 +193,7 @@ def un_pokemon(nro_pokemon, pag_pok, pag_equ):
         gamelib.draw_text('SPD: '+contenido[9], 5* ANCHO_VENTANA // 10, 9 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w') 
         gamelib.draw_image(contenido[1], VACIO, ALTO_VENTANA // 4)
     finally:
-        gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
+        gamelib.draw_rectangle(RX1, RY1, RX2, RY2 = BOTON_ROJO, fill = 'red')
         gamelib.draw_end()
         menu_memorizado = 'Individual Pokemon', pag_pok, pag_equ
         return 'Individual Pokemon', pag_pok, pag_equ
@@ -184,6 +202,8 @@ def un_equipo(nro_equipo, pag_pok, pag_equ):
     """
     Dibuja toda la información del equipo que recibe por parámetro.
     """
+    RX1, RY1, RX2, RY2 = BOTON_ROJO #RETROCEDE AL MENÚ ANTERIOR
+    
     try:
         info = lectores.lector([nro_equipo, nro_equipo], equipos)
         contenido = info[str(nro_equipo)]
@@ -204,7 +224,7 @@ def un_equipo(nro_equipo, pag_pok, pag_equ):
         gamelib.draw_text(contenido[12], 1* ANCHO_VENTANA // 9, 7 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
         gamelib.draw_text(contenido[13], 8* ANCHO_VENTANA // 9, 7 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
     finally:
-        gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
+        gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill = 'red')
         gamelib.draw_end()
         menu_memorizado = 'Individual Equipo', pag_pok, pag_equ
         return 'Individual Equipo', pag_pok, pag_equ
@@ -306,6 +326,9 @@ def navegacion(x, y, juego):
     La función navegación llama a la función correcta dependiendo de 
     donde está parado el usuario en el pokedex y donde hizo click.
     """
+    RX1, RY1, RX2, RY2 = BOTON_ROJO
+    NX1, NY1, NX2, NY2 = BOTON_NARANJA
+    
     if juego[0] == 'menu principal':
         p_pok = juego [1]
         p_equ = juego [2]
@@ -375,4 +398,4 @@ def navegacion(x, y, juego):
         and y > BOTON_RETROCESO and y < BOTON_RETROCESO*2:
             return menu_equipos(pag_pok, pag_equ) #BOTON ROJO
 
-    return 'menu principal', 0, 0
+    return menu_memorizado
