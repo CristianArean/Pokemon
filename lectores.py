@@ -1,3 +1,6 @@
+from tda import Pila 
+from tda import Cola
+
 def lector(nros, nombre_archivo): 
     """
     Lee el archivo ingresado por parametro, ignora la primera linea y retorna un diccionario con el numero de linea como llave
