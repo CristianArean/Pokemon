@@ -34,8 +34,6 @@ def crear_juego():
     Crea el juego, retornando 'menu principal' y creando 'equipos.csv' si aún no existe. 
     Si 'equipos.csv' ya existe, será ultilizado para guardar los equipos ya guardados.
     """
-    menu_memorizado = 'menu principal'
-
     try:
         with open(equipos, 'x') as archivo:
             pass
@@ -64,7 +62,7 @@ def menu_principal():
     BOTON_IZQ_X1, BOTON_IZQ_Y1, BOTON_IZQ_X2, BOTON_IZQ_Y2 = MARGEN_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA // 2 -  ESPACIO_ENTRE_BOTONES, BOTON_Y2
     BOTON_DER_X1, BOTON_DER_Y1, BOTON_DER_X2, BOTON_DER_Y2 = ANCHO_VENTANA // 2 + ESPACIO_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA - MARGEN_ENTRE_BOTONES, BOTON_Y2
     TEXTO_IZQ_X, TEXTO_IZQ_Y = MARGEN_ENTRE_BOTONES * 2, ALTO_VENTANA // 2 - 5 * ALTO_BOTONES // 6
-    TEXTO_DER_X, TEXTO_DER_Y = ANCHO_VENTANA // 2 +  2 * ESPACIO_ENTRE_BOTONES + MARGEN_ENTRE_BOTONES, ALTO_VENTANA // 2 - 5*ALTO_BOTONES//6
+    TEXTO_DER_X, TEXTO_DER_Y = ANCHO_VENTANA // 2 +  2 * ESPACIO_ENTRE_BOTONES + MARGEN_ENTRE_BOTONES, ALTO_VENTANA // 2 - 5 * ALTO_BOTONES // 6
     
     gamelib.draw_begin()
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA) #FONDO BLANCO
@@ -78,8 +76,7 @@ def menu_principal():
     gamelib.draw_text('EQUIPOS', TEXTO_DER_X, TEXTO_DER_Y, fill='black', size=25, anchor='nw') #TEXTO "EQUIPOS"
     gamelib.draw_end()
     
-    menu_memorizado = 'menu principal', 0, 0
-    return menu_memorizado
+    return 'menu principal', 0, 0
 
 def menu_pokemones(pag_pok, pag_equ): 
     """
@@ -97,8 +94,7 @@ def menu_pokemones(pag_pok, pag_equ):
     cuadritos_pokemones(pag_pok, pag_equ)
     gamelib.draw_end()
     
-    menu_memorizado = 'menu Pokemones', pag_pok, pag_equ
-    return menu_memorizado
+    return 'menu Pokemones', pag_pok, pag_equ
 
 def menu_equipos(pag_pok, pag_equ): 
     """
@@ -114,7 +110,6 @@ def menu_equipos(pag_pok, pag_equ):
     gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill = 'red') #BOTON ROJO
     gamelib.draw_end()
     
-    menu_memorizado = 'menu Equipos', pag_pok, pag_equ
     return 'menu Equipos', pag_pok, pag_equ
 
 def cuadritos_pokemones(pag_pok, pag_equ): 
@@ -193,9 +188,9 @@ def un_pokemon(nro_pokemon, pag_pok, pag_equ):
         gamelib.draw_text('SPD: '+contenido[9], 5* ANCHO_VENTANA // 10, 9 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w') 
         gamelib.draw_image(contenido[1], VACIO, ALTO_VENTANA // 4)
     finally:
-        gamelib.draw_rectangle(RX1, RY1, RX2, RY2 = BOTON_ROJO, fill = 'red')
+        gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill = 'red')
         gamelib.draw_end()
-        menu_memorizado = 'Individual Pokemon', pag_pok, pag_equ
+
         return 'Individual Pokemon', pag_pok, pag_equ
 
 def un_equipo(nro_equipo, pag_pok, pag_equ):
@@ -226,7 +221,7 @@ def un_equipo(nro_equipo, pag_pok, pag_equ):
     finally:
         gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill = 'red')
         gamelib.draw_end()
-        menu_memorizado = 'Individual Equipo', pag_pok, pag_equ
+
         return 'Individual Equipo', pag_pok, pag_equ
 
 def creador_equipo():
@@ -321,6 +316,39 @@ def menu_creador(pag_pok, pag_equ):
 
     return menu_equipos(pag_pok, pag_equ)
 
+def que_pokemon(x, y, pag_pok, pag_equ):
+    xcuadro = (x - MARGEN_CUADRITOS_IZQUIERDO) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
+    ycuadro = (y - MARGEN_CUADRITOS_SUPERIOR) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
+    nro_pokemon = ycuadro * NRO_COLUMNAS + xcuadro + pag_pok * 26
+
+    if (nro_pokemon - pag_pok * 26) == 0:
+        if pag_pok > 0: return menu_pokemones(pag_pok-1, pag_equ)
+        return menu_pokemones(pag_pok, pag_equ)
+    
+    if (nro_pokemon - pag_pok * 26) == 27:
+        return menu_pokemones(pag_pok+1, pag_equ)
+    
+    if nro_pokemon > 0:
+        return un_pokemon(nro_pokemon, pag_pok, pag_equ)
+    
+def que_equipo(x, y, pag_pok, pag_equ):
+    xcuadro = (x - MARGEN_CUADRITOS_IZQUIERDO) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
+    ycuadro = (y - MARGEN_CUADRITOS_SUPERIOR) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
+    nro_equipo = ycuadro * NRO_COLUMNAS + xcuadro + pag_equ * 26
+    
+    if (nro_equipo - pag_equ * 26) == 0:
+        if pag_equ > 0: return menu_equipos(pag_pok, pag_equ - 1)
+        return menu_equipos(pag_pok, pag_equ)
+    
+    if (nro_equipo - pag_equ * 26) == 27:
+        return menu_equipos(pag_pok, pag_equ + 1)
+    
+    if nro_equipo == 1:
+        return menu_creador(pag_pok, pag_equ)
+    
+    if nro_equipo > 1:
+        return un_equipo(nro_equipo, pag_pok, pag_equ)
+
 def navegacion(x, y, juego):
     """
     La función navegación llama a la función correcta dependiendo de 
@@ -328,74 +356,36 @@ def navegacion(x, y, juego):
     """
     RX1, RY1, RX2, RY2 = BOTON_ROJO
     NX1, NY1, NX2, NY2 = BOTON_NARANJA
+    BOTON_IZQ_X1, BOTON_IZQ_Y1, BOTON_IZQ_X2, BOTON_IZQ_Y2 = MARGEN_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA // 2 -  ESPACIO_ENTRE_BOTONES, BOTON_Y2
+    BOTON_DER_X1, BOTON_DER_Y1, BOTON_DER_X2, BOTON_DER_Y2 = ANCHO_VENTANA // 2 + ESPACIO_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA - MARGEN_ENTRE_BOTONES, BOTON_Y2
     
+    pag_pok = juego[1]
+    pag_equ = juego[2]
+
     if juego[0] == 'menu principal':
-        p_pok = juego [1]
-        p_equ = juego [2]
+        if BOTON_IZQ_X1 < x < BOTON_IZQ_X2 and BOTON_IZQ_Y1 < y < BOTON_IZQ_Y2:
+            return menu_pokemones(pag_pok, pag_equ) #BOTON POKEMONES
+        if BOTON_DER_X1 < x < BOTON_DER_X2 and BOTON_DER_Y1 < y < BOTON_DER_Y2: 
+            return menu_equipos(pag_pok, pag_equ) #BOTON EQUIPOS
 
-        if x > ANCHO_VENTANA // 2 + ESPACIO_ENTRE_BOTONES and x < ANCHO_VENTANA - MARGEN_ENTRE_BOTONES \
-        and y > BOTON_Y1 and y < BOTON_Y2: 
-            return menu_equipos(p_pok, p_equ) 
-        elif x > MARGEN_ENTRE_BOTONES and x < ANCHO_VENTANA // 2 -  ESPACIO_ENTRE_BOTONES \
-        and y > BOTON_Y1 and y < BOTON_Y2:
-            return menu_pokemones(p_pok, p_equ)
-
-    elif juego[0] == 'menu Pokemones':
-        pag_pok = juego[1]
-        pag_equ = juego[2]
-
-        if x > BOTON_RETROCESO and x < BOTON_RETROCESO*2 \
-        and y > BOTON_RETROCESO and y < BOTON_RETROCESO*2:
+    if juego[0] == 'menu Pokemones':
+        if RX1 < x < RX2 and RY1 < y < RY2:
             return menu_principal() #BOTON ROJO
-
-        if x > ANCHO_VENTANA - BOTON_RETROCESO*2 and y > BOTON_RETROCESO and x < ANCHO_VENTANA - BOTON_RETROCESO and y < BOTON_RETROCESO*2:
+        if NX1 < x < NX2 and NY1 < y < NY2:
             return buscador_particular(pag_pok, pag_equ) #BOTON NARANJA
+        return que_pokemon(x, y, pag_pok, pag_equ)
 
-        xcuadro = (x - MARGEN_CUADRITOS_IZQUIERDO) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
-        ycuadro = (y - MARGEN_CUADRITOS_SUPERIOR) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
-        nro_pokemon = ycuadro * NRO_COLUMNAS + xcuadro + pag_pok*26
-
-        if (nro_pokemon - pag_pok*26) == 0:
-            if pag_pok > 0: return menu_pokemones(pag_pok-1, pag_equ)
-            return menu_pokemones(pag_pok, pag_equ)
-        if (nro_pokemon - pag_pok*26) == 27:
-            return menu_pokemones(pag_pok+1, pag_equ)
-        if nro_pokemon > 0:
-            return un_pokemon(nro_pokemon, pag_pok, pag_equ)
-
-    elif juego[0] == 'menu Equipos':
-        pag_pok = juego[1]
-        pag_equ = juego[2]
-        if x > BOTON_RETROCESO and x < BOTON_RETROCESO*2 \
-        and y > BOTON_RETROCESO and y < BOTON_RETROCESO*2:
+    if juego[0] == 'menu Equipos':
+        if RX1 < x < RX2 and RY1 < y < RY2:
             return menu_principal() #BOTON ROJO
-            
-        xcuadro = (x - MARGEN_CUADRITOS_IZQUIERDO) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
-        ycuadro = (y - MARGEN_CUADRITOS_SUPERIOR) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
-        nro_equipo = ycuadro * NRO_COLUMNAS + xcuadro + pag_equ*26
-        if (nro_equipo - pag_equ*26) == 0:
-            if pag_equ > 0: return menu_equipos(pag_pok, pag_equ-1)
-            return menu_equipos(pag_pok, pag_equ)
-        if (nro_equipo - pag_equ*26) == 27:
-            return menu_equipos(pag_pok, pag_equ+1)
-        if nro_equipo == 1:
-            return menu_creador(pag_pok, pag_equ)
-        if nro_equipo > 1:
-            return un_equipo(nro_equipo, pag_pok, pag_equ)
+        return que_equipo(x, y, pag_pok, pag_equ)
 
-    elif juego[0] == 'Individual Pokemon':
-        pag_pok = juego[1]
-        pag_equ = juego[2]
-        if x > BOTON_RETROCESO and x < BOTON_RETROCESO*2 \
-        and y > BOTON_RETROCESO and y < BOTON_RETROCESO*2:
+    if juego[0] == 'Individual Pokemon':
+        if RX1 < x < RX2 and RY1 < y < RY2:
             return menu_pokemones(pag_pok, pag_equ) #BOTON ROJO
 
-    elif juego[0] == 'Individual Equipo':
-        pag_pok = juego[1]
-        pag_equ = juego[2]
-
-        if x > BOTON_RETROCESO and x < BOTON_RETROCESO*2 \
-        and y > BOTON_RETROCESO and y < BOTON_RETROCESO*2:
+    if juego[0] == 'Individual Equipo':
+        if RX1 < x < RX2 and RY1 < y < RY2:
             return menu_equipos(pag_pok, pag_equ) #BOTON ROJO
 
-    return menu_memorizado
+    return 'menu principal', 0, 0
