@@ -105,9 +105,9 @@ def menu_equipos(pag_pok, pag_equ):
     gamelib.draw_begin()
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill = '#0d1364')
+    gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill = 'red') #BOTON ROJO
     gamelib.draw_text('EQUIPOS', ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
     cuadritos_equipos(pag_pok, pag_equ)
-    gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill = 'red') #BOTON ROJO
     gamelib.draw_end()
     
     return 'menu Equipos', pag_pok, pag_equ
