@@ -1,7 +1,5 @@
 import gamelib
 import lectores
-from tda import Pila 
-from tda import Cola
 from tkinter import simpledialog
 
 equipos = 'equipos.csv'
