@@ -223,33 +223,44 @@ def un_equipo(nro_equipo, pag_pok, pag_equ):
 
         return 'Individual Equipo', pag_pok, pag_equ
 
-def creador_poderes():
+def creador_equipos():
     pokemones_elegidos = []
     poderes_elegidos = []
+    elegido = ''
+    total_de_pokemones = 151+1 ##############Hacer len dependiente de arrchivo
     nombre_equipo = gamelib.input("Elija un nombre para su equipo. ").upper()
-    while len(pokemones_elegidos) <= 6 and elegido != None:
+    while len(pokemones_elegidos) <= 6: #and elegido != None:
+        print (pokemones_elegidos)
         elegido = gamelib.input("que pokemon desea elegir?. Si no quiere agregar mas apriete 'cancelar'] ")
-        if len(pokemones_elegidos) == 0:
-                continue
+        print (elegido)
+        if elegido == None or elegido == '':
+            print (elegido, 'funcó')
+            break
         while not elegido.isdigit() and not range(1, total_de_pokemones):
             elegido = gamelib.input("No Ingreso un numero valido, asegurese de que el pokemon exista.Que pokemon desea elegir?[Si no quiere agregar mas apriete 'cancelar'] ")
         pokemones_elegidos.append(int(elegido))  # se agrega el pokemon
+        if len(pokemones_elegidos) == 0:
+                continue
     # ahora agregamos los poderes
     for monstruo in pokemones_elegidos:
-        info = lector_movimientos(monstruo, movimientos)
+        info = lectores.lector_movimientos(monstruo, movimientos)
         lista_movimientos = info[1].split(',')
         aux = []
-        while len(aux) < 5 and elegido_poderes != None:
+        while len(aux) < 5: #and elegido_poderes != None:
             elegido_poderes = gamelib.input("que poder desea elegir?[Si no desea agregar mas apriete cancelar]")
-            if len(aux) == 0:
-                continue
+            print (elegido_poderes)
+            if elegido_poderes == None or elegido_poderes == '':
+                print (elegido_poderes, 'funcó')
+                break
             while not elegido.isdigit():
                 elegido_poderes = gamelib.input("No ingreso un digito valido")
             aux.append(int(elegido_poderes))
+            if len(aux) == 0:
+                continue
         poderes_elegidos.append(aux)
+
         
     return nombre_equipo, pokemones_elegidos, poderes_elegidos
-
 def menu_creador(pag_pok, pag_equ):
     """
     Dibuja el menú creador y llama a creador_equipo().
