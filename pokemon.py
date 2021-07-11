@@ -298,40 +298,52 @@ def creador_equipos():
     pokemones_elegidos = []
     poderes_elegidos = []
     elegido = ''
-    total_de_pokemones = 151+1  # Hacer len dependiente de arrchivo
+    total_de_pokemones = 151+1 ############## Hacer len dependiente de arrchivo
     nombre_equipo = gamelib.input("Elija un nombre para su equipo. ").upper()
-    while len(pokemones_elegidos) <= 6:  # and elegido != None:
-        print(pokemones_elegidos)
-        elegido = gamelib.input(
-            "que pokemon desea elegir?. Si no quiere agregar mas apriete 'cancelar'] ")
-        print(elegido)
+    while len(pokemones_elegidos) <= 6: #and elegido != None:
+        print (pokemones_elegidos)
+        elegido = gamelib.input("que pokemon desea elegir?. Si no quiere agregar mas apriete 'cancelar'] ")
+        print (elegido)
         if elegido == None or elegido == '':
-            print(elegido, 'funcó')
+            print (elegido, 'funcó')
             break
         while not elegido.isdigit() and not range(1, total_de_pokemones):
-            elegido = gamelib.input(
-                "No Ingreso un numero valido, asegurese de que el pokemon exista.Que pokemon desea elegir?[Si no quiere agregar mas apriete 'cancelar'] ")
+            elegido = gamelib.input("No Ingreso un numero valido, asegurese de que el pokemon exista.Que pokemon desea elegir?[Si no quiere agregar mas apriete 'cancelar'] ")
         pokemones_elegidos.append(int(elegido))  # se agrega el pokemon
         if len(pokemones_elegidos) == 0:
-            continue
+                continue
+            
     # ahora agregamos los poderes
     for monstruo in pokemones_elegidos:
         info = lectores.lector_movimientos(monstruo, movimientos)
         lista_movimientos = info[1].split(',')
         aux = []
-        while len(aux) < 5:  # and elegido_poderes != None:
-            elegido_poderes = gamelib.input(
-                "que poder desea elegir?[Si no desea agregar mas apriete cancelar]")
-            print(elegido_poderes)
-            if elegido_poderes == None or elegido_poderes == '':
-                print(elegido_poderes, 'funcó')
-                break
-            while not elegido.isdigit():
-                elegido_poderes = gamelib.input(
-                    "No ingreso un digito valido. Que poder desea elegir?[Si no desea agregar mas apriete cancelar]")
-            aux.append(int(elegido_poderes))
-            if len(aux) == 0:
+        
+        while len(aux) < 5:  # and eleccion_pequena != None:
+            mensaje_por_pokemon = '¿Qué poder desea elegir para {}? Están disponibles {}.'.format(info[0], lista_movimientos) #"que poder desea elegir para" + info[1] + "[Si no desea agregar mas apriete cancelar]"
+            eleccion_pequena = gamelib.input(mensaje_por_pokemon)
+            
+            print(eleccion_pequena)
+            
+            if eleccion_pequena in aux:
+                gamelib.say('Ese movimiento ya fue elegido.')
                 continue
+            
+            elif eleccion_pequena == '':
+                if len(aux) == 0:
+                    continue
+                print(eleccion_pequena, 'funcó')
+                break
+            
+            while not eleccion_pequena in lista_movimientos:
+                mensaje_para_input = "No ingreso un movimiento disponible. Eliga uno de los siguientes" + info[1] + "[Si no desea agregar mas apriete cancelar]"
+                eleccion_pequena = gamelib.input(mensaje_para_input)
+                if eleccion_pequena == '' or eleccion_pequena == None:
+                    break
+            
+            aux.append(eleccion_pequena)
+            print (aux)
+
         poderes_elegidos.append(aux)
 
     return nombre_equipo, pokemones_elegidos, poderes_elegidos
@@ -344,26 +356,25 @@ def menu_creador(pag_pok, pag_equ):
     """
     gamelib.draw_begin()
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA,
-                           FRANJA_AZUL_Y, fill='#0d1364')
-    gamelib.draw_text('CREACIÓN DE UN EQUIPO NUEVO', ANCHO_VENTANA //
-                      2, TITLE_Y, fill='white', size=30, anchor='s')
-    gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO,
-                           BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill='red')
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill = '#0d1364')
+    gamelib.draw_text('CREACIÓN DE UN EQUIPO NUEVO', ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
+    gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
     gamelib.draw_end()
 
-    nuevo_equipo_a_archivo(creador_equipos())
+    xxx = creador_equipos()
+    print ('295', xxx)
+    nuevo_equipo_a_archivo(xxx[0], xxx[1], xxx[2])#creador_equipos())
     return menu_equipos(pag_pok, pag_equ)
     #nombre_equipo, pokemones, poderes = creador_equipo()
-    #nombre_equipo, pokemones, poderes = 'hola', ['pikachu', 'charmander'], [["impaktrueno", "rayito"], ["fueguito", "llamaradita"]]
-
+    #nombre_equipo, pokemones, poderes = 'hola', ['pikachu', 'charmander'], [["impaktrueno", "rayito"], ["fueguito", "llamaradita"]] 
 
 def nuevo_equipo_a_archivo(nombre_equipo, pokemones, poderes):
     """
     Escribe los resultados de creador_equipo() en 'equipos.csv' 
     """
     largo_equipos = 0
-
+    print ('306', nombre_equipo, pokemones, poderes)
+    
     with open(equipos) as archivo:
         for linea in archivo:
             if linea != '\n':
@@ -372,14 +383,15 @@ def nuevo_equipo_a_archivo(nombre_equipo, pokemones, poderes):
 
     nombre_equipo += ';'
 
-    for i in range(len(pokemones)):
+    for i in range (len(pokemones)):
+        print (nombre_equipo)
         poder = ','.join(poderes[i])
-        nombre_equipo += pokemones[i] + ';' + poder + ';'
+        print('319', pokemones[i], poder)
+        nombre_equipo += str(pokemones[i]) + ';' + str(poder) + ';'
 
     with open(equipos, 'a') as archivo:
         archivo.write('\n' + largo_equipos + nombre_equipo)
-
-
+        
 def que_pokemon(x, y, pag_pok, pag_equ):
     xcuadro = (x - MARGEN_CUADRITOS_IZQUIERDO) // (XY_CUADRITO +
                                                    ESPACIO_ENTRE_CUADROS)
