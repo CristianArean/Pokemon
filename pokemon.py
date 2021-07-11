@@ -294,10 +294,17 @@ def menu_creador(pag_pok, pag_equ):
     gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
     gamelib.draw_end()
 
-    nombre_equipo, pokemones, poderes = creador_equipo()
+    nuevo_equipo_a_archivo(creador_equipo())
+    return menu_equipos(pag_pok, pag_equ)
+    #nombre_equipo, pokemones, poderes = creador_equipo()
     #nombre_equipo, pokemones, poderes = 'hola', ['pikachu', 'charmander'], [["impaktrueno", "rayito"], ["fueguito", "llamaradita"]] 
 
+def nuevo_equipo_a_archivo(nombre_equipo, pokemones, poderes):
+    """
+    Escribe los resultados de creador_equipo() en 'equipos.csv' 
+    """
     largo_equipos = 0
+    
     with open(equipos) as archivo:
         for linea in archivo:
             if linea != '\n':
@@ -312,8 +319,6 @@ def menu_creador(pag_pok, pag_equ):
 
     with open(equipos, 'a') as archivo:
         archivo.write('\n' + largo_equipos + nombre_equipo)
-
-    return menu_equipos(pag_pok, pag_equ)
 
 def que_pokemon(x, y, pag_pok, pag_equ):
     xcuadro = (x - MARGEN_CUADRITOS_IZQUIERDO) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
