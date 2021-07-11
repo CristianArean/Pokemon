@@ -47,12 +47,11 @@ def crear_juego():
 
 def buscador_particular(pag_pok, pag_equ):
     numero = 'not numero bro'
-    while type(numero) != int:
-        numero = simpledialog.askstring('Buscador particular', 'Ingrese el número del pokemon que desea ver.')
-        try:
-            numero = int(numero)
-        finally:
-            return un_pokemon(numero, pag_pok, pag_equ)
+
+    while not numero.isdigit():
+        print (numero)
+        numero = gamelib.input('Ingrese el número del pokemon que desea ver')
+    return un_pokemon(int(numero), pag_pok, pag_equ)
 
 def menu_principal():
     """
