@@ -1,6 +1,5 @@
 import gamelib
 import lectores
-from tkinter import simpledialog
 
 equipos = 'equipos.csv'
 movimientos = 'movimientos.csv'
@@ -50,7 +49,12 @@ def crear_juego():
 
 
 def buscador_particular(pag_pok, pag_equ):
-    numero = gamelib.input('Ingrese el número del pokemon que desea ver')
+    """
+    Le pide un número de pokemon al usuario y lo manda
+    a la ventana correspondiente a ese pokemon.
+    """
+    numero = gamelib.input('Ingrese el número del pokemon que desea ver.')
+    
     if numero == None:
         return 'menu Pokemones', pag_pok, pag_equ 
     else:
@@ -63,37 +67,22 @@ def menu_principal():
     """
     Dibuja el menú principal.
     """
-    CREDITOS_X, CREDITOS_Y = ANCHO_VENTANA // 2, ALTO_VENTANA - \
-        2 * TITLE_Y // 3  # POSICIÓN CREDITOS
-    BOTON_IZQ_X1, BOTON_IZQ_Y1, BOTON_IZQ_X2, BOTON_IZQ_Y2 = MARGEN_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA // 2 - \
-        ESPACIO_ENTRE_BOTONES, BOTON_Y2
-    BOTON_DER_X1, BOTON_DER_Y1, BOTON_DER_X2, BOTON_DER_Y2 = ANCHO_VENTANA // 2 + \
-        ESPACIO_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA - MARGEN_ENTRE_BOTONES, BOTON_Y2
-    TEXTO_IZQ_X, TEXTO_IZQ_Y = MARGEN_ENTRE_BOTONES * \
-        2, ALTO_VENTANA // 2 - 5 * ALTO_BOTONES // 6
-    TEXTO_DER_X, TEXTO_DER_Y = ANCHO_VENTANA // 2 + 2 * ESPACIO_ENTRE_BOTONES + \
-        MARGEN_ENTRE_BOTONES, ALTO_VENTANA // 2 - 5 * ALTO_BOTONES // 6
+    CREDITOS_X, CREDITOS_Y = ANCHO_VENTANA // 2, ALTO_VENTANA - 2 * TITLE_Y // 3  # POSICIÓN CREDITOS
+    BOTON_IZQ_X1, BOTON_IZQ_Y1, BOTON_IZQ_X2, BOTON_IZQ_Y2 = MARGEN_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA // 2 - ESPACIO_ENTRE_BOTONES, BOTON_Y2
+    BOTON_DER_X1, BOTON_DER_Y1, BOTON_DER_X2, BOTON_DER_Y2 = ANCHO_VENTANA // 2 + ESPACIO_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA - MARGEN_ENTRE_BOTONES, BOTON_Y2
+    TEXTO_IZQ_X, TEXTO_IZQ_Y = MARGEN_ENTRE_BOTONES * 2, ALTO_VENTANA // 2 - 5 * ALTO_BOTONES // 6
+    TEXTO_DER_X, TEXTO_DER_Y = ANCHO_VENTANA // 2 + 2 * ESPACIO_ENTRE_BOTONES + MARGEN_ENTRE_BOTONES, ALTO_VENTANA // 2 - 5 * ALTO_BOTONES // 6
 
     gamelib.draw_begin()
-    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA,
-                           ALTO_VENTANA)  # FONDO BLANCO
-    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA,
-                           FRANJA_AZUL_Y, fill='#0d1364')  # FRANJA SUPERIOR AZUL
-    gamelib.draw_rectangle(VACIO, ALTO_VENTANA - FRANJA_AZUL_Y, ANCHO_VENTANA,
-                           ALTO_VENTANA, fill='#0d1364')  # FRANJA INFERIOR AZUL
-    # BOTÓN TITULO "POKEMONES"
-    gamelib.draw_rectangle(BOTON_IZQ_X1, BOTON_IZQ_Y1,
-                           BOTON_IZQ_X2, BOTON_IZQ_Y2)
-    gamelib.draw_rectangle(BOTON_DER_X1, BOTON_DER_Y1,
-                           BOTON_DER_X2, BOTON_DER_Y2)  # BOTÓN TITULO "EQUIPOS"
-    gamelib.draw_text('POKEDEX', ANCHO_VENTANA // 2, TITLE_Y,
-                      fill='white', size=30, anchor='s')  # TITULO
-    gamelib.draw_text('De Ditto, Arean y Langer', CREDITOS_X,
-                      CREDITOS_Y, fill='white', size=10, anchor='n')  # CREDITOS
-    gamelib.draw_text('POKEMONES', TEXTO_IZQ_X, TEXTO_IZQ_Y,
-                      fill='black', size=25, anchor='nw')  # TEXTO "POKEMONES"
-    gamelib.draw_text('EQUIPOS', TEXTO_DER_X, TEXTO_DER_Y,
-                      fill='black', size=25, anchor='nw')  # TEXTO "EQUIPOS"
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)  # FONDO BLANCO
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill='#0d1364')  # FRANJA SUPERIOR AZUL
+    gamelib.draw_rectangle(VACIO, ALTO_VENTANA - FRANJA_AZUL_Y, ANCHO_VENTANA, ALTO_VENTANA, fill='#0d1364')  # FRANJA INFERIOR AZUL
+    gamelib.draw_rectangle(BOTON_IZQ_X1, BOTON_IZQ_Y1, BOTON_IZQ_X2, BOTON_IZQ_Y2)  # BOTÓN TITULO "POKEMONES"
+    gamelib.draw_rectangle(BOTON_DER_X1, BOTON_DER_Y1, BOTON_DER_X2, BOTON_DER_Y2)  # BOTÓN TITULO "EQUIPOS"
+    gamelib.draw_text('POKEDEX', ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')  # TITULO
+    gamelib.draw_text('De Ditto, Arean y Langer', CREDITOS_X, CREDITOS_Y, fill='white', size=10, anchor='n')  # CREDITOS
+    gamelib.draw_text('POKEMONES', TEXTO_IZQ_X, TEXTO_IZQ_Y, fill='black', size=25, anchor='nw')  # TEXTO "POKEMONES"
+    gamelib.draw_text('EQUIPOS', TEXTO_DER_X, TEXTO_DER_Y, fill='black', size=25, anchor='nw')  # TEXTO "EQUIPOS"
     gamelib.draw_end()
 
     return 'menu principal', 0, 0
@@ -104,18 +93,14 @@ def menu_pokemones(pag_pok, pag_equ):
     Dibuja el menú de pokemones.
     """
     RX1, RY1, RX2, RY2 = BOTON_ROJO  # RETROCEDE AL MENÚ ANTERIOR
-    # ABRE UN MENSAJE PARA BUSCAR UN POKEMON PARTICULAR
-    NX1, NY1, NX2, NY2 = BOTON_NARANJA
+    NX1, NY1, NX2, NY2 = BOTON_NARANJA  # ABRE UN MENSAJE PARA BUSCAR UN POKEMON PARTICULAR
 
     gamelib.draw_begin()
-    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA,
-                           ALTO_VENTANA)  # FONDO BLANCO
-    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA,
-                           FRANJA_AZUL_Y, fill='#0d1364')  # FRANJA SUPERIOR AZUL
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)  # FONDO BLANCO
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill='#0d1364')  # FRANJA SUPERIOR AZUL
     gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill='red')  # BOTON ROJO
     gamelib.draw_rectangle(NX1, NY1, NX2, NY2, fill='orange')  # BOTON NARANJA
-    gamelib.draw_text('POKEMONES', ANCHO_VENTANA // 2, TITLE_Y,
-                      fill='white', size=30, anchor='s')  # TEXTO "POKEMONES"
+    gamelib.draw_text('POKEMONES', ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')  # TEXTO "POKEMONES"
     cuadritos_pokemones(pag_pok, pag_equ)
     gamelib.draw_end()
 
@@ -130,11 +115,9 @@ def menu_equipos(pag_pok, pag_equ):
 
     gamelib.draw_begin()
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA,
-                           FRANJA_AZUL_Y, fill='#0d1364')
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill='#0d1364')
     gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill='red')  # BOTON ROJO
-    gamelib.draw_text('EQUIPOS', ANCHO_VENTANA // 2, TITLE_Y,
-                      fill='white', size=30, anchor='s')
+    gamelib.draw_text('EQUIPOS', ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
     cuadritos_equipos(pag_pok, pag_equ)
     gamelib.draw_end()
 
@@ -150,8 +133,7 @@ def cuadritos_pokemones(pag_pok, pag_equ):
 
     for i in range(NRO_FILAS):
         for j in range(NRO_COLUMNAS):
-            gamelib.draw_rectangle(MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i,
-                                   MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j + XY_CUADRITO, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i + XY_CUADRITO, fill='#f1f8ff')
+            gamelib.draw_rectangle(MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j + XY_CUADRITO, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i + XY_CUADRITO, fill='#f1f8ff')
 
             if i == VACIO and j == VACIO:
                 continue
@@ -159,19 +141,16 @@ def cuadritos_pokemones(pag_pok, pag_equ):
                 continue
             else:
                 elegido_en_ciclo = str(
-                    pag_pok*(NRO_FILAS*NRO_COLUMNAS) + i*NRO_COLUMNAS + j - 2*pag_pok)
+                    pag_pok * (NRO_FILAS*NRO_COLUMNAS) + i * NRO_COLUMNAS + j - 2 * pag_pok)
 
                 try:
                     nombre = nro_pok_nombre[elegido_en_ciclo][2]
                 except KeyError:
                     nombre = ''
 
-                gamelib.draw_text(nombre, ESPACIO_ENTRE_CUADROS + MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j,
-                                  MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=11, anchor='nw')
-    gamelib.draw_text('<-', BOTON_RETROCESO + MARGEN_CUADRITOS_IZQUIERDO,
-                      BOTON_RETROCESO + MARGEN_CUADRITOS_SUPERIOR, fill='black', size=30, anchor='nw')
-    gamelib.draw_text('->', MARGEN_CUADRITOS_IZQUIERDO - BOTON_RETROCESO + ESPACIO_ENTRE_CUADROS * (NRO_COLUMNAS) + XY_CUADRITO * NRO_COLUMNAS,
-                      MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (NRO_FILAS) + XY_CUADRITO * NRO_FILAS - BOTON_RETROCESO, fill='black', size=30, anchor='se')
+                gamelib.draw_text(nombre, ESPACIO_ENTRE_CUADROS + MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=11, anchor='nw')
+    gamelib.draw_text('<-', BOTON_RETROCESO + MARGEN_CUADRITOS_IZQUIERDO, BOTON_RETROCESO + MARGEN_CUADRITOS_SUPERIOR, fill='black', size=30, anchor='nw')
+    gamelib.draw_text('->', MARGEN_CUADRITOS_IZQUIERDO - BOTON_RETROCESO + ESPACIO_ENTRE_CUADROS * (NRO_COLUMNAS) + XY_CUADRITO * NRO_COLUMNAS, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (NRO_FILAS) + XY_CUADRITO * NRO_FILAS - BOTON_RETROCESO, fill='black', size=30, anchor='se')
 
 
 def cuadritos_equipos(pag_pok, pag_equ):
@@ -195,19 +174,16 @@ def cuadritos_equipos(pag_pok, pag_equ):
                 continue
             else:
                 elegido_en_ciclo = str(
-                    pag_equ*(NRO_FILAS*NRO_COLUMNAS) + i*NRO_COLUMNAS + j - 2*pag_equ)
+                    pag_equ*(NRO_FILAS*NRO_COLUMNAS) + i * NRO_COLUMNAS + j - 2 * pag_equ)
 
                 try:
                     nombre = nro_pok_nombre[elegido_en_ciclo][1]
                 except KeyError:
                     nombre = ''
 
-                gamelib.draw_text(nombre, ESPACIO_ENTRE_CUADROS + MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j,
-                                  MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=11, anchor='nw')
-    gamelib.draw_text('<-', BOTON_RETROCESO + MARGEN_CUADRITOS_IZQUIERDO,
-                      BOTON_RETROCESO + MARGEN_CUADRITOS_SUPERIOR, fill='black', size=30, anchor='nw')
-    gamelib.draw_text('->', MARGEN_CUADRITOS_IZQUIERDO - BOTON_RETROCESO + ESPACIO_ENTRE_CUADROS * (NRO_COLUMNAS) + XY_CUADRITO * NRO_COLUMNAS,
-                      MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (NRO_FILAS) + XY_CUADRITO * NRO_FILAS - BOTON_RETROCESO, fill='black', size=30, anchor='se')
+                gamelib.draw_text(nombre, ESPACIO_ENTRE_CUADROS + MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (i+1) + XY_CUADRITO * i, fill='black', size=11, anchor='nw')
+    gamelib.draw_text('<-', BOTON_RETROCESO + MARGEN_CUADRITOS_IZQUIERDO, BOTON_RETROCESO + MARGEN_CUADRITOS_SUPERIOR, fill='black', size=30, anchor='nw')
+    gamelib.draw_text('->', MARGEN_CUADRITOS_IZQUIERDO - BOTON_RETROCESO + ESPACIO_ENTRE_CUADROS * (NRO_COLUMNAS) + XY_CUADRITO * NRO_COLUMNAS, MARGEN_CUADRITOS_SUPERIOR + ESPACIO_ENTRE_CUADROS * (NRO_FILAS) + XY_CUADRITO * NRO_FILAS - BOTON_RETROCESO, fill='black', size=30, anchor='se')
 
 
 def un_pokemon(nro_pokemon, pag_pok, pag_equ):
@@ -221,24 +197,15 @@ def un_pokemon(nro_pokemon, pag_pok, pag_equ):
         contenido = info[str(nro_pokemon)]
         gamelib.draw_begin()
         gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-        gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA,
-                               FRANJA_AZUL_Y, fill='#0d1364')
-        gamelib.draw_text((contenido[2]+', '+contenido[0]), ANCHO_VENTANA //
-                          2, TITLE_Y, fill='white', size=30, anchor='s')
-        gamelib.draw_text('Tipos: '+contenido[3], 5 * ANCHO_VENTANA //
-                          10, 3 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
-        gamelib.draw_text('HP: '+contenido[4], 5 * ANCHO_VENTANA // 10,
-                          4 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
-        gamelib.draw_text('ATK: '+contenido[5], 5 * ANCHO_VENTANA //
-                          10, 5 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
-        gamelib.draw_text('DEF: '+contenido[6], 5 * ANCHO_VENTANA //
-                          10, 6 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
-        gamelib.draw_text('Spe-At: '+contenido[7], 5 * ANCHO_VENTANA //
-                          10, 7 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
-        gamelib.draw_text('Spe-De: '+contenido[8], 5 * ANCHO_VENTANA //
-                          10, 8 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
-        gamelib.draw_text('SPD: '+contenido[9], 5 * ANCHO_VENTANA //
-                          10, 9 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
+        gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill='#0d1364')
+        gamelib.draw_text((contenido[2]+', '+contenido[0]), ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
+        gamelib.draw_text('Tipos: ' +contenido[3], 5 * ANCHO_VENTANA // 10, 3 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
+        gamelib.draw_text('HP: '    +contenido[4], 5 * ANCHO_VENTANA // 10, 4 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
+        gamelib.draw_text('ATK: '   +contenido[5], 5 * ANCHO_VENTANA // 10, 5 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
+        gamelib.draw_text('DEF: '   +contenido[6], 5 * ANCHO_VENTANA // 10, 6 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
+        gamelib.draw_text('Spe-At: '+contenido[7], 5 * ANCHO_VENTANA // 10, 7 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
+        gamelib.draw_text('Spe-De: '+contenido[8], 5 * ANCHO_VENTANA // 10, 8 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
+        gamelib.draw_text('SPD: '   +contenido[9], 5 * ANCHO_VENTANA // 10, 9 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
         gamelib.draw_image(contenido[1], VACIO, ALTO_VENTANA // 4)
     finally:
         gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill='red')
@@ -258,35 +225,21 @@ def un_equipo(nro_equipo, pag_pok, pag_equ):
         contenido = info[str(nro_equipo)]
         gamelib.draw_begin()
         gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-        gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA,
-                               FRANJA_AZUL_Y, fill='#0d1364')
-        gamelib.draw_text((contenido[1]+', '+contenido[0]), ANCHO_VENTANA //
-                          2, TITLE_Y, fill='white', size=30, anchor='s')
-        gamelib.draw_text(contenido[2], 1 * ANCHO_VENTANA // 9,
-                          2 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
-        gamelib.draw_text(contenido[3], 8 * ANCHO_VENTANA // 9,
-                          2 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
+        gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill='#0d1364')
+        gamelib.draw_text((contenido[1]+', '+contenido[0]), ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
+        gamelib.draw_text(contenido[2], 1 * ANCHO_VENTANA // 9, 2 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
+        gamelib.draw_text(contenido[3], 8 * ANCHO_VENTANA // 9, 2 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
         # ajustar alturas puse // 6 evitar superposiciosion
-        gamelib.draw_text(contenido[4], 1 * ANCHO_VENTANA // 9,
-                          3 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
-        gamelib.draw_text(contenido[5], 8 * ANCHO_VENTANA // 9,
-                          3 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
-        gamelib.draw_text(contenido[6], 1 * ANCHO_VENTANA // 9,
-                          4 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
-        gamelib.draw_text(contenido[7], 8 * ANCHO_VENTANA // 9,
-                          4 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
-        gamelib.draw_text(contenido[8], 1 * ANCHO_VENTANA // 9,
-                          5 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
-        gamelib.draw_text(contenido[9], 8 * ANCHO_VENTANA // 9, 5 * ALTO_VENTANA // 8,
-                          fill='black', size=20, anchor='e')  # se podrían ahorrar lineas con un for
-        gamelib.draw_text(contenido[10], 1 * ANCHO_VENTANA // 9,
-                          6 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
-        gamelib.draw_text(contenido[11], 8 * ANCHO_VENTANA // 9,
-                          6 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
-        gamelib.draw_text(contenido[12], 1 * ANCHO_VENTANA // 9,
-                          7 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
-        gamelib.draw_text(contenido[13], 8 * ANCHO_VENTANA // 9,
-                          7 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
+        gamelib.draw_text(contenido[4], 1 * ANCHO_VENTANA // 9, 3 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
+        gamelib.draw_text(contenido[5], 8 * ANCHO_VENTANA // 9, 3 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
+        gamelib.draw_text(contenido[6], 1 * ANCHO_VENTANA // 9, 4 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
+        gamelib.draw_text(contenido[7], 8 * ANCHO_VENTANA // 9, 4 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
+        gamelib.draw_text(contenido[8], 1 * ANCHO_VENTANA // 9, 5 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
+        gamelib.draw_text(contenido[9], 8 * ANCHO_VENTANA // 9, 5 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')  # se podrían ahorrar lineas con un for
+        gamelib.draw_text(contenido[10], 1 * ANCHO_VENTANA // 9, 6 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
+        gamelib.draw_text(contenido[11], 8 * ANCHO_VENTANA // 9, 6 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
+        gamelib.draw_text(contenido[12], 1 * ANCHO_VENTANA // 9, 7 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
+        gamelib.draw_text(contenido[13], 8 * ANCHO_VENTANA // 9, 7 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
     finally:
         gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill='red')
         gamelib.draw_end()
@@ -298,45 +251,54 @@ def creador_equipos():
     pokemones_elegidos = []
     poderes_elegidos = []
     elegido = ''
-    total_de_pokemones = 151+1 ############## Hacer len dependiente de arrchivo
-    nombre_equipo = gamelib.input("Elija un nombre para su equipo. ").upper()
-    while len(pokemones_elegidos) <= 6: #and elegido != None:
+    total_de_pokemones = -1  # Ignora la primera linea de encabezados
+    
+    with open (movimientos) as archivo:
+        for linea in archivo:
+            total_de_pokemones += 1
+    
+    nombre_equipo = gamelib.input("Elija un nombre para su equipo. Cancele la formación con [CANCELAR]")
+    if nombre_equipo == None:
+        print ('holaa')
+        return None
+    nombre_equipo.upper()
+    
+    while len(pokemones_elegidos) <= 6: 
         print (pokemones_elegidos)
-        elegido = gamelib.input("que pokemon desea elegir?. Si no quiere agregar mas apriete 'cancelar'] ")
-        print (elegido)
+        elegido = gamelib.input("Eliga un pokemon. Termine la selección con [CANCELAR]")
+
         if elegido == None or elegido == '':
-            print (elegido, 'funcó')
             break
+        
         while not elegido.isdigit() and not range(1, total_de_pokemones):
-            elegido = gamelib.input("No Ingreso un numero valido, asegurese de que el pokemon exista.Que pokemon desea elegir?[Si no quiere agregar mas apriete 'cancelar'] ")
-        pokemones_elegidos.append(int(elegido))  # se agrega el pokemon
+            gamelib.say("ERROR. Ingrese el número de un pokemon disponible.")
+            elegido = gamelib.input("Eliga un pokemon. Termine la selección con [CANCELAR]")
+        pokemones_elegidos.append(int(elegido))
+        
         if len(pokemones_elegidos) == 0:
                 continue
             
-    # ahora agregamos los poderes
     for monstruo in pokemones_elegidos:
+        print (monstruo, type(monstruo))
         info = lectores.lector_movimientos(monstruo, movimientos)
         lista_movimientos = info[1].split(',')
         aux = []
         
-        while len(aux) < 5:  # and eleccion_pequena != None:
-            mensaje_por_pokemon = '¿Qué poder desea elegir para {}? Están disponibles {}.'.format(info[0], lista_movimientos) #"que poder desea elegir para" + info[1] + "[Si no desea agregar mas apriete cancelar]"
+        while len(aux) < 5 or len(aux) == len(lista_movimientos):  
+            mensaje_por_pokemon = '¿Qué poder desea elegir para {}? Están disponibles {}.'.format(info[0], lista_movimientos) 
             eleccion_pequena = gamelib.input(mensaje_por_pokemon)
             
-            print(eleccion_pequena)
-            
             if eleccion_pequena in aux:
-                gamelib.say('Ese movimiento ya fue elegido.')
+                gamelib.say('Ese movimiento ya fue elegido. Eliga otro o termine la elección.')
                 continue
             
             elif eleccion_pequena == '':
                 if len(aux) == 0:
                     continue
-                print(eleccion_pequena, 'funcó')
                 break
             
             while not eleccion_pequena in lista_movimientos:
-                mensaje_para_input = "No ingreso un movimiento disponible. Eliga uno de los siguientes" + info[1] + "[Si no desea agregar mas apriete cancelar]"
+                mensaje_para_input = "No ingreso un movimiento disponible. Eliga uno de los siguientes" + info[1] + "Termine la selección con [CANCELAR]"
                 eleccion_pequena = gamelib.input(mensaje_para_input)
                 if eleccion_pequena == '' or eleccion_pequena == None:
                     break
@@ -361,12 +323,14 @@ def menu_creador(pag_pok, pag_equ):
     gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
     gamelib.draw_end()
 
-    xxx = creador_equipos()
-    print ('295', xxx)
-    nuevo_equipo_a_archivo(xxx[0], xxx[1], xxx[2])#creador_equipos())
+    seleccion_usuario = creador_equipos()
+    
+    if not seleccion_usuario == None:
+        nombre_equipo, pokemones, poderes = creador_equipos()
+        nuevo_equipo_a_archivo(nombre_equipo, pokemones, poderes)
+    
     return menu_equipos(pag_pok, pag_equ)
-    #nombre_equipo, pokemones, poderes = creador_equipo()
-    #nombre_equipo, pokemones, poderes = 'hola', ['pikachu', 'charmander'], [["impaktrueno", "rayito"], ["fueguito", "llamaradita"]] 
+
 
 def nuevo_equipo_a_archivo(nombre_equipo, pokemones, poderes):
     """
@@ -384,19 +348,16 @@ def nuevo_equipo_a_archivo(nombre_equipo, pokemones, poderes):
     nombre_equipo += ';'
 
     for i in range (len(pokemones)):
-        print (nombre_equipo)
         poder = ','.join(poderes[i])
-        print('319', pokemones[i], poder)
         nombre_equipo += str(pokemones[i]) + ';' + str(poder) + ';'
 
     with open(equipos, 'a') as archivo:
         archivo.write('\n' + largo_equipos + nombre_equipo)
         
+        
 def que_pokemon(x, y, pag_pok, pag_equ):
-    xcuadro = (x - MARGEN_CUADRITOS_IZQUIERDO) // (XY_CUADRITO +
-                                                   ESPACIO_ENTRE_CUADROS)
-    ycuadro = (y - MARGEN_CUADRITOS_SUPERIOR) // (XY_CUADRITO +
-                                                  ESPACIO_ENTRE_CUADROS)
+    xcuadro = (x - MARGEN_CUADRITOS_IZQUIERDO) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
+    ycuadro = (y - MARGEN_CUADRITOS_SUPERIOR)  // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
     nro_pokemon = ycuadro * NRO_COLUMNAS + xcuadro + pag_pok * 26
 
     if (nro_pokemon - pag_pok * 26) == 0:
@@ -412,10 +373,8 @@ def que_pokemon(x, y, pag_pok, pag_equ):
 
 
 def que_equipo(x, y, pag_pok, pag_equ):
-    xcuadro = (x - MARGEN_CUADRITOS_IZQUIERDO) // (XY_CUADRITO +
-                                                   ESPACIO_ENTRE_CUADROS)
-    ycuadro = (y - MARGEN_CUADRITOS_SUPERIOR) // (XY_CUADRITO +
-                                                  ESPACIO_ENTRE_CUADROS)
+    xcuadro = (x - MARGEN_CUADRITOS_IZQUIERDO) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
+    ycuadro = (y - MARGEN_CUADRITOS_SUPERIOR)  // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
     nro_equipo = ycuadro * NRO_COLUMNAS + xcuadro + pag_equ * 26
 
     if (nro_equipo - pag_equ * 26) == 0:
@@ -440,10 +399,8 @@ def navegacion(x, y, juego):
     """
     RX1, RY1, RX2, RY2 = BOTON_ROJO
     NX1, NY1, NX2, NY2 = BOTON_NARANJA
-    BOTON_IZQ_X1, BOTON_IZQ_Y1, BOTON_IZQ_X2, BOTON_IZQ_Y2 = MARGEN_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA // 2 - \
-        ESPACIO_ENTRE_BOTONES, BOTON_Y2
-    BOTON_DER_X1, BOTON_DER_Y1, BOTON_DER_X2, BOTON_DER_Y2 = ANCHO_VENTANA // 2 + \
-        ESPACIO_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA - MARGEN_ENTRE_BOTONES, BOTON_Y2
+    BOTON_IZQ_X1, BOTON_IZQ_Y1, BOTON_IZQ_X2, BOTON_IZQ_Y2 = MARGEN_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA // 2 - ESPACIO_ENTRE_BOTONES, BOTON_Y2
+    BOTON_DER_X1, BOTON_DER_Y1, BOTON_DER_X2, BOTON_DER_Y2 = ANCHO_VENTANA // 2 + ESPACIO_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA - MARGEN_ENTRE_BOTONES, BOTON_Y2
 
     pag_pok = juego[1]
     pag_equ = juego[2]
