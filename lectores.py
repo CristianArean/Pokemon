@@ -1,4 +1,3 @@
-from tda import Pila 
 from tda import Cola
 
 def lector(nros, nombre_archivo): 
@@ -14,7 +13,7 @@ def lector(nros, nombre_archivo):
     rta = {}
 
     with open(nombre_archivo) as archivo:
-        for _ in range (maximo+1):
+        for _ in range (maximo + 1):
             linea = archivo.readline().rstrip('\n')
             lineas_solicitadas.encolar(linea)
             contador += 1
@@ -25,6 +24,7 @@ def lector(nros, nombre_archivo):
     while not lineas_solicitadas.esta_vacia():
         lista_atributos = (lineas_solicitadas.desencolar()).split(';')
         rta[lista_atributos[0]] = lista_atributos
+        
     return rta
 
 def lector_movimientos(nro, nombre_archivo):
@@ -33,11 +33,11 @@ def lector_movimientos(nro, nombre_archivo):
     El diccionario contiene todos los movimientos del pokemon solicitado.
     Retorna la información de solo un pokemon.
     """
-    contador = 1
+    contador = -1
 
     with open(nombre_archivo) as archivo:
         for linea in archivo:
-            leido = linea.readline()
+            leido = linea#.readline()
             contador += 1
             if contador == nro:
                 return leido.split(';')
