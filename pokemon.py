@@ -26,8 +26,7 @@ BOTON_RETROCESO = 30
 FRANJA_AZUL_Y = 88
 
 BOTON_ROJO = BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO * 2, BOTON_RETROCESO * 2
-BOTON_NARANJA = ANCHO_VENTANA - BOTON_RETROCESO * \
-    2, BOTON_RETROCESO, ANCHO_VENTANA - BOTON_RETROCESO, BOTON_RETROCESO * 2
+BOTON_NARANJA = ANCHO_VENTANA - BOTON_RETROCESO * 2, BOTON_RETROCESO, ANCHO_VENTANA - BOTON_RETROCESO, BOTON_RETROCESO * 2
 
 
 def crear_juego():
@@ -128,8 +127,7 @@ def cuadritos_pokemones(pag_pok, pag_equ):
     """
     Dibuja la visualización general de pokemones tomando información de 'pokemons.csv'.
     """
-    nro_pok_nombre = lectores.lector(
-        [pag_pok*NRO_FILAS*NRO_COLUMNAS - 10, pag_pok*NRO_FILAS*NRO_COLUMNAS + 28], pokemons)
+    nro_pok_nombre = lectores.lector([pag_pok*NRO_FILAS*NRO_COLUMNAS - 10, pag_pok*NRO_FILAS*NRO_COLUMNAS + 28], pokemons)
 
     for i in range(NRO_FILAS):
         for j in range(NRO_COLUMNAS):
@@ -157,8 +155,7 @@ def cuadritos_equipos(pag_pok, pag_equ):
     """
     Dibuja la visualización general de equipos tomando información de 'equipos.csv'.
     """
-    nro_pok_nombre = lectores.lector(
-        [pag_equ*NRO_FILAS*NRO_COLUMNAS - 10, pag_equ*NRO_FILAS*NRO_COLUMNAS + 28], equipos)
+    nro_pok_nombre = lectores.lector([pag_equ*NRO_FILAS*NRO_COLUMNAS - 10, pag_equ*NRO_FILAS*NRO_COLUMNAS + 28], equipos)
 
     for i in range(NRO_FILAS):
         for j in range(NRO_COLUMNAS):
@@ -167,9 +164,8 @@ def cuadritos_equipos(pag_pok, pag_equ):
 
             if i == VACIO and j == VACIO:
                 continue
-            if i == VACIO and j == 1:
-                gamelib.draw_text('+', ESPACIO_ENTRE_CUADROS*3.5 + MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (
-                    j+1) + XY_CUADRITO * j, BOTON_RETROCESO + MARGEN_CUADRITOS_SUPERIOR*1.1, fill='black', size=28, anchor='nw')
+            if i == VACIO and j == 1 and pag_equ == 0:
+                gamelib.draw_text('+', ESPACIO_ENTRE_CUADROS*3.5 + MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, BOTON_RETROCESO + MARGEN_CUADRITOS_SUPERIOR*1.1, fill='black', size=28, anchor='nw')
             elif i == 3 and j == 6:
                 continue
             else:
@@ -191,75 +187,63 @@ def un_pokemon(nro_pokemon, pag_pok, pag_equ):
     Dibuja toda la información del pokemon que recibe por parámetro.
     """
     RX1, RY1, RX2, RY2 = BOTON_ROJO  # RETROCEDE AL MENÚ ANTERIOR
+    tipo_de_stat = ('Numero', 'Imagen', 'Nombre', 'Tipos: ', 'HP: ', 'ATK: ', 'DEF: ', 'Spe-At: ', 'Spe-De: ', 'SPD: ')
 
-    try:
-        info = lectores.lector([nro_pokemon, nro_pokemon], pokemons)
-        contenido = info[str(nro_pokemon)]
-        gamelib.draw_begin()
-        gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-        gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill='#0d1364')
-        gamelib.draw_text((contenido[2]+', '+contenido[0]), ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
-        gamelib.draw_text('Tipos: ' +contenido[3], 5 * ANCHO_VENTANA // 10, 3 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
-        gamelib.draw_text('HP: '    +contenido[4], 5 * ANCHO_VENTANA // 10, 4 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
-        gamelib.draw_text('ATK: '   +contenido[5], 5 * ANCHO_VENTANA // 10, 5 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
-        gamelib.draw_text('DEF: '   +contenido[6], 5 * ANCHO_VENTANA // 10, 6 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
-        gamelib.draw_text('Spe-At: '+contenido[7], 5 * ANCHO_VENTANA // 10, 7 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
-        gamelib.draw_text('Spe-De: '+contenido[8], 5 * ANCHO_VENTANA // 10, 8 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
-        gamelib.draw_text('SPD: '   +contenido[9], 5 * ANCHO_VENTANA // 10, 9 * ALTO_VENTANA // 10, fill='black', size=30, anchor='w')
-        gamelib.draw_image(contenido[1], VACIO, ALTO_VENTANA // 4)
-    finally:
-        gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill='red')
-        gamelib.draw_end()
+    info = lectores.lector([nro_pokemon, nro_pokemon], pokemons)
+    contenido = info[str(nro_pokemon)]
+    
+    gamelib.draw_begin()
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill='#0d1364')
+    gamelib.draw_text((contenido[2]+', '+contenido[0]), ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
+    for i in range (3, 10):
+        gamelib.draw_text(tipo_de_stat[i] + contenido[i], 5 * ANCHO_VENTANA // 10, i * ALTO_VENTANA // 10, fill='black', size=30, anchor='w') 
+    gamelib.draw_image(contenido[1], VACIO, ALTO_VENTANA // 4)
+    gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill='red')
+    gamelib.draw_end()
 
-        return 'Individual Pokemon', pag_pok, pag_equ
+    return 'Individual Pokemon', pag_pok, pag_equ
 
 
 def un_equipo(nro_equipo, pag_pok, pag_equ):
     """
     Dibuja toda la información del equipo que recibe por parámetro.
     """
+    posicion_alto = 2
+    contador_pokemones = 0
+    
     RX1, RY1, RX2, RY2 = BOTON_ROJO  # RETROCEDE AL MENÚ ANTERIOR
 
-    try:
-        info = lectores.lector([nro_equipo, nro_equipo], equipos)
-        contenido = info[str(nro_equipo)]
-        gamelib.draw_begin()
-        gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-        gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill='#0d1364')
-        gamelib.draw_text((contenido[1]+', '+contenido[0]), ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
-        gamelib.draw_text(contenido[2], 1 * ANCHO_VENTANA // 9, 2 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
-        gamelib.draw_text(contenido[3], 8 * ANCHO_VENTANA // 9, 2 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
-        # ajustar alturas puse // 6 evitar superposiciosion
-        gamelib.draw_text(contenido[4], 1 * ANCHO_VENTANA // 9, 3 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
-        gamelib.draw_text(contenido[5], 8 * ANCHO_VENTANA // 9, 3 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
-        gamelib.draw_text(contenido[6], 1 * ANCHO_VENTANA // 9, 4 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
-        gamelib.draw_text(contenido[7], 8 * ANCHO_VENTANA // 9, 4 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
-        gamelib.draw_text(contenido[8], 1 * ANCHO_VENTANA // 9, 5 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
-        gamelib.draw_text(contenido[9], 8 * ANCHO_VENTANA // 9, 5 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')  # se podrían ahorrar lineas con un for
-        gamelib.draw_text(contenido[10], 1 * ANCHO_VENTANA // 9, 6 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
-        gamelib.draw_text(contenido[11], 8 * ANCHO_VENTANA // 9, 6 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
-        gamelib.draw_text(contenido[12], 1 * ANCHO_VENTANA // 9, 7 * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
-        gamelib.draw_text(contenido[13], 8 * ANCHO_VENTANA // 9, 7 * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
-    finally:
-        gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill='red')
-        gamelib.draw_end()
+    info = lectores.lector([nro_equipo, nro_equipo], equipos)
+    contenido = info[str(nro_equipo)]
+    numero_pokemones_en_equipo = len(contenido)
 
-        return 'Individual Equipo', pag_pok, pag_equ
+    gamelib.draw_begin()
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill='#0d1364')
+    gamelib.draw_text((contenido[1]+', '+ contenido[0]), ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
+    for i in range (2, 13, 2):
+        if contador_pokemones + 1 == numero_pokemones_en_equipo:
+            break
+        gamelib.draw_text(contenido[i],   1 * ANCHO_VENTANA // 9, (posicion_alto) * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
+        gamelib.draw_text(contenido[i+1], 8 * ANCHO_VENTANA // 9, (posicion_alto) * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
+        contador_pokemones += 1
+        posicion_alto += 1
+    gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill='red')
+    gamelib.draw_end()
+
+    return 'Individual Equipo', pag_pok, pag_equ
 
 
 def creador_equipos():
     pokemones_elegidos = []
     poderes_elegidos = []
     elegido = ''
-    total_de_pokemones = -1  # Ignora la primera linea de encabezados
-    
-    with open (movimientos) as archivo:
-        for linea in archivo:
-            total_de_pokemones += 1
+
+    total_de_pokemones = lectores.cuantas_lineas_archivo(pokemons)
     
     nombre_equipo = gamelib.input("Elija un nombre para su equipo. Cancele la formación con [CANCELAR]")
     if nombre_equipo == None:
-        print ('holaa')
         return None
     nombre_equipo.upper()
     
@@ -337,7 +321,6 @@ def nuevo_equipo_a_archivo(nombre_equipo, pokemones, poderes):
     Escribe los resultados de creador_equipo() en 'equipos.csv' 
     """
     largo_equipos = 0
-    print ('306', nombre_equipo, pokemones, poderes)
     
     with open(equipos) as archivo:
         for linea in archivo:
