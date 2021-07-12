@@ -41,3 +41,15 @@ def lector_movimientos(nro, nombre_archivo):
             contador += 1
             if contador == nro:
                 return leido.split(';')
+            
+def cuantas_lineas_archivo(archivo):
+    """
+    Lee cuantas lineas tiene un archivo, ignorando la primera de los encabezados.
+    """
+    total_de_lineas = -1  # IGNORA LA LINEA DE ENCABEZADOS
+    
+    with open (archivo) as archivo:
+        for linea in archivo:
+            total_de_lineas += 1
+            
+    return total_de_lineas
