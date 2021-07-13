@@ -186,6 +186,7 @@ def cuadritos(pag_pok, pag_equ, opcion):
         
     gamelib.draw_text('->', DER_X, DER_Y, fill='black', size=30, anchor='se')  # FLECHA PARA PASAR A LA PÁGINA SIGUIENTE
 
+    
 def un_pokemon(nro_pokemon, pag_pok, pag_equ):
     """
     Dibuja toda la información del pokemon que recibe por parámetro.
@@ -309,6 +310,7 @@ def recibir_movimientos_equipo(pokemones_elegidos):
     poderes_elegidos = []
     for monstruo in pokemones_elegidos:
         info = lectores.lector_por_numero(monstruo, movimientos)
+        info[1].rstrip('\n')
         lista_movimientos = info[1].split(',')
         aux = []
         gamelib.say(MENSAJE_MOVIMIENTOS.format(info[0]))
