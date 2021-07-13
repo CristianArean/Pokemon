@@ -38,9 +38,7 @@ def lector_por_numero(nro, nombre_archivo):
         for linea in archivo:
             leido = linea#.readline()
             contador += 1
-            print (contador, linea)
             if contador == nro:
-                print (leido)
                 return leido.split(';')
             
 def cuantas_lineas_archivo(archivo):
