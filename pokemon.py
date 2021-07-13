@@ -8,6 +8,8 @@ pokemons = 'pokemons.csv'
 ANCHO_VENTANA = 900
 ALTO_VENTANA = 600
 
+MENSAJE_BUSCADOR = 'Ingrese el número del pokemon que desea ver.'
+MENSAJE_BUSCADOR_ERROR = 'No ingresó un digito válido. Ingrese el número del pokemon que desea ver'
 MENSAJE_NOMBRE = "Elija un nombre para su equipo. Cancele la formación con [CANCELAR]"
 MENSAJE_NOMBRE_ERROR = 'Por favor dale un nombre a tu equipo. Si quieres cancelar la formación pulsa [CANCELAR]'
 MENSAJE_POKEMON = "Eliga un pokemon ingresando su número y presionando [OK]. Cancele la formación con [CANCELAR]"
@@ -36,9 +38,11 @@ MARGEN_CUADRITOS_IZQUIERDO = 70
 ESPACIO_ENTRE_CUADROS = 10
 BOTON_RETROCESO = 30
 FRANJA_AZUL_Y = 88
+MITAD_ANCHO = ANCHO_VENTANA // 2
 
 BOTON_ROJO = BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO * 2, BOTON_RETROCESO * 2
 BOTON_NARANJA = ANCHO_VENTANA - BOTON_RETROCESO * 2, BOTON_RETROCESO, ANCHO_VENTANA - BOTON_RETROCESO, BOTON_RETROCESO * 2
+BOTON_EDITAR_EQUIPO = 2 * ANCHO_VENTANA // 5, 7 * ALTO_VENTANA // 8, 3 * ANCHO_VENTANA // 5, 7 * ALTO_VENTANA // 8 + ALTO_BOTONES
 
 
 def crear_juego():
@@ -64,13 +68,13 @@ def buscador_particular(pag_pok, pag_equ):
     Le pide un número de pokemon al usuario y lo manda
     a la ventana correspondiente a ese pokemon.
     """
-    numero = gamelib.input('Ingrese el número del pokemon que desea ver.')
+    numero = gamelib.input(MENSAJE_BUSCADOR)
     
     if numero == None or numero == '':
         return 'menu Pokemones', pag_pok, pag_equ 
     else:
         while not numero.isdigit(): 
-            numero = gamelib.input('No ingreso un digite un caracter valido. Ingrese el número del pokemon que desea ver')
+            numero = gamelib.input(MENSAJE_BUSCADOR_ERROR)
         return un_pokemon(int(numero), pag_pok, pag_equ)
 
 
@@ -218,6 +222,14 @@ def un_pokemon(nro_pokemon, pag_pok, pag_equ):
     return 'Individual Pokemon', pag_pok, pag_equ
 
 
+def numero_a_nombre(nro):
+    """
+    Recibe el número de un pokemon y retorna su nombre en string.
+    """
+    info = lectores.lector_por_numero(nro, pokemons)
+    return info[2]
+
+
 def un_equipo(nro_equipo, pag_pok, pag_equ):
     """
     Dibuja toda la información del equipo que recibe por parámetro.
@@ -226,35 +238,37 @@ def un_equipo(nro_equipo, pag_pok, pag_equ):
     contador_pokemones = 0
     
     RX1, RY1, RX2, RY2 = BOTON_ROJO  # RETROCEDE AL MENÚ ANTERIOR
+    EX1, EY1, EX2, EY2 = BOTON_EDITAR_EQUIPO  #ABRE EL MENÚ DE EDICIÓN
 
     info = lectores.lector_en_rango([nro_equipo, nro_equipo], equipos)
     contenido = info[str(nro_equipo)]
     numero_pokemones_en_equipo = (len(contenido) - 3) // 2
     gamelib.draw_begin()
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill='#0d1364')
-    gamelib.draw_text((contenido[1]+', '+ contenido[0]), ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill='#0d1364')  #FRANJA AZUL
+    gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill='red')  #BOTON ROJO
+    gamelib.draw_rectangle(EX1, EY1, EX2, EY2, fill='#f1f8ff')  #BOTON EDITAR
+    gamelib.draw_text('EDITAR', MITAD_ANCHO, EY1, fill = 'black', size = 25, anchor = 'n')  #TEXTO BOTON EDITAR
+    gamelib.draw_text((contenido[1]+', '+ contenido[0]), ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')  #NOMBRE DE EQUIPO Y NÚMERO
     
     for i in range (2, 13, 2):
         if contador_pokemones == numero_pokemones_en_equipo:
             break
-        gamelib.draw_text(contenido[i],   1 * ANCHO_VENTANA // 9, (posicion_alto) * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
-        gamelib.draw_text(contenido[i+1], 8 * ANCHO_VENTANA // 9, (posicion_alto) * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
+        gamelib.draw_text(numero_a_nombre(int(contenido[i])),   1 * ANCHO_VENTANA // 9, (posicion_alto) * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')  #NOMBRE DE POKEMON
+        gamelib.draw_text(contenido[i+1],                       8 * ANCHO_VENTANA // 9, (posicion_alto) * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')  #MOVMIENTOS DE POKEMON
         contador_pokemones += 1
         posicion_alto += 1
         
-    gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill='red')
     gamelib.draw_end()
 
-    return 'Individual Equipo', pag_pok, pag_equ
+    return 'Individual Equipo', pag_pok, pag_equ, nro_equipo
 
 
-def creador_equipos():
-    pokemones_elegidos = []
-    poderes_elegidos = []
-    elegido = ''
+def recibir_nombre_equipo():
+    """
+    Solicita al usuario el nombre del nuevo equipo
+    """
     nombre_equipo = ''
-    total_de_pokemones = lectores.cuantas_lineas_archivo(pokemons)
     
     while nombre_equipo == '':
         nombre_equipo = gamelib.input(MENSAJE_NOMBRE)
@@ -262,9 +276,22 @@ def creador_equipos():
             gamelib.say(MENSAJE_NOMBRE_ERROR)
         if nombre_equipo == None:
             return None
+        
     nombre_equipo.upper()
     
-    while len(pokemones_elegidos) <= MAX_NRO_POKEMONES_EQUIPO: 
+    return nombre_equipo
+    
+    
+def recibir_pokemones_equipo(nombre_equipo):
+    """
+    Solicita al usuario los pokemones del nuevo equipo.
+    Recibe el nombre del nuevo equipo.
+    """
+    pokemones_elegidos = []
+    total_de_pokemones = lectores.cuantas_lineas_archivo(pokemons)
+    
+    while len(pokemones_elegidos) <= MAX_NRO_POKEMONES_EQUIPO:
+        elegido = ''
         elegido = gamelib.input(MENSAJE_POKEMON)
 
         if elegido == None:
@@ -272,19 +299,27 @@ def creador_equipos():
         
         elif elegido == '':
             break
-        
+
         while not elegido.isdigit() and (1 <= elegido <= total_de_pokemones or elegido in pokemones_elegidos):
             gamelib.say(MENSAJE_POKEMON_ERROR)
             elegido = gamelib.input(MENSAJE_POKEMON)
             
         aux_nombre = lectores.lector_por_numero(int(elegido), movimientos)
         gamelib.say((MENSAJE_ELEGISTE_POKEMON.format(aux_nombre[0], nombre_equipo, MAX_NRO_POKEMONES_EQUIPO)))
-        
         pokemones_elegidos.append(int(elegido))
         
         if len(pokemones_elegidos) == 0:
                 continue
             
+    return pokemones_elegidos
+
+
+def recibir_movimientos_equipo(pokemones_elegidos):
+    """
+    Solicita al usuario los poderes de los pokemones del nuevo equipo.
+    Recibe los pokemones elegidos.
+    """
+    poderes_elegidos = []
     for monstruo in pokemones_elegidos:
         info = lectores.lector_por_numero(monstruo, movimientos)
         lista_movimientos = info[1].split(',')
@@ -314,29 +349,28 @@ def creador_equipos():
             aux.append(eleccion_pequena)
 
         poderes_elegidos.append(aux)
+        
+    return poderes_elegidos
+
+
+def creador_equipos():
+    """
+    Llama a las tres funciones que le piden la información necesaria al usuario para
+    crear un equipo nuevo
+    """
+    nombre_equipo = recibir_nombre_equipo()
+    if nombre_equipo == None:
+        return None
+    
+    pokemones_elegidos = recibir_pokemones_equipo(nombre_equipo)
+    if pokemones_elegidos == None:
+        return None
+    
+    poderes_elegidos = recibir_movimientos_equipo(pokemones_elegidos)
+    if poderes_elegidos == None:
+        return None
 
     return nombre_equipo, pokemones_elegidos, poderes_elegidos
-
-
-def menu_creador(pag_pok, pag_equ):
-    """
-    Dibuja el menú creador y llama a creador_equipo().
-    Escribe los resultados de creador_equipo() en 'equipos.csv'
-    """
-    gamelib.draw_begin()
-    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
-    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill = '#0d1364')
-    gamelib.draw_text('CREACIÓN DE UN EQUIPO NUEVO', ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
-    gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
-    gamelib.draw_end()
-
-    seleccion_usuario = creador_equipos()
-    
-    if not seleccion_usuario == None:
-        nombre_equipo, pokemones, poderes = seleccion_usuario
-        nuevo_equipo_a_archivo(nombre_equipo, pokemones, poderes)
-    
-    return menu_equipos(pag_pok, pag_equ)
 
 
 def nuevo_equipo_a_archivo(nombre_equipo, pokemones, poderes):
@@ -359,9 +393,33 @@ def nuevo_equipo_a_archivo(nombre_equipo, pokemones, poderes):
 
     with open(equipos, 'a') as archivo:
         archivo.write('\n' + largo_equipos + nombre_equipo)
+
+
+def menu_creador(pag_pok, pag_equ):
+    """
+    Dibuja el menú creador y llama a creador_equipo().
+    Escribe los resultados de creador_equipo() en 'equipos.csv'
+    """
+    gamelib.draw_begin()
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
+    gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill = '#0d1364')
+    gamelib.draw_text('CREACIÓN DE UN EQUIPO NUEVO', ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
+    gamelib.draw_rectangle(BOTON_RETROCESO, BOTON_RETROCESO, BOTON_RETROCESO*2, BOTON_RETROCESO*2, fill = 'red')
+    gamelib.draw_end()
+
+    seleccion_usuario = creador_equipos()
+    
+    if not seleccion_usuario == None:
+        nombre_equipo, pokemones, poderes = seleccion_usuario
+        nuevo_equipo_a_archivo(nombre_equipo, pokemones, poderes)
+    
+    return menu_equipos(pag_pok, pag_equ)
         
         
 def que_pokemon(x, y, pag_pok, pag_equ):
+    """
+    Recibe la posición de un click y retorna qué pokemon debe mostrar dependiendo del número de página.
+    """
     xcuadro = (x - MARGEN_CUADRITOS_IZQUIERDO) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
     ycuadro = (y - MARGEN_CUADRITOS_SUPERIOR)  // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
     nro_pokemon = ycuadro * NRO_COLUMNAS + xcuadro + pag_pok * 26
@@ -379,6 +437,9 @@ def que_pokemon(x, y, pag_pok, pag_equ):
 
 
 def que_equipo(x, y, pag_pok, pag_equ):
+    """
+    Recibe la posición de un click y retorna qué equipo debe mostrar dependiendo del número de página.
+    """
     xcuadro = (x - MARGEN_CUADRITOS_IZQUIERDO) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
     ycuadro = (y - MARGEN_CUADRITOS_SUPERIOR)  // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
     nro_equipo = ycuadro * NRO_COLUMNAS + xcuadro + pag_equ * 26
@@ -405,6 +466,7 @@ def navegacion(x, y, juego):
     """
     RX1, RY1, RX2, RY2 = BOTON_ROJO
     NX1, NY1, NX2, NY2 = BOTON_NARANJA
+    EX1, EY1, EX2, EY2 = BOTON_EDITAR_EQUIPO  
     BOTON_IZQ_X1, BOTON_IZQ_Y1, BOTON_IZQ_X2, BOTON_IZQ_Y2 = MARGEN_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA // 2 - ESPACIO_ENTRE_BOTONES, BOTON_Y2
     BOTON_DER_X1, BOTON_DER_Y1, BOTON_DER_X2, BOTON_DER_Y2 = ANCHO_VENTANA // 2 + ESPACIO_ENTRE_BOTONES, BOTON_Y1, ANCHO_VENTANA - MARGEN_ENTRE_BOTONES, BOTON_Y2
 
@@ -436,5 +498,7 @@ def navegacion(x, y, juego):
     if juego[0] == 'Individual Equipo':
         if RX1 < x < RX2 and RY1 < y < RY2:
             return menu_equipos(pag_pok, pag_equ)  # BOTON ROJO
+        if EX1 < x < EX2 and EY1 < y < EY2:
+            return editar_equipos(juego[3])
 
     return 'menu principal', 0, 0
