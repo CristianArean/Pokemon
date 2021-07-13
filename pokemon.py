@@ -57,7 +57,7 @@ def buscador_particular(pag_pok, pag_equ):
     if numero == None:
         return 'menu Pokemones', pag_pok, pag_equ 
     else:
-        while not numero.isdigit():
+        while not numero.isdigit(): #####################################################################################################################
             numero = gamelib.input('No ingreso un digite un caracter valido. Ingrese el número del pokemon que desea ver')
         return un_pokemon(int(numero), pag_pok, pag_equ)
 
@@ -216,19 +216,24 @@ def un_equipo(nro_equipo, pag_pok, pag_equ):
 
     info = lectores.lector([nro_equipo, nro_equipo], equipos)
     contenido = info[str(nro_equipo)]
-    numero_pokemones_en_equipo = len(contenido)
-
+    numero_pokemones_en_equipo = (len(contenido) - 3) // 2
+    print (contenido)
     gamelib.draw_begin()
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill='#0d1364')
     gamelib.draw_text((contenido[1]+', '+ contenido[0]), ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
+    
     for i in range (2, 13, 2):
-        if contador_pokemones + 1 == numero_pokemones_en_equipo:
+        print (contador_pokemones, numero_pokemones_en_equipo)
+        if contador_pokemones == numero_pokemones_en_equipo:
             break
         gamelib.draw_text(contenido[i],   1 * ANCHO_VENTANA // 9, (posicion_alto) * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
+        print (contenido[i])
         gamelib.draw_text(contenido[i+1], 8 * ANCHO_VENTANA // 9, (posicion_alto) * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
+        print (contenido[i+1])
         contador_pokemones += 1
         posicion_alto += 1
+        
     gamelib.draw_rectangle(RX1, RY1, RX2, RY2, fill='red')
     gamelib.draw_end()
 
@@ -236,6 +241,7 @@ def un_equipo(nro_equipo, pag_pok, pag_equ):
 
 
 def creador_equipos():
+    print ('242')
     pokemones_elegidos = []
     poderes_elegidos = []
     elegido = ''
@@ -249,26 +255,27 @@ def creador_equipos():
     
     while len(pokemones_elegidos) <= 6: 
         print (pokemones_elegidos)
-        elegido = gamelib.input("Eliga un pokemon. Termine la selección con [CANCELAR]")
+        elegido = gamelib.input("Eliga un pokemon ingresando su número. Termine la selección con [CANCELAR]")
 
         if elegido == None or elegido == '':
+            print ('258')
             break
         
         while not elegido.isdigit() and not range(1, total_de_pokemones):
             gamelib.say("ERROR. Ingrese el número de un pokemon disponible.")
-            elegido = gamelib.input("Eliga un pokemon. Termine la selección con [CANCELAR]")
+            elegido = gamelib.input("Eliga un pokemon ingresando su número. Termine la selección con [CANCELAR]")
         pokemones_elegidos.append(int(elegido))
         
         if len(pokemones_elegidos) == 0:
                 continue
-            
+    print ('268') 
     for monstruo in pokemones_elegidos:
         print (monstruo, type(monstruo))
         info = lectores.lector_movimientos(monstruo, movimientos)
         lista_movimientos = info[1].split(',')
         aux = []
         
-        while len(aux) < 5 or len(aux) == len(lista_movimientos):  
+        while len(aux) < 4 or len(aux) == len(lista_movimientos):  
             mensaje_por_pokemon = '¿Qué poder desea elegir para {}? Están disponibles {}.'.format(info[0], lista_movimientos) 
             eleccion_pequena = gamelib.input(mensaje_por_pokemon)
             
@@ -310,7 +317,7 @@ def menu_creador(pag_pok, pag_equ):
     seleccion_usuario = creador_equipos()
     
     if not seleccion_usuario == None:
-        nombre_equipo, pokemones, poderes = creador_equipos()
+        nombre_equipo, pokemones, poderes = seleccion_usuario
         nuevo_equipo_a_archivo(nombre_equipo, pokemones, poderes)
     
     return menu_equipos(pag_pok, pag_equ)
