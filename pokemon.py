@@ -8,9 +8,21 @@ pokemons = 'pokemons.csv'
 ANCHO_VENTANA = 900
 ALTO_VENTANA = 600
 
+MENSAJE_NOMBRE = "Elija un nombre para su equipo. Cancele la formación con [CANCELAR]"
+MENSAJE_NOMBRE_ERROR = 'Por favor dale un nombre a tu equipo. Si quieres cancelar la formación pulsa [CANCELAR]'
+MENSAJE_POKEMON = "Eliga un pokemon ingresando su número y presionando [OK]. Cancele la formación con [CANCELAR]"
+MENSAJE_POKEMON_ERROR = "ERROR. Ingrese el número de un pokemon disponible."
+MENSAJE_ELEGISTE_POKEMON = 'Elegiste a {} para el equipo {}. Puedes seguir eligiendo hasta llegar al límite de {} pokemones o terminar la elección con [CANCELAR]'
+MENSAJE_MOVIMIENTOS = 'Ahora podrá elegir los movimientos para {}.'
+MENSAJE_MOVIMIENTOS_OPCIONES = '¿Qué poder desea elegir para {}? Están disponibles {}.'
+MENSAJE_MOVIMIENTOS_REPETIDO = 'Ese movimiento ya fue elegido. Eliga otro o termine la elección.'
+MENSAJE_MOVIMIENTOS_ERROR = "No ingreso un movimiento disponible. Eliga uno de los siguientes {}. Termine la selección con [CANCELAR]"
+
 VACIO = 0
 NRO_COLUMNAS = 7
 NRO_FILAS = 4
+MAX_NRO_POKEMONES_EQUIPO = 6
+MAX_NRO_MOVIMIENTOS_POKEMON = 4
 
 TITLE_Y = 70
 MARGEN_ENTRE_BOTONES = 70
@@ -43,7 +55,7 @@ def crear_juego():
     with open(equipos, 'w') as archivo:
         for _ in range(1):
             archivo.writelines(
-                'equipo_nombre;integrante1;movimientos1;integrante2;movimientos2;integrante3;movimientos3;integrante4;movimientos4;integrante5;movimientos5;integrante6;movimientos6')
+                'equipo_numero;equipo_nombre;integrante1;movimientos1;integrante2;movimientos2;integrante3;movimientos3;integrante4;movimientos4;integrante5;movimientos5;integrante6;movimientos6')
     return 'menu principal', 0, 0
 
 
@@ -127,7 +139,7 @@ def cuadritos_pokemones(pag_pok, pag_equ):
     """
     Dibuja la visualización general de pokemones tomando información de 'pokemons.csv'.
     """
-    nro_pok_nombre = lectores.lector([pag_pok*NRO_FILAS*NRO_COLUMNAS - 10, pag_pok*NRO_FILAS*NRO_COLUMNAS + 28], pokemons)
+    nro_pok_nombre = lectores.lector_en_rango([pag_pok*NRO_FILAS*NRO_COLUMNAS - 10, pag_pok*NRO_FILAS*NRO_COLUMNAS + 28], pokemons)
 
     for i in range(NRO_FILAS):
         for j in range(NRO_COLUMNAS):
@@ -155,7 +167,7 @@ def cuadritos_equipos(pag_pok, pag_equ):
     """
     Dibuja la visualización general de equipos tomando información de 'equipos.csv'.
     """
-    nro_pok_nombre = lectores.lector([pag_equ*NRO_FILAS*NRO_COLUMNAS - 10, pag_equ*NRO_FILAS*NRO_COLUMNAS + 28], equipos)
+    nro_pok_nombre = lectores.lector_en_rango([pag_equ*NRO_FILAS*NRO_COLUMNAS - 10, pag_equ*NRO_FILAS*NRO_COLUMNAS + 28], equipos)
 
     for i in range(NRO_FILAS):
         for j in range(NRO_COLUMNAS):
@@ -166,6 +178,7 @@ def cuadritos_equipos(pag_pok, pag_equ):
                 continue
             if i == VACIO and j == 1 and pag_equ == 0:
                 gamelib.draw_text('+', ESPACIO_ENTRE_CUADROS*3.5 + MARGEN_CUADRITOS_IZQUIERDO + ESPACIO_ENTRE_CUADROS * (j+1) + XY_CUADRITO * j, BOTON_RETROCESO + MARGEN_CUADRITOS_SUPERIOR*1.1, fill='black', size=28, anchor='nw')
+                continue
             elif i == 3 and j == 6:
                 continue
             else:
@@ -189,7 +202,7 @@ def un_pokemon(nro_pokemon, pag_pok, pag_equ):
     RX1, RY1, RX2, RY2 = BOTON_ROJO  # RETROCEDE AL MENÚ ANTERIOR
     tipo_de_stat = ('Numero', 'Imagen', 'Nombre', 'Tipos: ', 'HP: ', 'ATK: ', 'DEF: ', 'Spe-At: ', 'Spe-De: ', 'SPD: ')
 
-    info = lectores.lector([nro_pokemon, nro_pokemon], pokemons)
+    info = lectores.lector_en_rango([nro_pokemon, nro_pokemon], pokemons)
     contenido = info[str(nro_pokemon)]
     
     gamelib.draw_begin()
@@ -214,23 +227,19 @@ def un_equipo(nro_equipo, pag_pok, pag_equ):
     
     RX1, RY1, RX2, RY2 = BOTON_ROJO  # RETROCEDE AL MENÚ ANTERIOR
 
-    info = lectores.lector([nro_equipo, nro_equipo], equipos)
+    info = lectores.lector_en_rango([nro_equipo, nro_equipo], equipos)
     contenido = info[str(nro_equipo)]
     numero_pokemones_en_equipo = (len(contenido) - 3) // 2
-    print (contenido)
     gamelib.draw_begin()
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, ALTO_VENTANA)
     gamelib.draw_rectangle(VACIO, VACIO, ANCHO_VENTANA, FRANJA_AZUL_Y, fill='#0d1364')
     gamelib.draw_text((contenido[1]+', '+ contenido[0]), ANCHO_VENTANA // 2, TITLE_Y, fill='white', size=30, anchor='s')
     
     for i in range (2, 13, 2):
-        print (contador_pokemones, numero_pokemones_en_equipo)
         if contador_pokemones == numero_pokemones_en_equipo:
             break
         gamelib.draw_text(contenido[i],   1 * ANCHO_VENTANA // 9, (posicion_alto) * ALTO_VENTANA // 8, fill='black', size=30, anchor='w')
-        print (contenido[i])
         gamelib.draw_text(contenido[i+1], 8 * ANCHO_VENTANA // 9, (posicion_alto) * ALTO_VENTANA // 8, fill='black', size=20, anchor='e')
-        print (contenido[i+1])
         contador_pokemones += 1
         posicion_alto += 1
         
@@ -241,46 +250,55 @@ def un_equipo(nro_equipo, pag_pok, pag_equ):
 
 
 def creador_equipos():
-    print ('242')
     pokemones_elegidos = []
     poderes_elegidos = []
     elegido = ''
-
+    nombre_equipo = ''
     total_de_pokemones = lectores.cuantas_lineas_archivo(pokemons)
     
-    nombre_equipo = gamelib.input("Elija un nombre para su equipo. Cancele la formación con [CANCELAR]")
-    if nombre_equipo == None:
-        return None
+    while nombre_equipo == '':
+        nombre_equipo = gamelib.input(MENSAJE_NOMBRE)
+        if nombre_equipo == '':
+            gamelib.say(MENSAJE_NOMBRE_ERROR)
+        if nombre_equipo == None:
+            return None
     nombre_equipo.upper()
     
-    while len(pokemones_elegidos) <= 6: 
-        print (pokemones_elegidos)
-        elegido = gamelib.input("Eliga un pokemon ingresando su número. Termine la selección con [CANCELAR]")
+    while len(pokemones_elegidos) <= MAX_NRO_POKEMONES_EQUIPO: 
+        elegido = gamelib.input(MENSAJE_POKEMON)
 
-        if elegido == None or elegido == '':
-            print ('258')
+        if elegido == None:
+            return None
+        
+        elif elegido == '':
             break
         
-        while not elegido.isdigit() and not range(1, total_de_pokemones):
-            gamelib.say("ERROR. Ingrese el número de un pokemon disponible.")
-            elegido = gamelib.input("Eliga un pokemon ingresando su número. Termine la selección con [CANCELAR]")
+        while not elegido.isdigit() and (1 <= elegido <= total_de_pokemones or elegido in pokemones_elegidos):
+            gamelib.say(MENSAJE_POKEMON_ERROR)
+            elegido = gamelib.input(MENSAJE_POKEMON)
+            
+        aux_nombre = lectores.lector_por_numero(int(elegido), movimientos)
+        gamelib.say((MENSAJE_ELEGISTE_POKEMON.format(aux_nombre[0], nombre_equipo, MAX_NRO_POKEMONES_EQUIPO)))
+        
         pokemones_elegidos.append(int(elegido))
         
         if len(pokemones_elegidos) == 0:
                 continue
-    print ('268') 
+            
     for monstruo in pokemones_elegidos:
-        print (monstruo, type(monstruo))
-        info = lectores.lector_movimientos(monstruo, movimientos)
+        info = lectores.lector_por_numero(monstruo, movimientos)
         lista_movimientos = info[1].split(',')
         aux = []
+        gamelib.say(MENSAJE_MOVIMIENTOS.format(info[0]))
         
-        while len(aux) < 4 or len(aux) == len(lista_movimientos):  
-            mensaje_por_pokemon = '¿Qué poder desea elegir para {}? Están disponibles {}.'.format(info[0], lista_movimientos) 
-            eleccion_pequena = gamelib.input(mensaje_por_pokemon)
+        while len(aux) < MAX_NRO_MOVIMIENTOS_POKEMON or len(aux) == len(lista_movimientos):
+            eleccion_pequena = gamelib.input((MENSAJE_MOVIMIENTOS_OPCIONES.format(info[0], lista_movimientos)))
+            
+            if eleccion_pequena == None:
+                return None
             
             if eleccion_pequena in aux:
-                gamelib.say('Ese movimiento ya fue elegido. Eliga otro o termine la elección.')
+                gamelib.say(MENSAJE_MOVIMIENTOS_REPETIDO)
                 continue
             
             elif eleccion_pequena == '':
@@ -289,13 +307,11 @@ def creador_equipos():
                 break
             
             while not eleccion_pequena in lista_movimientos:
-                mensaje_para_input = "No ingreso un movimiento disponible. Eliga uno de los siguientes" + info[1] + "Termine la selección con [CANCELAR]"
-                eleccion_pequena = gamelib.input(mensaje_para_input)
+                eleccion_pequena = gamelib.input((MENSAJE_MOVIMIENTOS_ERROR.format(info[1])))
                 if eleccion_pequena == '' or eleccion_pequena == None:
                     break
             
             aux.append(eleccion_pequena)
-            print (aux)
 
         poderes_elegidos.append(aux)
 
@@ -333,8 +349,8 @@ def nuevo_equipo_a_archivo(nombre_equipo, pokemones, poderes):
         for linea in archivo:
             if linea != '\n':
                 largo_equipos += 1
+                
     largo_equipos = str(largo_equipos)+';'
-
     nombre_equipo += ';'
 
     for i in range (len(pokemones)):
