@@ -25,6 +25,7 @@ NRO_COLUMNAS = 7
 NRO_FILAS = 4
 MAX_NRO_POKEMONES_EQUIPO = 6
 MAX_NRO_MOVIMIENTOS_POKEMON = 4
+TOTAL_POKEMONES = lectores.cuantas_lineas_archivo(pokemons)
 
 TITLE_Y = 70
 MARGEN_ENTRE_BOTONES = 70
@@ -75,7 +76,7 @@ def buscador_particular(pag_pok, pag_equ):
     if numero == None or numero == '':
         return 'menu Pokemones', pag_pok, pag_equ 
     else:
-        while not numero.isdigit(): 
+        while not (numero.isdigit() and int(numero) <= TOTAL_POKEMONES): 
             numero = gamelib.input(MENSAJE_BUSCADOR_ERROR)
         return un_pokemon(int(numero), pag_pok, pag_equ)
 
@@ -167,7 +168,7 @@ def cuadritos(pag_pok, pag_equ, opcion):
             if (i == VACIO and j == VACIO) or (i == 3 and j == 6):
                 continue
 
-            iteracion = str(pag_pok * (NRO_FILAS * NRO_COLUMNAS) + i * NRO_COLUMNAS + j - 2 * pag)
+            iteracion = str(pag * (NRO_FILAS * NRO_COLUMNAS) + i * NRO_COLUMNAS + j - 2 * pag)
 
             try:
                 if opcion == 'pokemon':
@@ -421,8 +422,10 @@ def que_pokemon(x, y, pag_pok, pag_equ):
     if (nro_pokemon - pag_pok * 26) == 27:
         return menu_pokemones(pag_pok+1, pag_equ)
 
-    if nro_pokemon > 0:
+    if nro_pokemon > 0 and nro_pokemon <= TOTAL_POKEMONES:
         return un_pokemon(nro_pokemon, pag_pok, pag_equ)
+    
+    return menu_pokemones(pag_pok, pag_equ)
 
 
 def que_equipo(x, y, pag_pok, pag_equ):
@@ -432,6 +435,7 @@ def que_equipo(x, y, pag_pok, pag_equ):
     xcuadro = (x - MARGEN_CUADRITOS_IZQUIERDO) // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
     ycuadro = (y - MARGEN_CUADRITOS_SUPERIOR)  // (XY_CUADRITO + ESPACIO_ENTRE_CUADROS)
     nro_equipo = ycuadro * NRO_COLUMNAS + xcuadro + pag_equ * 26
+    total_equipos = lectores.cuantas_lineas_archivo(equipos)
 
     if (nro_equipo - pag_equ * 26) == 0 and pag_equ != 0:
         if pag_equ > 0:
@@ -444,7 +448,7 @@ def que_equipo(x, y, pag_pok, pag_equ):
     if nro_equipo == 0 and pag_equ == 0:
         return menu_creador(pag_pok, pag_equ)
 
-    if nro_equipo > 0:
+    if nro_equipo > 0 and nro_equipo <= total_equipos:
         return un_equipo(nro_equipo, pag_pok, pag_equ)
     
     return menu_equipos(pag_pok, pag_equ)
