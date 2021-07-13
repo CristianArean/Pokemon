@@ -180,7 +180,7 @@ def cuadritos(pag_pok, pag_equ, opcion):
             gamelib.draw_text(nombre, X_NOMBRE, Y1, fill='black', size=11, anchor='nw')
             
     if opcion == 'equipo' and pag == 0:
-        gamelib.draw_text('+', MAS_X, MAS_Y, fill='black', size=28, anchor='nw')
+        gamelib.draw_text('+', MAS_X, MAS_Y, fill='black', size=28, anchor='nw')  # SIMBOLO SUMA PARA AGREGAR UN NUEVO EQUIPO
     else:
         gamelib.draw_text('<-', IZQ_X, IZQ_Y, fill='black', size=30, anchor='nw')  # FLECHA PARA PASAR A LA PÁGINA ANTERIOR
         
