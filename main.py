@@ -1,11 +1,9 @@
 import pokemon
 
-ANCHO_VENTANA = 900
-ALTO_VENTANA = 600
 
 def main():
     juego = pokemon.crear_juego()
-    pokemon.gamelib.resize(ANCHO_VENTANA, ALTO_VENTANA)
+    pokemon.gamelib.resize(pokemon.ANCHO_VENTANA, pokemon.ALTO_VENTANA)
 
     while pokemon.gamelib.is_alive():
         if juego[0] == 'menu principal':
