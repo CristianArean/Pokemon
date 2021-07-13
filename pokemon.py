@@ -54,10 +54,10 @@ def buscador_particular(pag_pok, pag_equ):
     """
     numero = gamelib.input('Ingrese el número del pokemon que desea ver.')
     
-    if numero == None:
+    if numero == None or numero == '':
         return 'menu Pokemones', pag_pok, pag_equ 
     else:
-        while not numero.isdigit(): #####################################################################################################################
+        while not numero.isdigit(): 
             numero = gamelib.input('No ingreso un digite un caracter valido. Ingrese el número del pokemon que desea ver')
         return un_pokemon(int(numero), pag_pok, pag_equ)
 
