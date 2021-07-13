@@ -1,6 +1,6 @@
 from tda import Cola
 
-def lector(nros, nombre_archivo): 
+def lector_en_rango(nros, nombre_archivo): 
     """
     Lee el archivo ingresado por parametro, ignora la primera linea y retorna un diccionario con el numero de linea como llave
     El diccionario contiene toda la info del rango de lineas solicitado (en forma de lista). Si es necesaria la información de solo una linea, 
@@ -27,19 +27,20 @@ def lector(nros, nombre_archivo):
         
     return rta
 
-def lector_movimientos(nro, nombre_archivo):
+def lector_por_numero(nro, nombre_archivo):
     """
     Lee el archivo ingresado por parametro, ignora la primera linea y retorna un diccionario con el numero de linea como llave.
-    El diccionario contiene todos los movimientos del pokemon solicitado.
+    El diccionario contiene toda la información de la linea solicitada como lista.
     Retorna la información de solo un pokemon.
     """
     contador = -1
-
     with open(nombre_archivo) as archivo:
         for linea in archivo:
             leido = linea#.readline()
             contador += 1
+            print (contador, linea)
             if contador == nro:
+                print (leido)
                 return leido.split(';')
             
 def cuantas_lineas_archivo(archivo):
