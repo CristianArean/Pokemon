@@ -409,12 +409,18 @@ def menu_creador(pag_pok, pag_equ):
 def editar_equipos(nro_equipo):
     #comenzamos leyendo el archivo y guardamos todo en una lista
     with open (equipos, "r") as inpf:
-        reader = csv.reader(inpf)
+        lector = csv.reader(inpf)
         data = list(reader)
     #pedimos al usuario que quiere borrar
+    
     primer_int = gamelib.input("que pokemon desea borrar[ingrese su numero]?")
     while not primer_int.isnumeric():
       primer_int = gamelib.input("No eligio un pokemon, que pokemon desea borrar[ingrese su numero]?")
+    
+    #pedimos a la funcion la lista con el equipo que quiere borrar
+    #excluimos los primeros dos items ya que se podria dar el caso de querer borrar un pokemon y que el numero de equipo sea el mismo
+    #para evitar eso no tomamos en la lista esos dos items
+
     lista = lector_por_numero(nro_equipo, equipos)[2::]
     
     #tomo sus enteros y guardo la posicion en un diccionario
@@ -447,6 +453,7 @@ def editar_equipos(nro_equipo):
     data.insert(nro_equipo, lista_nueva)
   
     #abrimos el archivo nuevamente pero en modo lectura para poder cargarle los equipos no modificados y el ya modificado
+    
     with open (equipos, "w") as outf:
         escritor = csv.writer(outf, delimiter=';', lineterminator='\n')
         escritor.writerows(data) 
