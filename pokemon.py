@@ -1,6 +1,7 @@
 import gamelib
 import lectores
-
+import csv
+from lectores import lector_por_numero
 equipos = 'equipos.csv'
 movimientos = 'movimientos.csv'
 pokemons = 'pokemons.csv'
@@ -401,6 +402,52 @@ def menu_creador(pag_pok, pag_equ):
         nuevo_equipo_a_archivo(nombre_equipo, pokemones, poderes)
     
     return menu_equipos(pag_pok, pag_equ)
+
+def editar_equipos(nro_equipo):
+    #comenzamos leyendo el archivo y guardamos todo en una lista
+    with open (equipos, "r") as inpf:
+        reader = csv.reader(inpf)
+        data = list(reader)
+    #pedimos al usuario que quiere borrar
+    primer_int = gamelib.input("que pokemon desea borrar[ingrese su numero]?")
+    while not primer_int.isnumeric():
+      primer_int = gamelib.input("No eligio un pokemon, que pokemon desea borrar[ingrese su numero]?")
+    lista = lector_por_numero(nro_equipo, equipos)[2::]
+    
+    #tomo sus enteros y guardo la posicion en un diccionario
+    
+    orden = {n: lista.index(n) for n in lista if n.isnumeric()}
+    
+    #convierto las keys en una lista
+    
+    keys = list(orden.keys())
+    
+    #tomo la posicion del primer numero en la lista
+    
+    primer_numero_idx = keys.index(primer_int)
+    
+    #si es el ultimo, elimino el ultimo fragmento de lista
+
+    if primer_numero_idx + 1 == len(keys):
+        lista_nueva = lista[:orden[primer_int]]
+
+    #de lo contrario me quedo con lo anterior al primer numero
+    # y lo posterior al segundo eliminando lo del medio
+    
+    else:
+        segundo_numero = keys[primer_numero_idx + 1]
+        lista_nueva = lector_por_numero(nro_equipo, equipos)[:2] + lista[:orden[primer_int]] + lista[orden[segundo_numero]:]
+
+    #modificamos el item de esa lista correspondiente al equipo (que tambien es una lista)
+    
+    data.pop(nro_equipo)
+    data.insert(nro_equipo, lista_nueva)
+  
+    #abrimos el archivo nuevamente pero en modo lectura para poder cargarle los equipos no modificados y el ya modificado
+    with open (equipos, "w") as outf:
+        escritor = csv.writer(outf, delimiter=';', lineterminator='\n')
+        escritor.writerows(data) 
+
         
         
 def que_pokemon(x, y, pag_pok, pag_equ):
