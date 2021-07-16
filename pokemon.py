@@ -280,7 +280,7 @@ def recibir_pokemones_equipo(nombre_equipo):
     pokemones_elegidos = []
     total_de_pokemones = lectores.cuantas_lineas_archivo(pokemons)
     
-    while len(pokemones_elegidos) <= MAX_NRO_POKEMONES_EQUIPO:
+    while len(pokemones_elegidos) < MAX_NRO_POKEMONES_EQUIPO:
         elegido = ''
         elegido = gamelib.input(MENSAJE_POKEMON)
 
@@ -289,18 +289,15 @@ def recibir_pokemones_equipo(nombre_equipo):
         
         elif elegido == '':
             break
-
-        while not elegido.isdigit() and (1 <= elegido <= total_de_pokemones or elegido in pokemones_elegidos):
-            gamelib.say(MENSAJE_POKEMON_ERROR)
-            elegido = gamelib.input(MENSAJE_POKEMON)
-            
-        aux_nombre = lectores.lector_por_numero(int(elegido), movimientos)
-        gamelib.say((MENSAJE_ELEGISTE_POKEMON.format(aux_nombre[0], nombre_equipo, MAX_NRO_POKEMONES_EQUIPO)))
-        pokemones_elegidos.append(int(elegido))
         
-        if len(pokemones_elegidos) == 0:
-                continue
+        elif elegido.isdigit() and 1 <= int(elegido) <= total_de_pokemones and int(elegido) not in pokemones_elegidos:
+            pokemones_elegidos.append(int(elegido))
+            aux_nombre = lectores.lector_por_numero(int(elegido), movimientos)
+            gamelib.say((MENSAJE_ELEGISTE_POKEMON.format(aux_nombre[0], nombre_equipo, MAX_NRO_POKEMONES_EQUIPO)))
             
+        else:
+            gamelib.say(MENSAJE_POKEMON_ERROR)
+        
     return pokemones_elegidos
 
 
