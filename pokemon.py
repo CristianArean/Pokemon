@@ -422,19 +422,23 @@ def editar_equipos(nro_equipo):
     for pokemones_posteriores in range(nro_equipo + 1, lineas, 1):
         lineas_del_archivo_post = lector_por_numero(pokemones_posteriores, equipos)
         data.append(lineas_del_archivo_post)
-
-    #pedimos al usuario que quiere borrar
-    
-    primer_int = gamelib.input("que pokemon desea borrar[ingrese su numero]?")
-    while not primer_int.isnumeric():
-      primer_int = gamelib.input("No eligio un pokemon, que pokemon desea borrar[ingrese su numero]?")
     
     #pedimos a la funcion la lista con el equipo que quiere borrar
     #excluimos los primeros dos items ya que se podria dar el caso de querer borrar un pokemon y que el numero de equipo sea el mismo
     #para evitar eso no tomamos en la lista esos dos items
 
     lista = lector_por_numero(nro_equipo, equipos)[2::]
+
+
+    #pedimos al usuario que quiere borrar
     
+    primer_int = gamelib.input("que pokemon desea borrar[ingrese su numero]? si borra todos usted borra el equipo")
+    while not primer_int.isnumeric():
+        primer_int = gamelib.input("No eligio un pokemon, que pokemon desea borrar[ingrese su numero]?")
+    
+    while not primer_int in lector_por_numero(nro_equipo, equipos)[2::]:
+        primer_int = gamelib.input("No eligio un pokemon del equipo, que pokemon desea borrar[ingrese su numero]?")
+     
     #tomo sus enteros y guardo la posicion en un diccionario
     
     orden = {n: lista.index(n) for n in lista if n.isnumeric()}
@@ -468,6 +472,7 @@ def editar_equipos(nro_equipo):
         escritor = csv.writer(output_file, delimiter=';', lineterminator='\n')
         escritor.writerows(data) 
 
+    
     return "menu principal"
         
 def que_pokemon(x, y, pag_pok, pag_equ):
