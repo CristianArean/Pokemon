@@ -403,11 +403,26 @@ def menu_creador(pag_pok, pag_equ):
     
     return menu_equipos(pag_pok, pag_equ)
 
+
 def editar_equipos(nro_equipo):
+    #comenzamos buscando cuantos renglones tiene el archivo
+
+    with open (equipos, "r") as input_file:
+        lector = csv.reader(input_file)
+        lineas = len(list(lector))
+
     #comenzamos leyendo el archivo y guardamos todo en una lista
-    with open (equipos, "r") as inpf:
-        lector = csv.reader(inpf)
-        data = list(reader)
+    #la razon por la que lo leemos por separado es que otras formas de leerlo interferian en el formato de las lineas
+    #haciedo imposible trabajar con el csv
+    data = []
+    for pokemones_anteriores in range(nro_equipo):
+        lineas_del_archivo_prev = lector_por_numero(pokemones_anteriores, equipos)
+        data.append(lineas_del_archivo_prev)
+    
+    for pokemones_posteriores in range(nro_equipo + 1, lineas, 1):
+        lineas_del_archivo_post = lector_por_numero(pokemones_posteriores, equipos)
+        data.append(lineas_del_archivo_post)
+
     #pedimos al usuario que quiere borrar
     
     primer_int = gamelib.input("que pokemon desea borrar[ingrese su numero]?")
@@ -446,16 +461,14 @@ def editar_equipos(nro_equipo):
 
     #modificamos el item de esa lista correspondiente al equipo (que tambien es una lista)
     
-    data.pop(nro_equipo)
     data.insert(nro_equipo, lista_nueva)
-  
-    #abrimos el archivo nuevamente pero en modo lectura para poder cargarle los equipos no modificados y el ya modificado
+    #abrimos el archivo nuevamente pero en modo lectura para poder cargarle la nueva lista con todo ya modificado
     
-    with open (equipos, "w") as outf:
-        escritor = csv.writer(outf, delimiter=';', lineterminator='\n')
+    with open (equipos, "w") as output_file:
+        escritor = csv.writer(output_file, delimiter=';', lineterminator='\n')
         escritor.writerows(data) 
 
-        
+    return "menu principal"
         
 def que_pokemon(x, y, pag_pok, pag_equ):
     """
