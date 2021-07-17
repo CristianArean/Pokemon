@@ -1,7 +1,7 @@
 import gamelib
 import lectores
 import csv
-from lectores import lector_por_numero
+
 equipos = 'equipos.csv'
 movimientos = 'movimientos.csv'
 pokemons = 'pokemons.csv'
@@ -271,7 +271,7 @@ def recibir_nombre_equipo():
     
     return nombre_equipo
     
-    
+
 def recibir_pokemones_equipo(nombre_equipo):
     """
     Solicita al usuario los pokemones del nuevo equipo.
@@ -404,7 +404,7 @@ def menu_creador(pag_pok, pag_equ):
     return menu_equipos(pag_pok, pag_equ)
 
 
-def editar_equipos(nro_equipo):
+def editar_equipos(nro_equipo, pag_pok, pag_equ):
     #comenzamos buscando cuantos renglones tiene el archivo
 
     with open (equipos, "r") as input_file:
@@ -416,28 +416,28 @@ def editar_equipos(nro_equipo):
     #haciedo imposible trabajar con el csv
     data = []
     for pokemones_anteriores in range(nro_equipo):
-        lineas_del_archivo_prev = lector_por_numero(pokemones_anteriores, equipos)
+        lineas_del_archivo_prev = lectores.lector_por_numero(pokemones_anteriores, equipos)
         data.append(lineas_del_archivo_prev)
     
     for pokemones_posteriores in range(nro_equipo + 1, lineas, 1):
-        lineas_del_archivo_post = lector_por_numero(pokemones_posteriores, equipos)
+        lineas_del_archivo_post = lectores.lector_por_numero(pokemones_posteriores, equipos)
         data.append(lineas_del_archivo_post)
     
     #pedimos a la funcion la lista con el equipo que quiere borrar
     #excluimos los primeros dos items ya que se podria dar el caso de querer borrar un pokemon y que el numero de equipo sea el mismo
     #para evitar eso no tomamos en la lista esos dos items
 
-    lista = lector_por_numero(nro_equipo, equipos)[2::]
+    lista = lectores.lector_por_numero(nro_equipo, equipos)[2::]
 
 
     #pedimos al usuario que quiere borrar
-    
-    primer_int = gamelib.input("que pokemon desea borrar[ingrese su numero]? si borra todos usted borra el equipo")
-    while not primer_int.isnumeric():
-        primer_int = gamelib.input("No eligio un pokemon, que pokemon desea borrar[ingrese su numero]?")
-    
-    while not primer_int in lector_por_numero(nro_equipo, equipos)[2::]:
-        primer_int = gamelib.input("No eligio un pokemon del equipo, que pokemon desea borrar[ingrese su numero]?")
+    primer_int = ''
+    while not primer_int.isnumeric() or not primer_int in lectores.lector_por_numero(nro_equipo, equipos)[2::]:
+        primer_int = gamelib.input("que pokemon desea borrar[ingrese su numero]? si borra todos usted borra el equipo")
+        if primer_int == None or primer_int == '':
+            return un_equipo(nro_equipo, pag_pok, pag_equ)
+        if not primer_int.isnumeric() or not primer_int in lectores.lector_por_numero(nro_equipo, equipos)[2::]:
+            gamelib.say("error, no ingresó un pokemon valido")
      
     #tomo sus enteros y guardo la posicion en un diccionario
     
@@ -461,7 +461,7 @@ def editar_equipos(nro_equipo):
     
     else:
         segundo_numero = keys[primer_numero_idx + 1]
-        lista_nueva = lector_por_numero(nro_equipo, equipos)[:2] + lista[:orden[primer_int]] + lista[orden[segundo_numero]:]
+        lista_nueva = lectores.lector_por_numero(nro_equipo, equipos)[:2] + lista[:orden[primer_int]] + lista[orden[segundo_numero]:]
 
     #modificamos el item de esa lista correspondiente al equipo (que tambien es una lista)
     
@@ -473,7 +473,9 @@ def editar_equipos(nro_equipo):
         escritor.writerows(data) 
 
     
-    return "menu principal"
+    return "menu principal", pag_pok, pag_equ
+
+        
         
 def que_pokemon(x, y, pag_pok, pag_equ):
     """
@@ -563,6 +565,6 @@ def navegacion(x, y, juego):
         if RX1 < x < RX2 and RY1 < y < RY2:
             return menu_equipos(pag_pok, pag_equ)  # BOTON ROJO
         if EX1 < x < EX2 and EY1 < y < EY2:
-            return editar_equipos(juego[3])  # BOTON EDITAR EQUIPOS
+            return editar_equipos(juego[3], pag_pok, pag_equ)  # BOTON EDITAR EQUIPOS
 
     return 'menu principal', 0, 0
